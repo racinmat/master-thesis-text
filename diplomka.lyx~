@@ -1,0 +1,1342 @@
+#LyX 2.2 created this file. For more info see http://www.lyx.org/
+\lyxformat 508
+\begin_document
+\begin_header
+\save_transient_properties true
+\origin unavailable
+\textclass scrreprt
+\begin_preamble
+%<-------------------------------společná nastavení------------------------------>
+\usepackage[numbers,sort&compress]{natbib} %balíček pro citace literatury  
+\usepackage{algorithmic}
+\usepackage{color}%kvůli barvám ČVUT
+\newcommand{\BibTeX}{{\sc Bib}\TeX}%BibTeX logo
+\usepackage{multicol}
+\usepackage[overload]{textcase}
+
+
+
+%<-----------------------------volání stylů----------------------------------------->
+% (znak % je označení komentáře: co je za ním, není aktivní)
+
+%<--------matematické písmo--------------------------------------->
+
+%\usepackage[helvet]{packages/sfmath}%matematika ala helvetica
+
+
+
+%<------------------------------záhlaví stránek------------------------------------>
+%\usepackage{packages/bc-headings}
+\usepackage{packages/bc-fancyhdr}
+
+%<------------------------------hlavičky kapitol------------------------------------>
+%\usepackage{packages/bc-neueskapitel}
+\usepackage{packages/bc-fancychap}
+\end_preamble
+\options cleardoublepage=empty,BCOR15mm,DIV12
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman "tgtermes" "default"
+\font_sans "tgheros" "default"
+\font_typewriter "tgcursor" "default"
+\font_math "newtxmath" "auto"
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100 100
+\font_tt_scale 100 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style \use_bibtopic false
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic}
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 10mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\shape smallcaps
+\size largest
+\noun on
+Czech Technical University in Prague
+\family default
+\shape default
+\size default
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace 0.5em
+\end_inset
+
+
+\family sans
+\shape smallcaps
+\size largest
+\noun on
+Faculty of Electrical Engineering
+\family default
+\shape default
+\size default
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace 1em*
+\end_inset
+
+
+\family sans
+\shape smallcaps
+\size larger
+\noun on
+Department of Cybernetics
+\family default
+\shape default
+\size default
+\noun default
+
+\begin_inset VSpace 15mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename obrazky/lev.png
+	lyxscale 50
+	width 30text%
+
+\end_inset
+
+
+\begin_inset VSpace 15mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\size huge
+MASTER'S THESIS
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 15mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\size largest
+3D map estimation from a single RGB image
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 10mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill*
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 10mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+\align block
+
+\size large
+Author: 
+\family sans
+Bc.
+ Matěj Račinský
+\end_layout
+
+\begin_layout Description
+\noindent
+\align block
+
+\size large
+Thesis
+\begin_inset space ~
+\end_inset
+
+supervisor: doc.
+ Ing.
+ Karel Zimmermann, Ph.D.
+\begin_inset space \hfill{}
+\end_inset
+
+
+\family sans
+In Prague, May 2018
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset space \space{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size small
+\begin_inset VSpace vfill
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% nastavuje dynamické umístění následujícího textu do spodní části stránky
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+Author statement for thegraduate thesis: 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I declare that the presented work was developed independently and that I
+ have listed all the sources of information used within it in accordance
+ with the methodical instructions for observing the ethical principles in
+ the presentation of university theses.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+
+\size small
+ Prague, date 
+\size default
+________
+\size small
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{
+\backslash
+fill}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+overline{
+\backslash
+textrm{~~~~~~~~~signature~~~}}$
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% doplňte patřičné datum, jméno a příjmení
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%%   Výtisk pak na tomto míste nezapomeňte PODEPSAT!
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%%                                         *********
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{plain}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+setcounter{page}{3}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% nastavení číslování stránek
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size small
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Název
+\begin_inset space ~
+\end_inset
+
+práce: Odhad 3D mapy z jednoho RGB obrazu
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Autor: Bc.
+ Matěj Račinský
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Katedra
+\begin_inset space ~
+\end_inset
+
+(ústav):
+\size default
+ Kate
+\size small
+dra kybernetiky
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Vedoucí
+\begin_inset space ~
+\end_inset
+
+bakalářské
+\begin_inset space ~
+\end_inset
+
+práce: 
+\size large
+doc.
+ Ing.
+ Karel Zimmermann, Ph.D.
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+e-mail
+\begin_inset space ~
+\end_inset
+
+vedoucího: zimmerk@fel.cvut.cz
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Abstrakt 
+\size default
+Tato práce se zabývá využitím virtuálních světů z počítačových her jakožto
+ zdroje dat pro strojové učení, a odhadem voxelové mapy z jednoho RGB obrázku
+ za pomoci hlubokého učení.
+ Tato práce zahrnuje skripty pro napojení se na PC hru GTA V a sběr dat
+ z ní pro tvorbu automaticky anotovaných datasetů, a implementaci hluboké
+ neuronové sítě v TensorFlow.
+ 
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Klíčová
+\begin_inset space ~
+\end_inset
+
+slova: Deep learning, Machine learning, GTA V, virtual world, depth estimation,
+ voxelmap estimation
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100line%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Title: 3D map estimation from a single RGB image
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Author: Bc.
+ Matěj Račinský
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Department: Department of Cybernetics
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Supervisor: 
+\size large
+doc.
+ Ing.
+ Karel Zimmermann, Ph.D.
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Supervisor's
+\begin_inset space ~
+\end_inset
+
+e-mail
+\begin_inset space ~
+\end_inset
+
+address: zimmerk@fel.cvut.cz
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Abstract 
+\size default
+In this thesis we explore virtual worlds used as datasoutce for machine
+ learning and voxelmap estimation from single RGB image with deep learning.
+ This thesis describes principles and omplementation of hooking into GTA
+ V and gathering data from it to create automatically annotated dataset,
+ and implementation of deep neural network in TensorFlow.
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Keywords: Deep learning, Machine learning, GTA V, virtual world, depth estimatio
+n, voxelmap estimation
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% vkládá automaticky generovaný obsah dokumentu
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Introduction
+\end_layout
+
+\end_inset
+
+Introduction
+\end_layout
+
+\begin_layout Standard
+This thesis aims to solve two problems.
+ The first problem is the lengthy and slow process of manual dataset creation
+ and annotation, and the second problem is voxelmap estimation from single
+ RGB image.
+\end_layout
+
+\begin_layout Section
+Problems with machine learning datasets
+\end_layout
+
+\begin_layout Standard
+In recent years, both machine learning and deep learning has experienced
+ great progress in many fields.
+ Deep learning has outperformed many other machine learning approaches by
+ using deep, high-capacity models trained on large datasets.
+ Especially in the field of computer vision, neural networks achieve state
+ of the art results in most of the tasks.
+ Many tasks in computer vision are the first where deep neural networks
+ achieve state of the art results before being used in other fields, and
+ in this field deeper and deeper architectures are being proposed earlier
+ than in other fields.
+ 
+\end_layout
+
+\begin_layout Standard
+With larger amount of parameters, the need for large datasets is growing,
+ with currect datasets unable to cover the need for annotated data.
+\end_layout
+
+\begin_layout Standard
+Data has proven to be limiting factor in many computer vision tasks.
+ The main problem is that manual data annotation is exhausting, time-consuming
+ and costly.
+ That is even more significant for pixel-wise annotation which is crucial
+ for tasks of semantic segmentation.
+ Pixel-wise annotated datasets are orders of magnitude smaller than image
+ classification datasets.
+ This is sometimes called 
+\begin_inset Quotes eld
+\end_inset
+
+curse of dataset annotation
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "semantic-instance-annotation"
+
+\end_inset
+
+, because more detailed semantic labeling leads to smaller size of dataset.
+ 
+\end_layout
+
+\begin_layout Standard
+Many novel neural network architectures are being proposed every year because
+ of increasing computing power.
+ With growing capacity and number of parameters in these new models, there
+ is need for bigger and bigger datasets for training.
+ Data has proven to be limiting factor for many evaluations.
+\end_layout
+
+\begin_layout Standard
+Automatic data gathering and automatic data annotation could potentially
+ solve these problems of lack of datasets in many computer vision tasks.
+\end_layout
+
+\begin_layout Section
+Gaming industry to the rescue
+\end_layout
+
+\begin_layout Standard
+In last decades, gaming industry has grown hugely and expanded from closed
+ and specific community into public society and became mainsteam industy.
+ 
+\end_layout
+
+\begin_layout Standard
+Gaming industry became big driving force in many fields, and indirectly
+ influenced even machine learning.
+ 
+\end_layout
+
+\begin_layout Standard
+The mainsteam model of gaming is on personal computers, where each player
+ has his own gaming PC, along with console gaming.
+ Thanks to ever-growing number of players, lots of money got into industry
+ and the growing demand for better graphics in games caused big improvements
+ in both software-computer graphics and hardware-graphics cards.
+ With lots of money being invested by players in their PCs, GPU manufacturers
+ were able to deliver more powerful GPUs every year and we can see exponential
+ growth of GPU computational power
+\begin_inset CommandInset citation
+LatexCommand cite
+key "high-performance-gpu"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Big companies in gaming industry have enough resources to develop the state
+ of the art real-time computer graphics and so they deliver AAA games with
+ graphics very near to reality.
+ 
+\end_layout
+
+\begin_layout Standard
+Recent papers
+\begin_inset CommandInset citation
+LatexCommand cite
+key "playing-for-data,driving-in-matrix"
+
+\end_inset
+
+ show that we can use screenshots from PC games to obtain automatically
+ or semi-automatically annotated dataset which improve learning, allow us
+ to outperform same models trained only on real data and achieve state of
+ the art results.
+\end_layout
+
+\begin_layout Chapter
+Related work
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "playing-for-data"
+
+\end_inset
+
+ used GTA V to obtain screenshots and performed semi-automated pixel-wise
+ semantic segmentation.
+ Although the process was not fully automatic, the annotation speed per
+ image was drastically increased, compared to Cityscapes 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cityscapes"
+
+\end_inset
+
+, being 771 times faster than fine per-image annotation of Cityscapes and
+ 514 times faster than per-image annotation of CanVid
+\begin_inset CommandInset citation
+LatexCommand cite
+key "camvid"
+
+\end_inset
+
+.
+ They extracted 24 966 images from game GTA V, which is roughly two orders
+ of magnitude larger than CanVid and three orders of magnitude larger than
+ semantic annotations for KITTI dataset.
+ Then they trained the prediction module of Yu and Koltun
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kolthun-dilation"
+
+\end_inset
+
+ and by using on 
+\begin_inset Formula $\frac{1}{3}$
+\end_inset
+
+of the CamVid training set (which is ) and all 24 966 GTA V screenshots,
+ they outperformed same model trained on whole CamVid training dataset.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+ use GTA V screenshots, depth and stencil buffer to produce car images and
+ automatically calculate their bounding boxes.
+ 
+\end_layout
+
+\begin_layout Standard
+On these generated data, they trained Faster R-CNN
+\begin_inset CommandInset citation
+LatexCommand cite
+key "faster-r-cnn"
+
+\end_inset
+
+ only of screenshots from the GTA V game, using up to 200 000 screenshots,
+ which is one order of magnitude bigger than Cityscapes dataset.
+ Using only screenshots for training, they outperformed same architecture
+ trained on Cityscapes, evaluating on KITTI dataset.
+\end_layout
+
+\begin_layout Chapter
+Transforming GTA V into the State of the Art simulator
+\end_layout
+
+\begin_layout Standard
+In this thesis, Grand Theft Auto V (GTA V) game is used for creating synthetic,
+ nearly photo-realistic dataset.
+ 
+\end_layout
+
+\begin_layout Section
+GTA V introduction
+\end_layout
+
+\begin_layout Standard
+GTA V is action-adventure open-world video game developed by Rockstar North
+ and published by Rockstar Games.
+ The game was released on 17.9.2013 for Playstation 3 and Xbox 360
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-release"
+
+\end_inset
+
+ , in 18.11.2014 for PS4 and Xbox One and in 14.4.2015 it was released on PC,
+ Windows
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-release-pc"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The game is based on proprietary game engine, called RAGE (Rockstar Advanced
+ Game Engine)
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-5-rage"
+
+\end_inset
+
+, which is used as base for most of Rockstar Games products.
+ 
+\end_layout
+
+\begin_layout Standard
+Until the release on Microsoft, Windows, it has been in development for
+ 5 years with approximate 1000-person team
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-interview-studio"
+
+\end_inset
+
+.
+ The world of GTA V was modelled on Los Angeles
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-v-interview"
+
+\end_inset
+
+ and other areas of Southen California, with road networks respecting design
+ od Los Angeles map.
+ 
+\end_layout
+
+\begin_layout Standard
+As could be expected from AAA game like GTA V, motion capture was used to
+ character'sboth body and facial movements.
+ 
+\end_layout
+
+\begin_layout Standard
+There are several reasons why GTA V is better for dataset creationg than
+ other games.
+ To use a game for dataset creation, we have multiple requirements.
+ The graphics of the game must be near photorealistic, because obviously,
+ otherwite it would be useless to be used for computer vision tasks.
+ This disqualifies most of games, mostly indie games, and leaves us only
+ with AAA games produced by big companies.
+ 
+\end_layout
+
+\begin_layout Standard
+Also, there should be good-enough way to interact with the game programatically.
+ Usually we want to setup at least part of the environment before gathering
+ data.
+ This part heavily depends on community around the particular game.
+\end_layout
+
+\begin_layout Standard
+In gaming subculture, there are modding communities which specialize in
+ reverse-engineering of games and development of modifications to these
+ games.
+ For few games, developers welcome this kind of activity and sometimes they
+ even release tools to ease the game modding.
+ 
+\end_layout
+
+\begin_layout Standard
+In most cases, the game developers simply don't care and in few cases, they
+ actively fight against the reverse-engineering and modding.
+ 
+\end_layout
+
+\begin_layout Standard
+The GTA V is second case, where Rockstar Games does not actively try to
+ prevent the reverse-engineering, but they don't release any tools to ease
+ it, either.
+ This results in cyclic process of Rockstar Games releasing new version
+ of game, including backward compatibility (BC) breaks, and community reverse
+ engineering the new version and adjusting their mods to work with the new
+ version.
+\end_layout
+
+\begin_layout Standard
+The modding community around the GTA V is based mostly on community around
+ GTA IV, which was previous big game produced by Rockstar Games.
+ So many tools are just GTA IV based and only modified to work with GTA
+ V.
+ Luckily, the community is large and productive, so we have many mods and
+ many function in GTA V reverse-engineered and thus prepared to interact
+ with programatically.
+\end_layout
+
+\begin_layout Section
+Automotive Simulators
+\end_layout
+
+\begin_layout Standard
+Currently, there are some opensorce simulation platforms for automotive
+ industry which could be theoretically used for creating synthetic datasets.
+ But compared to AAA games like GTA V, they have much less resources and
+ much less customers to finance the development.
+ In result, simulators have worse graphics than AAA games and NPC (non playable
+ characters) don't have as sophisticated behaviour.
+ In GTA V, drivers mostly follow traffic regulations, traffic lights and
+ traffic lanes, which leafs to very realistic environment better than simulators
+ can provide.
+\end_layout
+
+\begin_layout Section
+GTA V modding ecosystem
+\end_layout
+
+\begin_layout Standard
+Although the modding community is quite big, as it is in lots of opensource
+ communities, essential part of community depends on one person.
+ Here, it is Alexader Blade.
+ In his free time, he reverse-engineered big part of GTA V and developed
+ ScriptHookV
+\begin_inset CommandInset citation
+LatexCommand cite
+key "scripthookv-gtaforums"
+
+\end_inset
+
+, library enabling to perform native calls into GTA V in C++ and develop
+ GTA V mods in C++.
+ Currently, more people in community participates in reverse-engineering
+ and they share their knowledge in GTA forum thread
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nativedb-research"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+List of all reverse-engineered native functions is kept in following list
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nativedb"
+
+\end_inset
+
+.
+ Assumingly, GTA V contains ~5200 natives.
+ There is no original native name list of functions in GTA V, name hashes
+ are used instead.
+ During reverse-engineering ande game decompilation, ~2600 native names
+ were discovered using bruteforce and manual checking afterwards.
+ For these functions, number of parameters and returns of these calls are
+ also known.
+ In the native functions list, for big part of functions we know their name,
+ signature and how do they affect the game.
+ The rest remains to be discovered yet.
+\end_layout
+
+\begin_layout Standard
+When new version of game is released, in few days to weeks, new version
+ of ScriptHookV is released, fixing BC breaks.
+\end_layout
+
+\begin_layout Standard
+Other heavily used mod in community is ScriptHookDotNet2, which is built
+ atop of ScriptHookV and creates bridge between C# language and ScriptHookV,
+ effectively allowing to write GTA V mods in C#.
+ It is availabe as open-source 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "scripthookvdotnet"
+
+\end_inset
+
+.
+ Along with creating bridge between C# and GTA V, it wraps most used native
+ calls into classes, leveraging object-oriented paradigm for mod development
+ using getters and setters as proxies for native calls.
+ 
+\end_layout
+
+\begin_layout Standard
+Unlike most of mods, these two mods act more as a framework for mod development.
+ 
+\end_layout
+
+\begin_layout Standard
+Next notable mod is NativeUI
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nativeui"
+
+\end_inset
+
+.
+ It renders windows atop of GTA V GUI and allows us to define custom control
+ panels for manipulating custom functionality in other mods.
+ 
+\end_layout
+
+\begin_layout Standard
+Since GTA V is game, it requires human interaction.
+ For simulator-like behavior we would want the car to drive autonomously
+ to crawl data without human interaction.
+ This can be done using VAutodrive
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vautodrive"
+
+\end_inset
+
+.
+ This allows us to use NPC automatic behaviour patterns for main player,
+ letting the player randomly wander the world, even in car, without need
+ of human assistance during crawling.
+\end_layout
+
+\begin_layout Section
+Reverse-engineering the RAGE visualization pipeline
+\end_layout
+
+\begin_layout Section
+GTA V native API
+\end_layout
+
+\begin_layout Section
+Simulation environment and development stack
+\end_layout
+
+\begin_layout Standard
+In this thesis, I use mod based on 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+ but enhanced to gain more control of the game.
+ Also, the mod in 
+\end_layout
+
+\begin_layout Chapter
+Conclusion
+\end_layout
+
+\begin_layout Section
+Future work 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Future-work"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "bibliography"
+options "bibtotoc,plainnat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\start_of_appendix
+Contents of the enclosed CD
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+appendix content
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document

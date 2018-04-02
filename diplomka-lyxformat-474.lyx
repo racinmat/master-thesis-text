@@ -1,0 +1,7888 @@
+#LyX 2.1 created this file. For more info see http://www.lyx.org/
+\lyxformat 474
+\begin_document
+\begin_header
+\textclass scrreprt
+\begin_preamble
+%<-------------------------------společná nastavení------------------------------>
+\usepackage[numbers,sort&compress]{natbib} %balíček pro citace literatury  
+\usepackage{algorithmic}
+\usepackage{color}%kvůli barvám ČVUT
+\newcommand{\BibTeX}{{\sc Bib}\TeX}%BibTeX logo
+\usepackage{multicol}
+\usepackage[overload]{textcase}
+
+
+
+%<-----------------------------volání stylů----------------------------------------->
+% (znak % je označení komentáře: co je za ním, není aktivní)
+
+%<--------matematické písmo--------------------------------------->
+
+%\usepackage[helvet]{packages/sfmath}%matematika ala helvetica
+
+
+
+%<------------------------------záhlaví stránek------------------------------------>
+%\usepackage{packages/bc-headings}
+\usepackage{packages/bc-fancyhdr}
+
+%<------------------------------hlavičky kapitol------------------------------------>
+%\usepackage{packages/bc-neueskapitel}
+\usepackage{packages/bc-fancychap}
+\end_preamble
+\options cleardoublepage=empty,BCOR15mm,DIV12
+\use_default_options false
+\maintain_unincluded_children false
+\language british
+\language_package default
+\inputencoding utf8
+\fontencoding global
+\font_roman tgtermes
+\font_sans tgheros
+\font_typewriter tgcursor
+\font_math newtxmath
+\font_default_family default
+\use_non_tex_fonts false
+\font_sc false
+\font_osf false
+\font_sf_scale 100
+\font_tt_scale 100
+\graphics default
+\default_output_format default
+\output_sync 0
+\bibtex_command bibtex
+\index_command default
+\paperfontsize default
+\spacing single
+\use_hyperref true
+\pdf_bookmarks true
+\pdf_bookmarksnumbered false
+\pdf_bookmarksopen false
+\pdf_bookmarksopenlevel 1
+\pdf_breaklinks false
+\pdf_pdfborder false
+\pdf_colorlinks false
+\pdf_backref false
+\pdf_pdfusetitle true
+\papersize a4paper
+\use_geometry false
+\use_package amsmath 1
+\use_package amssymb 1
+\use_package cancel 1
+\use_package esint 0
+\use_package mathdots 0
+\use_package mathtools 1
+\use_package mhchem 1
+\use_package stackrel 1
+\use_package stmaryrd 1
+\use_package undertilde 1
+\cite_engine basic
+\cite_engine_type default
+\biblio_style 
+\use_bibtopic false
+\use_indices false
+\paperorientation portrait
+\suppress_date false
+\justification true
+\use_refstyle 0
+\index Index
+\shortcut idx
+\color #008000
+\end_index
+\secnumdepth 2
+\tocdepth 2
+\paragraph_separation indent
+\paragraph_indentation default
+\quotes_language english
+\papercolumns 1
+\papersides 2
+\paperpagestyle default
+\tracking_changes false
+\output_changes false
+\html_math_output 0
+\html_css_as_file 0
+\html_be_strict false
+\end_header
+
+\begin_body
+
+\begin_layout Standard
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{center}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+pagenumbering{arabic}
+\end_layout
+
+\end_inset
+
+
+\begin_inset VSpace 10mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\shape smallcaps
+\size largest
+\noun on
+Czech Technical University in Prague
+\family default
+\shape default
+\size default
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace 0.5em
+\end_inset
+
+
+\family sans
+\shape smallcaps
+\size largest
+\noun on
+Faculty of Electrical Engineering
+\family default
+\shape default
+\size default
+\noun default
+
+\begin_inset Newline newline
+\end_inset
+
+
+\begin_inset VSpace 1em*
+\end_inset
+
+
+\family sans
+\shape smallcaps
+\size larger
+\noun on
+Department of Cybernetics
+\family default
+\shape default
+\size default
+\noun default
+
+\begin_inset VSpace 15mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Graphics
+	filename obrazky/lev.png
+	lyxscale 50
+	width 30text%
+
+\end_inset
+
+
+\begin_inset VSpace 15mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\size huge
+BACHELOR THESIS
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 15mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\family sans
+\size largest
+RRT-path method used for cooperative surveillance by group of helicopters
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 10mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{center} 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace vfill*
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset VSpace 10mm
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+\align block
+
+\size large
+Author: 
+\family sans
+Matěj Račinský
+\end_layout
+
+\begin_layout Description
+\noindent
+\align block
+
+\size large
+Thesis
+\begin_inset space ~
+\end_inset
+
+supervisor: 
+\family sans
+Dr.
+ Martin Saska
+\family default
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\family sans
+In Prague, May 2016
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{empty}
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset space \space{}
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size small
+\begin_inset VSpace vfill
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% nastavuje dynamické umístění následujícího textu do spodní části stránky
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subparagraph*
+Author statement for the undergraduate thesis: 
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+I declare that the presented work was developed independently and that I
+ have listed all the sources of information used within it in accordance
+ with the methodical instructions for observing the ethical principles in
+ the presentation of university theses.
+ 
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset VSpace bigskip
+\end_inset
+
+
+\size default
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+noindent 
+\end_layout
+
+\end_inset
+
+
+\size small
+ Prague, date 
+\size default
+________
+\size small
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+hspace{
+\backslash
+fill}
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+$
+\backslash
+overline{
+\backslash
+textrm{~~~~~~~~~signature~~~}}$
+\end_layout
+
+\end_inset
+
+
+\begin_inset Newline newline
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% doplňte patřičné datum, jméno a příjmení
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%%   Výtisk pak na tomto míste nezapomeňte PODEPSAT!
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%%%                                         *********
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+thispagestyle{plain}
+\end_layout
+
+\end_inset
+
+ 
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+%
+\backslash
+setcounter{page}{3}
+\end_layout
+
+\end_inset
+
+ 
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% nastavení číslování stránek
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\noindent
+
+\size small
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset VSpace vfill
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Název
+\begin_inset space ~
+\end_inset
+
+práce: Aplikace algoritmu RRT-path v úloze autonomního dohledu skupinou
+ helikoptér
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Autor: Matěj Račinský
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Katedra
+\begin_inset space ~
+\end_inset
+
+(ústav):
+\size default
+ Kate
+\size small
+dra kybernetiky
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Vedoucí
+\begin_inset space ~
+\end_inset
+
+bakalářské
+\begin_inset space ~
+\end_inset
+
+práce: 
+\size default
+Dr.
+ Martin Saska
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+e-mail
+\begin_inset space ~
+\end_inset
+
+vedoucího: saska@labe.felk.cvut.cz
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Abstrakt 
+\size default
+Tato práce se zabývá plánováním trasy roje složeného z bezpilotních helikoptér
+ v úloze autonomního dohledu.
+ Popisuji zde principy a implementaci algoritmu pro plánování trasy roje
+ bezpilotního helikoptér za použití RRT-Path algoritmu.
+ Algoritmus popsán v této práci kombinuje RRT-Path algoritmus s optimalizací
+ pomocí Dubinsových křivek.
+ Tato práce zahrnuje implementaci algoritmu v jazycích C++ a Python.
+ Funkce vyvinutého systému byla ověřena experimenty, které jsou prezentovány
+ v této práci.
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Klíčová
+\begin_inset space ~
+\end_inset
+
+slova: RRT, RRT-Path, Dubins curves, UAV, swarm
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+\begin_inset CommandInset line
+LatexCommand rule
+offset "0.5ex"
+width "100line%"
+height "1pt"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Title: RRT-path method used for cooperative surveillance by group of helicopters
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Author: Matěj Račinský
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Department: Department of Cybernetics
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Supervisor: 
+\size default
+Dr.
+ Martin Saska
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Supervisor's
+\begin_inset space ~
+\end_inset
+
+e-mail
+\begin_inset space ~
+\end_inset
+
+address: saska@labe.felk.cvut.cz
+\begin_inset Newline newline
+\end_inset
+
+
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Abstract 
+\size default
+In this thesis we study deployment of a swarm consisting of Unmanned Aerial
+ Vehicles (UAVs) in the task of autonomous surveillance using motion planning.
+ This thesis describes principles and implementation of the algorithm for
+ motion planing of swarm of UAVs using the RRT-Path algorithm.
+ Algorithm described in this thesis combines the RRT-Path algorithm with
+ optimization by Dubins Curves.
+ The thesis includes the implementation in C++ and Python, functionality
+ was verified by experiments presented in this thesis.
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Keywords: RRT, RRT-Path, Dubins curves, UAV, swarm
+\end_layout
+
+\begin_layout Standard
+
+\size small
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% vkládá automaticky generovaný obsah dokumentu
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Introduction
+\end_layout
+
+\end_inset
+
+Introduction
+\end_layout
+
+\begin_layout Standard
+Unmanned Aerial Vehicle (UAV) is an aircraft intended to operate with no
+ pilot on-board.
+ The UAV is also known as drone and it has been gaining popularity in recent
+ years in both academic circles and wide public.
+ The term Micro Aerial Vehicle (MAV) is also used for very small UAV, typically
+ intended for multi-robot scenarios.
+ Drones are used in many applications, both military and civil, but unfortunatel
+y, the term 
+\begin_inset Quotes eld
+\end_inset
+
+drone
+\begin_inset Quotes erd
+\end_inset
+
+ has negative connotation and is mainly linked to military actions.
+ The main complication of massive industrial use of drones is national regulatio
+n and legislation.
+ 
+\end_layout
+
+\begin_layout Standard
+The drone may be controlled with various kinds of autonomy: either by a
+ given degree of remote control from an operator, located on the ground
+ or in another vehicle, or fully autonomously, by onboard computers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "icao2011"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+For small drones, the quadrotor (also called quadcopter) design has become
+ very popular and widely used.
+ Quadrotor is a helicopter that is lifted and propelled by four horizontal
+ rotors.
+ Quadrotors are used in the Multi-Robot Systems group at CTU, which uses
+ them in various multi-robot scenarios, such as formation flying 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saska14:218644,Saska14:219889,Saska13:206002,Saska12:198993,Saska14:212936"
+
+\end_inset
+
+, swarm robotics 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saska15icuas,Saska14:221382"
+
+\end_inset
+
+, environment monitoring 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saska14:226686"
+
+\end_inset
+
+ and autonomous surveillance 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SaskaJINT2016,Saska14:221385"
+
+\end_inset
+
+, which is being solved also in this thesis.
+ Example of a swarm of quadrotors can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:DYI-quadrotor-assembled"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/P6260036.JPG
+	lyxscale 20
+	scale 60
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Quadrotors assembled in the Multi-Robot Systems group at CTU 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:DYI-quadrotor-assembled"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+International Civil Aviation Organization (ICAO) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "icao2011"
+
+\end_inset
+
+ classifies UAVs into two groups: Remotely piloted aircraft - an aircraft
+ where the pilot is not on board of the aircraft and control the aircraft
+ from another location, and Autonomous aircraft - an unmanned aircraft that
+ does not allow pilot intervention in the management of the flight.
+ 
+\end_layout
+
+\begin_layout Standard
+Remotely piloted aircraft are teleoperated usually by a person with a remote
+ radio controller.
+ Some examples of uses of teleoperated aircraft are inspections of power
+ lines 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "patent1989"
+
+\end_inset
+
+, monitoring of agricultural areas 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "washingtonpost2013"
+
+\end_inset
+
+, with proof of concept demonstrated in Château de Châtagneréaz vineyard
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vineyard"
+
+\end_inset
+
+, filming movies and acrobatic aerial footages 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "washingtonpost2013"
+
+\end_inset
+
+, counting wildlife and searching people lost in wilderness 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "animalCounting"
+
+\end_inset
+
+ and crowd monitoring of large events including festivals and protests.
+ UAV monitoring of crowds allow operators to see different parts of the
+ surveyed scene, follow crowd/people and thus provide information that is
+ not accessible with fixed infrastructure of immovable cameras.
+ UAVs are handy in many use cases, where helicopters with human pilots are
+ too costly or unwieldy.
+ 
+\end_layout
+
+\begin_layout Standard
+Autonomous aircraft fly independently without an operator directly controlling
+ the flight.
+ The operator specifies a task for the aircraft to execute instead.
+ The task difficulty depends on the level of autonomy of the aircraft.
+ It can be anything from flying straight to a single point or following
+ a path consisting of multiple points, to perform a complex task of following
+ a moving object and avoiding collisions.
+ 
+\end_layout
+
+\begin_layout Standard
+Both start-up companies and large corporates compete in developing various
+ kinds of autonomous aircraft for many different purposes.
+ Currently there are 368 projects on kickstarter tinkering with drones.
+ The Amazon plans to use autonomous drones for packages delivery in their
+ program Prime Air 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "amazon"
+
+\end_inset
+
+.
+ Next to delivering goods, the other commonly discussed topic is localization
+ of people or other objects in rescue missions taking place in dangerous
+ or hard to access areas and autonomous surveillance of Areas of Interest
+ (abbreviated as AoI).
+\end_layout
+
+\begin_layout Standard
+Miniaturization, more manufacturers and lowering costs of UAVs and nature
+ inspired algorithms led to the idea of creating UAV swarms.
+ Vito Trianni 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "trianni2008evolutionary"
+
+\end_inset
+
+ defines four criteria for robotic system to be considered a swarm robotic
+ system.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The system should be relevant for the coordination and control of a large
+ number of robots.
+ This includes all approaches that aim for scalability.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The system should involve relatively few groups of homogeneous robots, each
+ group comprising a large number of individuals, high redundancy is required
+ within each group.
+\end_layout
+
+\begin_layout Enumerate
+The system should consider tasks that can not be effectively solved by the
+ single robot, due to individual limitations.
+ 
+\end_layout
+
+\begin_layout Enumerate
+The system should involve robots that have local and limited sensing and
+ communication abilities.
+ 
+\end_layout
+
+\begin_layout Standard
+The approach presented in this thesis is not scalable, but it satisfies
+ the other criteria.
+ Swarm cannot be remotely controlled by one person and controlling each
+ UAV in swarm by one operator would be really hard to coordinate and practically
+ impossible to avoid collisions between UAVs, so the only plausible way
+ to manually control the swarm is to remotely control whole swarm as one
+ drone.
+ This thesis deals exclusively with fully autonomous aircraft where no UAV
+ needs to be remotely controlled by an operator.
+ 
+\end_layout
+
+\begin_layout Standard
+In the problem of controlling of swarm, collisions between UAVs must be
+ avoided.
+ That means that a method to keep them in a safe distance between each other
+ has to be found.
+ Second, a precise enough relative localization system is needed to keep
+ track of the swarm formation shape and relative distances.
+ And finally, a motion planning algorithm has to be developed in order to
+ move the swarm from its initial position to a target position (Area of
+ Interest in case of the surveillance scenario) in a certain environment
+ which can contain a set of obstacles 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "roadmaps1996"
+
+\end_inset
+
+.
+ Keeping track of the position of UAV individuals in the swarm is essential
+ to prevent collisions between them and keeping the swarm organized.
+ The most obvious approach would be to equip each UAV with a Global Positioning
+ System (GPS) chip to obtain absolute positions and use them to calculate
+ relative distances between each other.
+ However, UAVs are often deployed in areas where GPS performs poorly or
+ is impossible to use (e.g.
+ inside buildings), moreover, even in open spaces with a good GPS signal
+ the accuracy offered by GPS (around 3 m) is not sufficient for control
+ of compact swarms with possibly smaller relative distances.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "petrlik2015"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Objective
+\end_layout
+
+\begin_layout Standard
+The objective of this thesis is to explore the possibility of using swarms
+ of UAVs in the task of autonomous surveillance.
+ The task is defined as finding a collision free trajectories from initial
+ depot to an AoI or more AoIs and covering the largest possible part of
+ AoI or AoIs.
+ For details on the problem definition see 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SaskaJINT2016"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+This task can be done using several approaches.
+ One approach is finding an optimal position in AoI for each individual
+ UAV and then searching feasible and collision-free trajectory for each
+ UAV.
+ This approach has the problem that the feasible solution may not exist
+ due to obstacles and relative localization constrains, as shown in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SaskaJINT2016"
+
+\end_inset
+
+.
+ A demonstration of such problem can be seen in the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Violation-of-the"
+
+\end_inset
+
+.
+ Another approach is to find trajectory to any points above AoIs and then
+ to optimize AoI coverage.
+ 
+\end_layout
+
+\begin_layout Standard
+This thesis presents implementation of finding feasible trajectories using
+ the RRT-Path algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vonasek2015,Vonasek2015high,Vonasek09:158239"
+
+\end_inset
+
+ and optimization by Dubins curves 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dubins1957"
+
+\end_inset
+
+.
+ The RRT-Path algorithm is based on the Rapidly-exploring Random Tree algorithm
+ (RRT), described in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LaValle1998"
+
+\end_inset
+
+.
+ To guarantee proper function of the RRT-Path algorithm for multi-UAV deployment
+, many support algorithms and systems must be implemented.
+ The motion model of UAVs is implemented and collision avoidance algorithm
+ is used for obstacles avoidance.
+ In the next step, trajectories found by the RRT-Path algorithm are optimized
+ using the Dubins curves, which provide optimal trajectory for motion model
+ used in this thesis.
+ 
+\end_layout
+
+\begin_layout Standard
+Part of this thesis is also verification of the planning algorithm by following
+ trajectories by UAVs swarm in simulation software V-REP.
+ The last part of this thesis is to design an interface with system 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SaskaAURO16"
+
+\end_inset
+
+, where trajectories can be loaded to real UAVs for experiments.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/3mavs_c-0185.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/3mavs_c-0255.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/3mavs_c-0270.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/3mavs_c-0350.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Violation of the relative localization constraints when trajectories are
+ planned after searching the optimal positions.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Violation-of-the"
+
+\end_inset
+
+ Relative localization constraints are violated in b), c), d).
+ Obstacles are visualized by red colour, AoIs by green colour.
+ Source 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SaskaJINT2016"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Algorithm
+\end_layout
+
+\end_inset
+
+Algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Algorithm"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The basic structure of the whole algorithm is shown in the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:The-basis-of"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The first module represents finding the guiding paths for the trajectory
+ planning.
+ It takes map as an input and returns the optimal path from initial positions
+ to AoIs.
+ The path planning uses an A* algorithm.
+ All details regarding the path planning are explained in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Guiding-path"
+
+\end_inset
+
+.
+ The trajectory planning consists of three sub-modules.
+ The first sub-module is the RRT-Path trajectory planning which takes the
+ map and the guiding path as the inputs and returns space-filling tree with
+ some leaves in the AoIs.
+ The next sub-module is RRT which continues to search the space above AoIs.
+ All feasible trajectories are used as an input of the sub-module for finding
+ the best coverage.
+ This sub-module computes coverage of AoIs in each configuration and returns
+ the trajectory to configuration with the best AoIs coverage.
+ The quality of the coverage is determined by the cost function, which is
+ described in chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Areas-of-Interest"
+
+\end_inset
+
+.
+ The trajectories re-sampling module re-samples trajectories to higher sampling
+ rate, which results in smoother trajectories.
+ This module is here mainly due to constraints of real UAVs, which are mentioned
+ in chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Path-resampling"
+
+\end_inset
+
+.
+ The last module is optimization of trajectories by Dubins curves.
+ The optimization is explained in chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Dubins-curves"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename algorithm.bmp
+	lyxscale 85
+	scale 70
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The basis of whole algorithm 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:The-basis-of"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+RRT-Path
+\end_layout
+
+\end_inset
+
+RRT-Path
+\end_layout
+
+\begin_layout Standard
+In this chapter a brief introduction of the RRT-Path algorithm is covered.
+ Firstly, we need to define the RRT algorithm which the RRT-Path is based
+ on.
+\end_layout
+
+\begin_layout Section
+Rapidly Exploring Random Tree
+\end_layout
+
+\begin_layout Standard
+Rapidly Exploring Random Tree (RRT), introduced by LaValle 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LaValle1998"
+
+\end_inset
+
+ in 1998, is non-deterministic algorithm for motion planning, used to search
+ non-convex spaces by randomly-built space-filling tree.
+ The RRT method builds a tree 
+\begin_inset Formula $T$
+\end_inset
+
+ rooted at 
+\begin_inset Formula $q_{start}$
+\end_inset
+
+.
+ In each iteration, a random sample 
+\begin_inset Formula $q_{rand}$
+\end_inset
+
+ is chosen from the configuration space 
+\begin_inset Formula $C$
+\end_inset
+
+ and the nearest node 
+\begin_inset Formula $q_{near}$
+\end_inset
+
+ in the tree to 
+\begin_inset Formula $q_{rand}$
+\end_inset
+
+ is found.
+ The node 
+\begin_inset Formula $q_{near}$
+\end_inset
+
+ is expanded using a local planner to obtain a set of new configurations
+ reachable from 
+\begin_inset Formula $q_{near}$
+\end_inset
+
+.
+ The nearest configuration towards 
+\begin_inset Formula $q_{rand}$
+\end_inset
+
+ is selected from this set and added to the tree.
+ The edge from 
+\begin_inset Formula $q_{near}$
+\end_inset
+
+ to the newly added configuration contains control inputs used by the local
+ planner to reach the new configuration.
+ The algorithm terminates if the distance between a node in the tree and
+ 
+\begin_inset Formula $q_{goal}$
+\end_inset
+
+ is less than 
+\begin_inset Formula $d_{goal}$
+\end_inset
+
+ or after 
+\begin_inset Formula $I_{max}$
+\end_inset
+
+ of planning iterations.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vonasek2015"
+
+\end_inset
+
+ The RRT method is sketched in pseudocode 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:RRT-algorithm"
+
+\end_inset
+
+.
+ In the RRT algorithm, configurations on the third line have uniform distributio
+n.
+ The implementation of the expansion step is sketched in pseudocode 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "alg:expandTree():-Expansion-procedur"
+
+\end_inset
+
+.
+ The expansion step includes motion planning with the use of a motion model.
+ Forward motion model 
+\begin_inset Formula $\dot{q}=f\left(q,u\right)$
+\end_inset
+
+is considered there and the expansion of node 
+\begin_inset Formula $q$
+\end_inset
+
+ is realized by applying several control inputs 
+\begin_inset Formula $u\text{∈}U$
+\end_inset
+
+ to the model in order to obtain new configurations reachable from the node.
+ The control inputs are applied over time 
+\begin_inset Formula $\Delta t$
+\end_inset
+
+.
+ New configurations are obtained by integration of the motion model, which
+ can be solved analytically in the case of simple systems like Car-like
+ robots 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saska14:218644"
+
+\end_inset
+
+, or using numerical integration like Euler integration of Runge-Kutta methods
+ for complex systems.
+ As UAVs can be driven by continuous values, the set 
+\begin_inset Formula $U$
+\end_inset
+
+ has to be discretized in order to allow RRT to expand the node 
+\begin_inset Formula $q_{near}$
+\end_inset
+
+to a reasonable number of candidate configurations.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vonasek2015"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Input: 
+\series default
+Configurations 
+\begin_inset Formula $q_{alert}$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{goal}$
+\end_inset
+
+, maximum number of iterations 
+\begin_inset Formula $I_{max}$
+\end_inset
+
+, maximum distance to goal 
+\begin_inset Formula $d_{goal}$
+\end_inset
+
+, configuration space 
+\begin_inset Formula $C$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Output:
+\series default
+ Trajectory 
+\begin_inset Formula $P$
+\end_inset
+
+ or failure
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $T.add\left(q_{start}\right)$
+\end_inset
+
+ // create new tree and add initial configuration 
+\begin_inset Formula $q$
+\end_inset
+
+ in it
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\series bold
+for
+\series default
+ iteration :=1:
+\begin_inset Formula $I_{max}$
+\end_inset
+
+ 
+\series bold
+do
+\series default
+ 
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $q_{rand}$
+\end_inset
+
+ := getRandomConfiguration(
+\begin_inset Formula $C$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $q_{near}$
+\end_inset
+
+ := nearest node in tree 
+\begin_inset Formula $T$
+\end_inset
+
+ to q
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+expandTree(
+\begin_inset Formula $q_{rand}$
+\end_inset
+
+,
+\begin_inset Formula $q_{near}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $d$
+\end_inset
+
+ = distance from tree 
+\begin_inset Formula $T$
+\end_inset
+
+ to 
+\begin_inset Formula $q_{goal}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+if
+\series default
+ d < 
+\begin_inset Formula $d_{goal}$
+\end_inset
+
+ 
+\series bold
+then
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $P$
+\end_inset
+
+ = extract trajectory from 
+\begin_inset Formula $q_{start}$
+\end_inset
+
+ to 
+\begin_inset Formula $q_{rand}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+return 
+\begin_inset Formula $P$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+end
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\series bold
+end
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+return failure // no solution was found within 
+\begin_inset Formula $I_{max}$
+\end_inset
+
+ iterations
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+the RRT algorithm
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:RRT-algorithm"
+
+\end_inset
+
+ source 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vonasek2015"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float algorithm
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\series bold
+Input: 
+\series default
+Random configuration 
+\begin_inset Formula $q_{rand}\text{∈}C$
+\end_inset
+
+, configuration tree 
+\begin_inset Formula $T$
+\end_inset
+
+, its nearest node in the tree 
+\begin_inset Formula $q_{near}\text{∈}T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\series bold
+Output:
+\series default
+ Extended tree 
+\begin_inset Formula $T$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+begin{algorithmic}[1]
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset Formula $R=\emptyset$
+\end_inset
+
+ // set of configurations reachable from 
+\begin_inset Formula $q_{near}$
+\end_inset
+
+ together with control inputs
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\series bold
+foreach
+\series default
+ 
+\begin_inset Formula $u\text{∈}U$
+\end_inset
+
+ 
+\series bold
+do
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $q=q_{near}+\intop_{0}^{\Delta t}f\left(q_{near},u\right)dt$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+if
+\series default
+ 
+\begin_inset Formula $q\,is\,feasible$
+\end_inset
+
+ 
+\series bold
+then
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $R=R\cup\left\{ \left(q,u\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\series bold
+end
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\series bold
+end
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\series bold
+if
+\series default
+ 
+\begin_inset Formula $R\neq\emptyset$
+\end_inset
+
+ 
+\series bold
+then
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $\left(q_{new},u\right)$
+\end_inset
+
+ = select a conguration from R closest to q near ;
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $T$
+\end_inset
+
+.addNode(
+\begin_inset Formula $q_{new}$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset space ~
+\end_inset
+
+
+\begin_inset Formula $T$
+\end_inset
+
+.addEdge(
+\begin_inset Formula $q_{near},q_{new},\Delta t,u$
+\end_inset
+
+)
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+STATE 
+\end_layout
+
+\end_inset
+
+
+\series bold
+end
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+end{algorithmic}
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+expandTree(
+\begin_inset Formula $q_{rand},q_{near}$
+\end_inset
+
+): Expansion procedure of the RRT algorithm 
+\begin_inset CommandInset label
+LatexCommand label
+name "alg:expandTree():-Expansion-procedur"
+
+\end_inset
+
+ source 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vonasek2015"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+RRT-Path
+\end_layout
+
+\begin_layout Standard
+RRT-Path, introduced by Vonásek 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vonasek2015,Vonasek09:158239"
+
+\end_inset
+
+ in 2015, is an improved version of RRT featuring preprocessing of configuration
+ space.
+ RRT-Path enables UAVs to manoeuvre around obstacles and find way in narrow
+ passages.
+ RRT-Path also finds goal much faster 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "petrlik2015"
+
+\end_inset
+
+.
+ RRT-Path uses the guiding path during building the space-filling tree.
+ Before running the RRT algorithm, the guiding path from 
+\begin_inset Formula $q_{start}$
+\end_inset
+
+ to 
+\begin_inset Formula $q_{goal}$
+\end_inset
+
+ is found and sampled.
+ One of inputs to the RRT-Path algorithm is the probability 
+\begin_inset Formula $p\left(guided\right)$
+\end_inset
+
+.
+ In the main loop of the algorithm, obtaining of the random configuration
+ is modified.
+ Instead of random configuration with uniform distribution, configuration
+ around the 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+is selected with probability 
+\begin_inset Formula $p\left(guided\right)$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Let 
+\begin_inset Formula $G$
+\end_inset
+
+ be the guiding path and 
+\begin_inset Formula $\left(q_{start},q_{1},q_{2},...,q_{goal}\right)\text{∈}G$
+\end_inset
+
+ the points of the guiding path, where 
+\begin_inset Formula $q_{i}\text{∈}C_{free}$
+\end_inset
+
+ and 
+\begin_inset Formula $i\text{∈}\left(start,1,2,...,goal\right)$
+\end_inset
+
+.
+ In the beginning, 
+\begin_inset Formula $q_{i}:=q_{1}$
+\end_inset
+
+, so random point is selected from the area around the point 
+\begin_inset Formula $q_{1}$
+\end_inset
+
+ with probability 
+\begin_inset Formula $p\left(guided\right)$
+\end_inset
+
+.
+ When the leaves of the searching tree reach distance lower than 
+\begin_inset Formula $r_{dist}$
+\end_inset
+
+to the 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+, then the next point of the guiding path will be used instead of 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+, so 
+\begin_inset Formula $q_{i}:=q_{i+1}$
+\end_inset
+
+.
+ This continues until 
+\begin_inset Formula $q_{goal}$
+\end_inset
+
+ is reached, which means the RRT-Path algorithm ends.
+\end_layout
+
+\begin_layout Section
+Guiding path
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Guiding-path"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The guiding path is obtained by transferring the map to a graph representation
+ and then the path is found using the graph-search algorithms.
+ The map can be transferred to the graph representation by using the Voronoi
+ diagram, a visibility graph or by discretization to a grid representation.
+ 
+\end_layout
+
+\begin_layout Standard
+Then the path can be found by using Dijkstra algorithm or A* algorithm.
+ In this thesis, the A* algorithm has been used because of its ability to
+ find optimal path and easy calculation of heuristic function in Euclidean
+ space.
+\end_layout
+
+\begin_layout Standard
+The classic cost function of node 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ in A* algorithm is 
+\begin_inset Formula $f\left(q_{i}\right)=g\left(q_{i}\right)+h\left(q_{i}\right)$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $g\left(q_{i}\right)$
+\end_inset
+
+ is sum of costs of all edges in shortest path between nodes and 
+\begin_inset Formula $q_{start}$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $h\left(q_{i}\right)$
+\end_inset
+
+ is heuristic estimate of distance between 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{goal}$
+\end_inset
+
+.
+ In Euclidean space, it is calculated as 
+\begin_inset Formula $h\left(q_{i}\right)=\left\Vert q_{i}-q_{goal}\right\Vert $
+\end_inset
+
+.
+ In this thesis, a node 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ in the graph has a function 
+\begin_inset Formula $o\left(q_{i}\right)$
+\end_inset
+
+ representing its proximity to the nearest obstacle.
+ This function expresses obstacles avoidance.
+ 
+\begin_inset Formula $o\left(\cdot\right)$
+\end_inset
+
+ function used in this thesis is following 
+\begin_inset Formula $o\left(q_{i}\right)=30s_{direct}\left(q_{i}\right)+15s_{diagonal}\left(q_{i}\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $s_{direct}\left(q_{i}\right)$
+\end_inset
+
+ is count of obstacles in direct neighbours of the node 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ and 
+\begin_inset Formula $s_{diagonal}\left(q_{i}\right)$
+\end_inset
+
+ is count of obstacles in diagonal neighbours of the node 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+.
+ Another example of such function is 
+\begin_inset Formula $o\left(q_{i}\right)=\frac{const}{\left\Vert q_{i}-nearest\,obstacle\right\Vert }$
+\end_inset
+
+, where 
+\begin_inset Formula $const$
+\end_inset
+
+ is weight of the 
+\begin_inset Formula $o\left(q_{i}\right)$
+\end_inset
+
+ and determines how much obstacles should be avoided.
+ The map with nodes evaluation can be seen in the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-the"
+
+\end_inset
+
+.
+ For every two nodes 
+\begin_inset Formula $q_{i},q_{j}\in C_{free}$
+\end_inset
+
+ , the shortest path 
+\begin_inset Formula $p_{min}\left(q_{i},q_{j}\right)$
+\end_inset
+
+ of all paths is used as metric for the map.
+ The length of path 
+\begin_inset Formula $p\left(q_{start},q_{goal}\right)$
+\end_inset
+
+ in graph is calculated as 
+\begin_inset Formula 
+\begin{equation}
+length\left(p\left(q_{start},q_{goal}\right)\right)=\stackrel[q_{i}=q_{start}]{q_{goal-1}}{\sum}d\left(q_{i},q_{i+1}\right)+\stackrel[q_{i}=q_{start+1}]{q_{goal-1}}{\sum}o\left(q_{i}\right)
+\end{equation}
+
+\end_inset
+
+, where the 
+\begin_inset Formula $d\left(\cdot\right)$
+\end_inset
+
+ is euclidean distance between neighbouring nodes.
+ 
+\begin_inset Formula $o\left(q_{start}\right)$
+\end_inset
+
+ and 
+\begin_inset Formula $o\left(q_{goal}\right)$
+\end_inset
+
+ are not calculated because the metric needs to satisfy the condition 
+\begin_inset Formula $d(q_{i},q_{j})=0\Leftrightarrow q_{i}=q_{j}$
+\end_inset
+
+.
+ Then all conditions for the metric are satisfied.
+ Because the 
+\begin_inset Formula $o\left(\cdot\right)$
+\end_inset
+
+ is considered only in metric calculation and not in the heuristic estimate,
+ the heuristic is admissible and thus it finds the optimal path.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/evaluatedVertices.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Example of the a map with nodes evaluated by 
+\begin_inset Formula $o\left(\cdot\right)$
+\end_inset
+
+ function.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-the"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Grouping of goals for the guiding path
+\end_layout
+
+\end_inset
+
+ Grouping of goals for the guiding path 
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Grouping-of-goals"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+During the processing of the map (method MapProcessor::getEndNodes in codebase),
+ all AoIs are grouped to one big AoI, which is the smallest rectangle covering
+ all AoIs.
+ 
+\end_layout
+
+\begin_layout Standard
+If this modification is enabled, only one goal is used for all AoIs instead
+ of one goal for every AoI (a node in the middle of AoI rectangle is considered
+ to be the goal node).
+ The whole swarm has only one guiding path, so the grouping prevents the
+ swarm from splitting.
+ The relative localization is the main reason to have only one big swarm
+ instead of more smaller swarms (or individual UAVs in case of the same
+ count of AoI and UAVs), due to increased stability and reduced possibility
+ of relative collisions as discussed in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "SaskaJINT2016"
+
+\end_inset
+
+.
+ When obstacle is in the middle, nearest node which is not occupied by an
+ obstacle is used as middle of goals group.
+ The middle is used as the target for the guiding path.
+ 
+\end_layout
+
+\begin_layout Standard
+This approach has the following advantage.
+ When individual AoIs are near to a global goal of the whole group, as seen
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Maps-with-goals"
+
+\end_inset
+
+, then the whole swarm follows one guiding path without any splitting.
+ The grouping makes the RRT-Path run faster and also the advantage of relative
+ localization is included.
+ 
+\end_layout
+
+\begin_layout Standard
+Maps with goals and obstacles are shown in figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Map-with-goals"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Maps-with-goals"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The disadvantage of this method emerges when individual AoIs have a bigger
+ distance from each other than can be covered by UAVs, that are keeping
+ the relative distances required by the relative localization constraints
+ specified in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Faigl2013"
+
+\end_inset
+
+.
+ Then this approach may fail, because the goal of the RRT-Path is very distant
+ from AoIs, as can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Map-with-goals"
+
+\end_inset
+
+ and the main part of the path is found by RRT algorithm.
+ The RRT-Path is able to find the trajectories much faster than the RRT
+ algorithm and thus finding trajectories by the RRT algorithm is much slower.
+\end_layout
+
+\begin_layout Standard
+Nevertheless such distribution of AoIs can be simply detected by measuring
+ distances between the rectangle centre and the AoIs and the swarm can be
+ split since all sub-swarms will operate in different parts of the environment
+ and therefore in safe relative distances.
+ The proposal of detection is mentioned in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Future-work"
+
+\end_inset
+
+.
+ The method proposed in this thesis can be used independently for all sub-swarms.
+ This thesis is not focused on the distribution of AoIs to independent swarms
+ and therefore all situations presented here enable feasible grouping of
+ AoIs for a single swarm.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/map1-described.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+A map with the goals unsuitable for grouping.
+ Group is marked with blue rectangle.
+ Obstacles have grey colour and AoIs have green colour.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Map-with-goals"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/map2-described.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/map5-described.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Maps with the goals suitable for grouping.
+ Groups are marked with blue rectangles.
+ Obstacles have grey colout and AoIs have green colour.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Maps-with-goals"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Areas of Interest coverage
+\end_layout
+
+\end_inset
+
+Areas of Interest coverage 
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Areas-of-Interest"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Covering Areas of Interest (AoIs) with UAVs is the key part of the task
+ of autonomous cooperative surveillance.
+ In task of surveillance, UAVs observe space below them by on-board camera,
+ as shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:The-area-viewed"
+
+\end_inset
+
+.
+ AoIs and areas seen by UAVs are represented by rectangles in this thesis
+ for simplicity and fast computation.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/uav-with-camera.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The area viewed by UAV on-board camera
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:The-area-viewed"
+
+\end_inset
+
+, source 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "petrlik2015"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Coverage of AoIs is an optimization problem.
+ This optimization problem can be solved by finding minimum of cost function.
+ The value of cost function should objectively reflect the quality of coverage.
+ The lower value should represent better coverage.
+ In this thesis, cost function 
+\begin_inset Formula $f\left(q_{i}\right)$
+\end_inset
+
+ represents quality of coverage in configuration 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+, where configuration 
+\begin_inset Formula $q_{i}$
+\end_inset
+
+ is set of UAV positions.
+ The cost function 
+\begin_inset Formula $f\left(\cdot\right)$
+\end_inset
+
+represents size of AoIs not covered by UAVs, which is equivalent to information
+ not seen by UAVs.
+ That means if 
+\begin_inset Formula $f\left(q_{1}\right)<f\left(q_{2}\right)$
+\end_inset
+
+ configuration 
+\begin_inset Formula $q_{1}$
+\end_inset
+
+ covers bigger part of AoIs than configuration 
+\begin_inset Formula $q_{2}$
+\end_inset
+
+.
+ The environment is discretized to square grid represented by matrix 
+\begin_inset Formula $A\in R^{2}$
+\end_inset
+
+.
+ One of parameters for coverage optimization is size of one square of grid
+ 
+\begin_inset Formula $a\,\left[map\,units\right]$
+\end_inset
+
+.
+ Each element 
+\begin_inset Formula $A_{j,k}\in R$
+\end_inset
+
+ represents square with size 
+\begin_inset Formula $a$
+\end_inset
+
+.
+ Before computing areas seen by UAVs, 
+\begin_inset Formula $A_{j,k}:=A_{max}$
+\end_inset
+
+ if it contains AoI, and 
+\begin_inset Formula $A_{j,k}:=0$
+\end_inset
+
+ otherwise.
+ 
+\begin_inset Formula $A_{max}=100$
+\end_inset
+
+ is used in experiments, but any value which does not cause overflow or
+ underflow in float representation will suffice.
+ Then the following formula is applied to every element of the world representin
+g matrix 
+\begin_inset Formula $A$
+\end_inset
+
+: 
+\begin_inset Formula 
+\begin{equation}
+A_{j,k}:=A_{j,k}\cdot l^{m},\label{eq:coverage}
+\end{equation}
+
+\end_inset
+
+ where variable 
+\begin_inset Formula $l$
+\end_inset
+
+ should indicate amount of information not seen by UAV even if this UAV
+ covers the element 
+\begin_inset Formula $A_{j,k}$
+\end_inset
+
+.
+ This is because quality of image obtained from on-board camera depends
+ on many factors, such as time of day, weather conditions, flight altitude,
+ camera chip resolution, lens parameters, stabilization, frame rate and
+ so on.
+ Due to these factors, it is convenient to let more UAVs observe same area.
+ In this implementation, 
+\begin_inset Formula $l:=0.5$
+\end_inset
+
+, but if the flight altitude will be considered in the optimization algorithm,
+ higher flight altitude would lead worse image recording, so 
+\begin_inset Formula $l(flightAltitude_{1})>l\left(flightAltitude_{2}\right)$
+\end_inset
+
+ for 
+\begin_inset Formula $flightAltitude_{1}>flightAltitude_{2}$
+\end_inset
+
+.
+ Variable 
+\begin_inset Formula $m$
+\end_inset
+
+ represents number of UAVs seeing the area of element 
+\begin_inset Formula $A_{j,k}$
+\end_inset
+
+.
+ Example of AoI with one UAV observing part of it can be seen in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:AoI-matrix-with"
+
+\end_inset
+
+.
+ As we can see, parts of AoI not seen by a UAV have value 
+\begin_inset Formula $A_{j,k}=A_{max}=100$
+\end_inset
+
+ and parts of AoI seen by UAV have value 
+\begin_inset Formula $A_{j,k}=A_{max}\cdot l^{m}=100\cdot0.5^{1}=50$
+\end_inset
+
+.
+ In some applications, one UAV may observe everything in its observable
+ area and does not need another UAV observing same area.
+ In this case, 
+\begin_inset Formula $l:=0$
+\end_inset
+
+, so the cost of the element 
+\begin_inset Formula $A_{j,k}$
+\end_inset
+
+ will not change when more UAV will observe it, because 
+\begin_inset Formula $0^{m}$
+\end_inset
+
+ is same for every 
+\begin_inset Formula $m\in N$
+\end_inset
+
+.
+ The 
+\begin_inset Formula $l^{m}$
+\end_inset
+
+ where 
+\begin_inset Formula $1>l>0$
+\end_inset
+
+ and 
+\begin_inset Formula $m>1$
+\end_inset
+
+ evaluates the configuration where more UAVs observe the same area as better
+ than one UAV observing the area, but worse than each UAV observing its
+ own area.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/aoiCoverage1uav.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+1 UAV
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/aoiCoverage2uav.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+2 UAVs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/aoiCoverage3uav.png
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+3 UAVs
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+AoI matrix with one UAVs above it
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:AoI-matrix-with"
+
+\end_inset
+
+ represented by matrix with every cell evaluated by formula 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:coverage"
+
+\end_inset
+
+.
+ The AoI is marked with green colour and the areas observed by the UAVs
+ is marked with blue colour.
+ Area covered by more UAVs has smaller value as implies the formula.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+If UAV arrives above any AoI, the guiding path is not used for this UAV
+ anymore and instead of it, RRT algorithm continues by random searching
+ over the AoI.
+ Random node for RRT algorithm is selected only from AoI beneath the UAV,
+ not from whole environment.
+ The RRT algorithm is stopped when maximum number of nodes is reached.
+ After stopping, all states found by RRT algorithm where UAVs are above
+ AoIs are evaluated by the coverage cost function.
+ Every node of the RRT algorithm contains configurations of all UAVs and
+ during the RRT, but every UAV has its own random point selected during
+ the RRT.
+ During the RRT algorithm, the feasibility and relative localization constraints
+ are being checked.
+ State with the lowest cost function is used as result of the path finding
+ algorithm and used as input for Dubins curves optimization.
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+UAV swarm properties
+\end_layout
+
+\end_inset
+
+UAV swarm properties
+\end_layout
+
+\begin_layout Section
+Motion model
+\end_layout
+
+\begin_layout Standard
+The RRT-Path algorithm is universal and works with any motion model, which
+ allows us to find paths feasible for swarm of UAVs.
+ The motion model in RRT-Path is important for obtaining configurations
+ of UAVs in the next state.
+ In order to obtain smooth trajectories that are easy to follow, the trajectory
+ planning in space of circles and lines is chosen.
+ For this purpose, car-like model was chosen.
+ Differential equations of motion model in 3D from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Saska14:218644"
+
+\end_inset
+
+ are 
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+\dot{x}\left(t\right) & = & v\left(t\right)\sin\varphi\left(t\right)\\
+\dot{y}\left(t\right) & = & v\left(t\right)\cos\left(t\right)\\
+\dot{z}\left(t\right) & = & w\left(t\right)\\
+\dot{\varphi}\left(t\right) & = & K\left(t\right)v\left(t\right)
+\end{array}\label{eq:car-like}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $x\left(t\right),y\left(t\right),z\left(t\right)$
+\end_inset
+
+ are coordinates of UAV, 
+\begin_inset Formula $\varphi\left(t\right)$
+\end_inset
+
+ represents heading of UAV, 
+\begin_inset Formula $v\left(t\right)$
+\end_inset
+
+ is forward velocity, 
+\begin_inset Formula $K\left(t\right)$
+\end_inset
+
+ is curvature, 
+\begin_inset Formula $w\left(t\right)$
+\end_inset
+
+ is ascent velocity.
+ Vector 
+\begin_inset Formula $\begin{bmatrix}K\left(t\right) & w\left(t\right) & v\left(t\right)\end{bmatrix}$
+\end_inset
+
+ represents the input vector of motion model.
+ Difference equations are used for calculation of next state in RRT-Path
+ and RRT algorithms.
+ When inputs are held constant in each time interval between two time steps,
+ difference equations are 
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+x\left(k+1\right) & = & \begin{cases}
+x\left(k\right)+\frac{1}{K\left(k+1\right)}\left(\sin\left(\varphi\left(k\right)+K\left(k+1\right)v\left(k+1\right)\Delta t\left(k+1\right)\right)-\sin\left(\varphi\left(k\right)\right)\right)\\
+if\,K\left(k+1\right)\neq0\\
+x\left(k\right)+v\left(k+1\right)\cos\left(\varphi\left(k\right)\right)\Delta t\left(k+1\right)\\
+if\,K\left(k+1\right)=0
+\end{cases}\\
+y\left(k+1\right) & = & \begin{cases}
+y\left(k\right)-\frac{1}{K\left(k+1\right)}\left(\cos\left(\varphi\left(k\right)+K\left(k+1\right)v\left(k+1\right)\Delta t\left(k+1\right)\right)-\cos\left(\varphi\left(k\right)\right)\right)\\
+if\,K\left(k+1\right)\neq0\\
+y\left(k\right)+v\left(k+1\right)\sin\left(\varphi\left(k\right)\right)\Delta t\left(k+1\right)\\
+if\,K\left(k+1\right)=0
+\end{cases}\\
+z\left(k+1\right) & = & z\left(k\right)+w\left(k+1\right)\Delta t\left(k+1\right)\\
+\varphi\left(k+1\right) & = & \varphi\left(k\right)+K\left(k+1\right)v\left(k+1\right)\Delta t\left(k+1\right)
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Relative localization
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Relative-localization"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In compact swarms, every UAV has to be aware of its neighbours in order
+ to remain together in one swarm and reduce the possibility of collision.
+ In this thesis, constraints of relative localization are implemented by
+ setting the minimal distance 
+\begin_inset Formula $d_{min}$
+\end_inset
+
+ and maximal distance 
+\begin_inset Formula $d_{max}$
+\end_inset
+
+.
+ The minimal distance is set to avoid collisions and because UAVs push air
+ beneath them when they fly.
+ Large amount of air needs to be pushed below UAV in order to keep it flying.
+ Because of this, UAVs can not fly too close to each other because of air
+ currents they produce.
+ UAVs in minimal distance do not affect each other by air currents.
+ By real experiments, the minimal distance was identified as 2 meters.
+ The maximal distance needs to be set to respect the sensors range.
+ UAVs in the Multi-Robot Systems group at CTU use on-board vision based
+ localization system, published in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Faigl2013"
+
+\end_inset
+
+.
+ In 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Faigl2013"
+
+\end_inset
+
+ a maximal range of sensors is specified based on pattern size and camera
+ resolution and UAVs in bigger distance than this maximal range can not
+ be seen.
+ In experiments in this thesis, the maximal distance was assumed to be 5
+ meters.
+ 
+\end_layout
+
+\begin_layout Standard
+Each UAV must have 
+\begin_inset Formula $n$
+\end_inset
+
+ or more neighbours in distance 
+\begin_inset Formula $d$
+\end_inset
+
+, where 
+\begin_inset Formula $d_{min}<d<d_{max}$
+\end_inset
+
+ in each step of the motion planning.
+ Default setting 
+\begin_inset Formula $n=2$
+\end_inset
+
+ was used in presented experiments.
+ Computation of this relative localization constraint is fast, but this
+ constraint is unusable for more than 5 UAVs.
+ Swarm of 6 or more UAVs can split to 2 or more groups and still fit this
+ relative localization constraint.
+ The following algorithm, which consists of two steps and uses graph representat
+ion, is proposed to check whether all UAVs are in the same swarm.
+ Every UAV is considered as a node and every pair of UAVs with distance
+ 
+\begin_inset Formula $d$
+\end_inset
+
+, where 
+\begin_inset Formula $d_{min}<d<d_{max}$
+\end_inset
+
+, are connected by an edge.
+ If the graph has only one connected component, all UAVs are in one swarm.
+ Otherwise, the graph has more connected components, which implies UAVs
+ are split into more swarms.
+\end_layout
+
+\begin_layout Standard
+In the first step of the algorithm, the adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ is built.
+ Each UAV represents one column and one row in this matrix.
+ The adjacency matrix 
+\begin_inset Formula $A$
+\end_inset
+
+ is built as
+\begin_inset Formula 
+\begin{equation}
+A_{i,j}=\begin{cases}
+1 & if\,d_{min}<d_{i,j}<d_{max}\\
+0 & otherwise
+\end{cases}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $i,j$
+\end_inset
+
+ are indices of matrix A and 
+\begin_inset Formula $d_{i,j}$
+\end_inset
+
+is distance between 
+\begin_inset Formula $i$
+\end_inset
+
+-th and 
+\begin_inset Formula $j$
+\end_inset
+
+-th UAV.
+ In the second step, the graph represented by 
+\begin_inset Formula $A$
+\end_inset
+
+ is traversed by depth-first algorithm, starting at 
+\begin_inset Formula $A_{1,1}$
+\end_inset
+
+.
+ If all nodes are visited during the traversing, the graph has only one
+ connected component and all UAVs are in one swarm.
+ The swarming method can be enabled or disabled in configuration.
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Dubins curves
+\end_layout
+
+\end_inset
+
+Dubins curves
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Dubins-curves"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Dubins curves, also called Dubins manoeuvrers or Dubins path, were published
+ by Lester Eli Dubins in 1957 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dubins1957"
+
+\end_inset
+
+.
+ Length of Dubins path is optimal path for car-like motion model and can
+ be efficiently applied also for control UAVs if the robot moves at constant
+ forward speed.
+ The important constraint is the maximum steering angle 
+\begin_inset Formula $\phi_{max}$
+\end_inset
+
+, which results in a minimum turning radius
+\begin_inset Formula $\rho_{min}$
+\end_inset
+
+.
+ As the car travels, consider the length of the curve in 
+\begin_inset Formula ${\cal W}=\mathbb{R}^{2}$
+\end_inset
+
+ traced out by a pencil attached to the centre of the car.
+ The task is to minimize the length of this curve as the car travels between
+ any 
+\begin_inset Formula $q_{I}$
+\end_inset
+
+ and 
+\begin_inset Formula $q_{G}$
+\end_inset
+
+.
+ Due to 
+\begin_inset Formula $\rho_{min}$
+\end_inset
+
+, this can be considered as a bounded-curvature shortest-path problem.
+ If 
+\begin_inset Formula $\rho_{min}=0$
+\end_inset
+
+, then there is no curvature bound, and the shortest path follows a straight
+ line in 
+\begin_inset Formula $\mathbb{R}^{2}$
+\end_inset
+
+.
+ In terms of a cost function, the criterion to optimize is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\ensuremath{{\displaystyle L(\tilde{q}\left(t\right),\tilde{u}\left(t\right))=\int_{0}^{t_{F}}\sqrt{\dot{x}(t)^{2}+\dot{y}(t)^{2}}dt},}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $t_{F}$
+\end_inset
+
+ is the time at which 
+\begin_inset Formula $q_{G}$
+\end_inset
+
+ is reached, and a configuration is denoted as 
+\begin_inset Formula $q\left(t\right)=(x\left(t\right),y\left(t\right),\varphi\left(t\right))$
+\end_inset
+
+, 
+\begin_inset Formula $\tilde{q}\left(t\right)$
+\end_inset
+
+ denotes the function 
+\begin_inset Formula $\tilde{q}:[0,t]\rightarrow X$
+\end_inset
+
+, which is called the state trajectory (or state history).
+ Similarly, 
+\begin_inset Formula $\tilde{u}\left(t\right)$
+\end_inset
+
+ denotes the action trajectory (or action history).
+ If 
+\begin_inset Formula $q_{G}$
+\end_inset
+
+ is not reached, then it is assumed that 
+\begin_inset Formula $L(\tilde{q},\tilde{u})=\infty$
+\end_inset
+
+.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "LaValle2006"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+When considering constraints of inputs (actions) for motion model, the system
+ can be simplified to
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\begin{array}{ccc}
+\dot{x}\left(t\right) & = & \cos\varphi\left(t\right)\\
+\dot{y}\left(t\right) & = & \sin\varphi\left(t\right)\\
+\dot{\varphi}\left(t\right) & = & u\left(t\right)
+\end{array}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+in which 
+\begin_inset Formula $u$
+\end_inset
+
+ is chosen from the interval 
+\begin_inset Formula $U=\left\{ -\tan\phi_{max},0,\tan\phi_{max}\right\} $
+\end_inset
+
+.
+ As we can see, the simplified system is identical to equations 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:car-like"
+
+\end_inset
+
+ with 
+\begin_inset Formula $v=1$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="2">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Symbol
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Steering 
+\begin_inset Formula $u$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $-\tan\phi_{max}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+S
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+R
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $\tan\phi_{max}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+The three motion primitives from which all optimal curves for the Dubins
+ car can be constructed.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:The-three-motion"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+It was shown in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Dubins1957"
+
+\end_inset
+
+ that between any two configurations, the shortest path for the Dubins car
+ can always be expressed as a combination of no more than three motion primitive
+s.
+ Each motion primitive applies a constant action over an interval of time.
+ This interval of time is not constant and it may differ for each primitive
+ during the path.
+ Furthermore, the only actions that are needed to traverse the shortest
+ paths are 
+\begin_inset Formula $u\in\{-\tan\phi_{max},0,\tan\phi_{max}\}$
+\end_inset
+
+.
+ The primitives and their associated symbols are shown in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:The-three-motion"
+
+\end_inset
+
+.
+ The 
+\begin_inset Formula $S$
+\end_inset
+
+ primitive drives the car straight ahead.
+ The 
+\begin_inset Formula $L$
+\end_inset
+
+ and 
+\begin_inset Formula $R$
+\end_inset
+
+ primitives turn as sharply as possible to the left and right, respectively.
+ Using these symbols, each possible kind of shortest path can be determined
+ as a sequence of three symbols in the order in which the primitives are
+ applied.
+ Let such a sequence be called a word.
+ There is no need to have two consecutive primitives of the same kind because
+ they can be merged into one.
+ Under this observation, ten possible words of length three are possible.
+ Dubins showed that only these six words are possibly optimal:
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{equation}
+\ensuremath{{\displaystyle \{LRL,\;RLR,\;LSL,\;LSR,\;RSL,\;RSR\}.}}
+\end{equation}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The shortest path between any two configurations can always be characterized
+ by one of these words, which are called the Dubins curves.
+\end_layout
+
+\begin_layout Section
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Trajectories optimization using Dubins curves
+\end_layout
+
+\end_inset
+
+Trajectories optimization using Dubins curves
+\end_layout
+
+\begin_layout Standard
+Because of the fact that Dubins curves provide us an optimal path, they
+ can be used to optimize the trajectory found with the RRT-Path algorithm.
+ For only one UAV, the proposed optimization algorithm works as follows.
+ Two random points of trajectory are chosen and Dubins curves are calculated
+ between them.
+ If calculated curves do not collide with the obstacles, they are used instead
+ of the original trajectory between the points.
+ This step is repeated until the whole trajectory can not be shortened more
+ after e.g.
+ 2000 iterations and thus is sub-optimal.
+\end_layout
+
+\begin_layout Standard
+In a real situation, we do not know whether found trajectory is optimal
+ or not, so we need to determine conditions for stopping the optimization.
+ The optimization is stopped if the trajectory is not shortened after many
+ (e.
+ g.
+ 150) iterations or optimization is too slow and trajectory is shortened
+ only by small distances (e.
+ g.
+ shortening by 5% per 1000 iterations).
+ 
+\end_layout
+
+\begin_layout Standard
+For a swarm, the situation is complicated because of relative localization
+ constraints, i.e.
+ minimal and maximal distances between individual UAVs.
+ Dubins curves must be sampled in the same frequency as the trajectory found
+ by the RRT-Path algorithm.
+ The motion model in the RRT-Path algorithm uses constant control input
+ for a fixed time interval 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ The frequency of sampling is 
+\begin_inset Formula $\frac{1}{T}$
+\end_inset
+
+ or its integral multiply when a trajectory is being re-sampled.
+ Each point has to be validated for feasibility in terms of minimal and
+ maximal distance from another UAVs.
+ So the curves can be used only when all trajectories between minimal and
+ maximal distance of relative localization.
+\end_layout
+
+\begin_layout Standard
+Due to using randomly chosen points, the optimization is stochastic and
+ non-deterministic.
+\end_layout
+
+\begin_layout Subsection
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+One UAV demonstration
+\end_layout
+
+\end_inset
+
+One UAV demonstration
+\end_layout
+
+\begin_layout Standard
+In figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:One-UAV-before"
+
+\end_inset
+
+ a trajectory of one UAV found by the RRT-Path algorithm in map with one
+ obstacle marked by a dark grey rectangle is depicted.
+ Obstacle amplification is marked by a light grey rectangle.
+ In figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:One-UAV-after"
+
+\end_inset
+
+ optimal trajectory found using Dubins curves is shown.
+ The resulting trajectory consists of many Dubins curves and it was obtained
+ by algorithm mentioned above.
+ Random points have been replaced by Dubins curves and after many iterations,
+ e.g.
+ 2000, the optimal trajectory was found.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/oneUAV.json.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Trajectory of one UAV found by the RRT-Path algorithm before Dubins curves
+ optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:One-UAV-before"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/oneUAVoptimized.json.png
+	lyxscale 60
+	scale 60
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Trajectory of one UAV found by the RRT-Path algorithm after Dubins curves
+ optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:One-UAV-after"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Trajectory re-sampling
+\end_layout
+
+\end_inset
+
+Trajectory re-sampling
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Path-resampling"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Motion model in the RRT-Path algorithm uses constant control input in time
+ interval from 0.5 to 1 second.
+ Smaller interval for constant input causes RRT-Path algorithm to run for
+ too long.
+ When using too short constant input interval, the tree has too many nodes,
+ grows slowly and runs out of memory much faster than longer interval.
+ An interval longer than 1 second makes UAVs unable to manoeuvre between
+ smaller obstacles.
+ Thus range from 0.5 to 1 second was experimentally chosen as best interval.
+ Using 
+\begin_inset Formula $x$
+\end_inset
+
+ seconds long constant input interval also means 
+\begin_inset Formula $\frac{1}{x}Hz$
+\end_inset
+
+ frequency of points in resulting trajectory in the output of the algorithm.
+ So the range from 0.5 to 1 second implies resulting frequency is in range
+ 1Hz to 2Hz.
+ 
+\end_layout
+
+\begin_layout Standard
+Real UAVs in Multi-Robot Systems group at CTU use frequency 70Hz for providing
+ target points to UAVs and trajectories with lower frequency are linear
+ interpolated to have frequency 70Hz.
+ That means frequency 2Hz is too low for real usage because a trajectory
+ generated with this frequency would not be smooth enough.
+ 
+\end_layout
+
+\begin_layout Standard
+Change of frequency before the RRT-Path algorithm makes the algorithm unable
+ to run efficiently in bigger maps, so this approach does not solve the
+ problem.
+\end_layout
+
+\begin_layout Standard
+Another solution is to re-sample the trajectory after Dubins curves.
+ But this method failed because after Dubins optimization, the curves had
+ different length and different constant input durations.
+ 
+\end_layout
+
+\begin_layout Standard
+The best solution for this issue is re-sampling of trajectory generated
+ by RRT-Path algorithm before it is optimized by Dubins curves.
+ This solution also has big advantage in Dubins curves optimization because
+ it results in shorter final trajectory as will be shown in the experiments
+ in the chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Experiments"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Covering more AoIs with one swarm
+\end_layout
+
+\end_inset
+
+Covering more AoIs with one swarm
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Covering-more-AoIs"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Some maps have distribution of obstacles and AoIs where algorithm stated
+ above fails.
+ These maps can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Failed-maps"
+
+\end_inset
+
+.
+ Standard algorithm which uses only one guiding path always leads swarm
+ to only one Area of Interest and the second area remains completely uncovered.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/standard-map9.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/standard-map10.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Maps with only one covered Area of Interest
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Failed-maps"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In case of using relative localization where every UAV needs only 1 to 2
+ neighbours, UAVs can create chain and reach to more distant targets or
+ targets divided by obstacles which UAVs can not reach when moving as one
+ swarm using standard RRT-Path algorithm.
+\end_layout
+
+\begin_layout Standard
+Following modifications must be done if we want to cover all AoIs in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Failed-maps"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+UAVs are split to two groups, and every group has its own guiding path to
+ one AoI.
+ Relative localization keeps all UAVs in one swarm by its constraints described
+ in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Relative-localization"
+
+\end_inset
+
+.
+ With this setting, the swarm behaves like chain, because it is 
+\begin_inset Quotes eld
+\end_inset
+
+pulled
+\begin_inset Quotes erd
+\end_inset
+
+ to opposite sides by different guiding paths, but it is also connected
+ by relative localization, so it does not split into more smaller swarms.
+ Successful coverage by using the chain behaviour can be seen in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Maps-with-successful"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/chain-map9.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/chain-map10.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Maps with successful chaining behaviour 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Maps-with-successful"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Unfortunately, this approach does not work in all maps and configurations
+ as can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Maps-with-unsuccessful"
+
+\end_inset
+
+.
+ The map on the right shows typical example of getting stuck in local minimum,
+ where all UAVs preferred covering only one AoI over covering both AoIs,
+ but the map on the left shows different issue.
+ When we have symmetric map and UAVs do not have starting position in middle
+ of this map, one side of the chain needs to be 
+\begin_inset Quotes eld
+\end_inset
+
+pulled
+\begin_inset Quotes erd
+\end_inset
+
+ with more power than the other side to cover both AoIs and encircle the
+ obstacle between UAVs starting position and AoIs.
+ This leads to configuration where only one side of chain covers AoI and
+ the other side of chain does not reach the second AoI.
+ This bigger pulling power, which would probably solve this issue, can not
+ be simulated in RRT-Path algorithm.
+ These problems demonstrates the fact this approach is not robust and needs
+ manual preprocessing of UAVs starting positions.
+ The limitation of this approach is also the fact it works only for two
+ AoIs.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/chain-map9-failed.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/chain-map11-failed.png
+	lyxscale 50
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Maps with unsuccessful chaining behaviour 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Maps-with-unsuccessful"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+V-REP simulations
+\end_layout
+
+\end_inset
+
+V-REP simulations
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:V-REP-simulations"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+V-REP is an acronym for Virtual robot experimentation platform 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "vrep"
+
+\end_inset
+
+, a simulator developed by Coppelia Robotics, providing an advanced environment
+ for testing and simulations of robots of all types.
+ The V-REP environment is free and open-souce for educational purposes.
+ The environment takes in account certain physical laws like gravity, inertia
+ or friction, which enables to truthfully verify applicability for deployment
+ of UAVs in the real world.
+ V-REP has many build-in models, but user can also create his own robot.
+ V-REP enables to control robots over API and has API clients for C, C++,
+ Python, Java, Lua, Matlab, Octave and Urbi.
+ 
+\end_layout
+
+\begin_layout Section
+UAV control and trajectory simulation
+\end_layout
+
+\begin_layout Standard
+Python is convenient for fast prototyping and has native functions for easy
+ JSON parsing, which made it good choice for simulations of generated trajectori
+es in V-REP.
+\end_layout
+
+\begin_layout Standard
+UAVs in V-REP can be controlled over remote API only by changing location
+ of their target.
+ Then UAV tries to reach the location of its target.
+ Unfortunately, when using default UAV VREP controller, UAVs only follow
+ location, with speed proportional to distance.
+ UAVs do not try to reach target and simultaneously to have zero speed when
+ reaching their target, which causes overshoot.
+ This fact leads to another disadvantage of such UAV controller.
+ In long and straight corridors the UAV increases its speed, which causes
+ overshoot when trajectory changes its direction because the UAV is not
+ able to slow down and follow its trajectory in turn.
+ These overshoots were many times bigger than size of UAVs, so they could
+ not be ignored and had to be fixed.
+ During first, naive implementation, position of next state of the trajectory
+ was set as target position for UAV, but due to overshoot and large distances
+ between states UAVs failed to follow the trajectory.
+ Another implementation uses linear interpolated trajectory between UAV
+ and its next state position.
+ The calculated target is placed in the line between UAV and next state
+ position, in the constant distance to UAV as 
+\begin_inset Formula 
+\begin{equation}
+\mathbf{X}\left(k+1\right)_{target}=\mathbf{X}\left(k\right)_{UAV}+\frac{\left(\mathbf{X}\left(k\right)_{ns}-\mathbf{X}\left(k\right)_{UAV}\right)}{\left\Vert \mathbf{X}\left(k\right)_{ns}-\mathbf{X}\left(k\right)_{UAV}\right\Vert }\cdot const
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $\mathbf{X}\left(k\right)_{UAV}$
+\end_inset
+
+ is UAV position in the 
+\begin_inset Formula $k$
+\end_inset
+
+-th iteration of the simulation, 
+\begin_inset Formula $\mathbf{X}\left(k\right)_{ns}$
+\end_inset
+
+ is position of next state in planned trajectory in 
+\begin_inset Formula $k$
+\end_inset
+
+-th iteration, 
+\begin_inset Formula $\mathbf{X}\left(k+1\right)_{target}$
+\end_inset
+
+ is position of UAV target in the 
+\begin_inset Formula $k+1$
+\end_inset
+
+-th iteration and 
+\begin_inset Formula $const$
+\end_inset
+
+ is constant experimentally tuned, so the UAV does not move too fast nor
+ too slow.
+ Too fast movements cause overshoot and too slow movements cause the simulation
+ to run for needlessly long time.
+\end_layout
+
+\begin_layout Standard
+But as mentioned earlier, even this approach do not work well.
+ In long passages, where trajectory did not turn, UAVs increased their velocity
+ and inertia, which made them harder to turn.
+ The problem of overshooting is shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:UAV-overshoot"
+
+\end_inset
+
+.
+ The overshoot is at the end of long passage in the map 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VREP-simulation-of"
+
+\end_inset
+
+.
+ Red and violet balls represent positions of next states in trajectory and
+ green balls represent UAV targets.
+ In the first image, we can see UAVs leaving the narrow passage.
+ As you can see in second and third image, positions of next state are in
+ same place, but because of constant distance of target and UAV, the target
+ is dragged by UAVs inertia.
+\end_layout
+
+\begin_layout Standard
+This has been fixed by not updating the position of the target when distance
+ between UAV and the next state is bigger than in previous iteration and
+ the position of the next state is still the same, as
+\begin_inset Formula 
+\begin{equation}
+\mathbf{X}\left(k+1\right)_{target}=\begin{cases}
+\mathbf{X}\left(k\right)_{UAV}+\frac{\left(\mathbf{X}\left(k\right)_{ns}-\mathbf{X}\left(k\right)_{UAV}\right)}{\left\Vert \mathbf{X}\left(k\right)_{ns}-\mathbf{X}\left(k\right)_{UAV}\right\Vert }\cdot const\\
+if\left\Vert \mathbf{X}\left(k\right)_{ns}-\mathbf{X}\left(k\right)_{UAV}\right\Vert <\left\Vert \mathbf{X}\left(k-1\right)_{ns}-\mathbf{X}\left(k-1\right)_{UAV}\right\Vert \\
+\land\mathbf{X}\left(k\right)_{ns}=\mathbf{X}\left(k-1\right)_{ns}\\
+\mathbf{X}\left(k\right)_{target}\\
+else
+\end{cases}
+\end{equation}
+
+\end_inset
+
+This prevents the target from dragging by UAV with big inertia.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/overshoot2.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/overshoot3_2.png
+	lyxscale 52
+	scale 52
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/overshoot4.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+UAV overshoot.
+ In a) we see UAVs flying from the right to the left.
+ Every UAV follows its target.
+ Red and violet balls represent positions of next states in trajectory and
+ green balls represent UAV targets.
+ In the b) the planned trajectory has a curve and next states start heading
+ upwards.
+ In c) all UAVs have too big inertia to follow its targets precisely and
+ they overshoot.
+ The targets are dragged by UAVs and they become more distant from the next
+ state.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:UAV-overshoot"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Simulations
+\end_layout
+
+\begin_layout Standard
+Trajectories obtained from the algorithm proposed in this thesis were simulated
+ and verified in the V-REP environment.
+ Screenshots from the simulation are in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VREP-simulation-of"
+
+\end_inset
+
+.
+ All videos with simulations can be seen in enclosed DVD.
+ Screenshots of trajectories verification on map 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+ are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VREP-simulation-of"
+
+\end_inset
+
+.
+ Screenshots of trajectories verification on map 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins-1"
+
+\end_inset
+
+ are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:VREP-simulation-of-1"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0000.jpg
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 0 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0001.jpg
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 25 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0002.jpg
+	lyxscale 40
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 45 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0003.jpg
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 71 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0005.jpg
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 133 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0006.jpg
+	lyxscale 40
+	scale 40
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 192 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+VREP simulation of trajectories in complex map.
+ All UAVs proceeded successfully from the initial position to the AoI, marked
+ with white rectangle.
+ Video with the simulation can be seen in enclosed DVD in the file videos/map0_n
+ew.avi.
+ Map used in this simulation is also used in experiments 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:RRT-Path"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:First-experiment"
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:VREP-simulation-of"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0007.jpg
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 0 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0008.jpg
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 21 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0009.jpg
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 36 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0010.jpg
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 40 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0011.jpg
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 45 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset space \hfill{}
+\end_inset
+
+
+\begin_inset Box Frameless
+position "t"
+hor_pos "c"
+has_inner_box 1
+inner_pos "t"
+use_parbox 0
+use_makebox 0
+width "45col%"
+special "none"
+height "1in"
+height_special "totalheight"
+status open
+
+\begin_layout Plain Layout
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bscap0012.jpg
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+t = 50 s
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+VREP simulation of trajectories in complex map.
+ All UAVs proceeded successfully from the initial position to the AoI, marked
+ with white rectangle.
+ Video with the simulation can be seen in enclosed DVD in the file videos/map3_n
+ew.avi.
+ Map used in this simulation is also used in experiments 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:RRT-Path"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:First-experiment"
+
+\end_inset
+
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:VREP-simulation-of-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Implementation
+\end_layout
+
+\end_inset
+
+Implementation
+\end_layout
+
+\begin_layout Standard
+This part will cover implementation of the algorithm, which was used for
+ simulations.
+ Whole codebase in C++ can be found at Github repository 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/AutonomousSurveillanceBachelorThesis
+\end_layout
+
+\end_inset
+
+.
+ Apart from the C++ program, I also created some CLI scripts in PHP, for
+ drawing map and trajectories from the JSON representation, batch running
+ of Dubins curves optimization and concatenation of the experiment results
+ before plotting them in Matlab.
+ These can be seen at
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/UAVUtils
+\end_layout
+
+\end_inset
+
+.
+ V-REP simulations were made by communicating with V-REP through remote
+ API, the client is written in Python and can be seen ar
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/VRepPathBuilder
+\end_layout
+
+\end_inset
+
+.
+ Trajectories are persisted in JSON format.
+ JSON is more compact than XML and can be easily parsed by all widely used
+ programming languages.
+ Trajectories are also persisted to CSV format, so they can be loaded to
+ MATLAB and then into real UAVs.
+\end_layout
+
+\begin_layout Section
+External libraries
+\end_layout
+
+\begin_layout Standard
+Some external libraries are used in the implementation.
+ Every used external library is mentioned here.
+ Boost libraries, downloaded from 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://www.boost.org/
+\end_layout
+
+\end_inset
+
+, are used for smart pointers and matrix operations, libraries for Dubins
+ curves are from Master Thesis by Petr Váňa 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "Vana2015"
+
+\end_inset
+
+.
+ Generating of JSON from C++ object is done via Json spirit library.
+ Another external library is V_Collide from The University of North Carolina
+ at Chapel Hill.
+ The source code of the V_Collide library can be found at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://gamma.cs.unc.edu/V-COLLIDE/
+\end_layout
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Because V-Collide sources were written in 1997 and because I used C++11
+ compiler to compile my source codes, I had to rewrite part of this library
+ for compatibility and to make public API easier to use.
+ Modifications can be seen at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/VCollide2
+\end_layout
+
+\end_inset
+
+ .
+ 
+\end_layout
+
+\begin_layout Standard
+Last used external library is QT, which was used to create platform independent
+ GUI.
+\end_layout
+
+\begin_layout Section
+Code structure and services
+\end_layout
+
+\begin_layout Standard
+A brief UML scheme demonstrating dependency diagram of codebase is shown
+ in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dependency-diagram"
+
+\end_inset
+
+.
+ To keep diagram simple, only services are displayed.
+ Other classes, which are not services, were left out for readability.
+ Diagram was generated using software StarUML.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/umlSchema.svg
+	scale 37
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Dependency diagram 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dependency-diagram"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Core class holds core of whole Application and has all other classes as
+ dependencies, as is shown in the image 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dependency-diagram"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+As mentioned in the chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Algorithm"
+
+\end_inset
+
+, Configuration is DTO for all configuration variables, but to keep reasonable
+ amount of classes, Configuration is also service, which delegates all configura
+tion changes from GUI to Core class.
+ Configuration and GuiDrawer implementation LoggerInterface are the only
+ connections between Core and GUI.
+\end_layout
+
+\begin_layout Standard
+State factory creates State classes according to Factory pattern.
+ State class represents state in RRT-Path algorithm.
+ State has coordinates and rotations for all UAVs.
+ Persister persists found trajectories to JSON using Json Spirit library.
+ PathHandler serves as utils class for manipulations with trajectories (vector
+ of State classes).
+ CarLikeMotionModel holds motion model algorithm.
+ InputGenerator is used to generate inputs to motion model.
+ NTupletGenerator only generates variation with repeating for given input.
+ DistanceResolver counts distances between two states and length of trajectory.
+ AoICoverageResolver determines cost function for states,where all UAVs
+ are in AoIs.
+ GuidingPathFactory is wrapper for PathFindingAlgorithm interface and is
+ used by Core to find guiding path.
+ Implementation of PathFindingAlgorithm is AStart class.
+\end_layout
+
+\begin_layout Section
+Utility scripts
+\end_layout
+
+\begin_layout Standard
+All graphs in experiments with re-sampling and Dubins optimization were
+ generated with usage of PHP scripts.
+ Script runDubinsOptimization.php runs sequentially resampling with given
+ frequencies multiple times.
+ This script can be run many times at once with different configuration,
+ which brings advantage of parallel run without need to deals with threads.
+ Script processDubinsOptimizatinData.php merges all CSV result files to one
+ big matrix, with number of rows equal to maximal number of iterations and
+ number of columns equal number of runs of the optimization.
+ For example, as seen in experiment 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:First-experiment"
+
+\end_inset
+
+ for frequency 1 Hz it is matrix with size 2095x100.
+ This can be loaded directly to matlab so the graph can be generated.
+ Script drawPaths.php generates map to png image.
+ E.
+ g.
+ map generated by this script can be seen in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Experiments
+\end_layout
+
+\end_inset
+
+Experiments
+\begin_inset CommandInset label
+LatexCommand label
+name "chap:Experiments"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+RRT-Path
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:RRT-Path"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In this experiment, a trajectory in a map shown in the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Map-used-for"
+
+\end_inset
+
+ is searched by using the RRT-Path algorithm.
+ UAVs start in the lower left corner.
+ In this figure, we can also see the trajectory found by the RRT-Path algorithm.
+ The algorithm follows the guiding path quite precisely, and whole searching
+ tree for each UAV has small branching factor.
+ Only the AoI is covered by branches of searching trees.
+ The algorithm is run 1000 times and a feasible solution was found in every
+ run.
+ The results can be seen in the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Distances-between-UAVS"
+
+\end_inset
+
+, where the mean value and standard deviation can be seen for each iteration
+ of all 1000 runs.
+ The figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Distances-between-UAVS"
+
+\end_inset
+
+, describes distance to nearest neighbour.
+ This experiment has been run with 3 UAVs.
+ In every iteration of the algorithm, each UAV has a nearest neighbour.
+ Distances between each UAV and its nearest neighbour is shown in the figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Distances-between-UAVS"
+
+\end_inset
+
+.
+ This information is important for the relative localization.
+ The minimal and maximal distance are 24 and 180 map units, in this experiment.
+ During the whole flight, UAVs fly very close to each other.
+ But in the end, they fly away from each other, because they can cover bigger
+ part of AoI when they have bigger distance between each other.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment3-map-covered.png
+	lyxscale 50
+	scale 35
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Map used for experiment 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Map-used-for"
+
+\end_inset
+
+.
+ Low branching factor can be found along the whole guiding path.
+ When UAVs arrive above AoI, branching factor is higher.
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment3-distanceToNeighbour.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Distances between nearest UAVs in swarm and distance to AoI in experiment
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:RRT-Path"
+
+\end_inset
+
+.
+ Relative distance is small along the whole guiding path.
+ Only the covering of AoI lets UAVs get more distant from each other.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Distances-between-UAVS"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+Influence of re-sampling on Dubins curves optimization
+\end_layout
+
+\begin_layout Standard
+To demonstrate the optimization, few maps were selected to be used in re-samplin
+g and optimization experiments.
+ The RRT-Path algorithm found trajectories for UAVs.
+ These trajectories were re-sampled and optimized 100 times to obtain relevant
+ results because of using random numbers during the optimization and avoiding
+ getting stuck in local optima.
+ Due to time and memory consumption, each optimization is stopped after
+ 200 iterations where optimization did not shorten the trajectory or when
+ speed of trajectory shortening was slower than 5% of original trajectory
+ length per 1000 iterations.
+ The algorithm also stops when consumed memory exceeds 1900 MB.
+ This is right before shutting of program by operating system, because 32bit
+ processes are not allowed to use more than 2 GB of RAM.
+ In next sections, maps with obstacles, AoIs and trajectories will be shown.
+ Obstacles are grey rectangles, AoI is green rectangle and each UAV has
+ trajectory marked with different colour.
+ For measuring of influence of re-sampling of trajectory to Dubins curves
+ optimization, following frequencies were selected: 1 Hz (initial frequency
+ used in RRT-Path algorithm), 2 Hz, 4 Hz, 6 Hz, 8 Hz, 10 Hz, 12 Hz, 14 Hz,
+ 16 Hz, 18 Hz, 20 Hz.
+\end_layout
+
+\begin_layout Subsection
+First experiment
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:First-experiment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The map with trajectories found by the RRT-Path algorithm can be seen in
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/pathBeforeDubins.png
+	lyxscale 40
+	scale 28
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Trajectory before Dubins curves optimization.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Path-before-Dubins"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The best result of Dubins curves optimization (re-sampling of 20Hz) is shown
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-after-Dubins"
+
+\end_inset
+
+.
+ As we can see, trajectories are much shorter than trajectories before optimizat
+ion in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+.
+ At the beginning of trajectories, in the left upper corner of the picture,
+ we can see much smoother curves than before optimization.
+ This is due to re-sampling to frequency 20Hz, which smooths trajectories.
+ 
+\end_layout
+
+\begin_layout Standard
+In real flight, it is undesirable to have trajectories close to obstacles,
+ so obstacles are amplified before optimization.
+ This can be seen in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-after-Dubins"
+
+\end_inset
+
+ where UAVs keep certain distance from the obstacles.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/pathAfterDubins20Hz.png
+	lyxscale 40
+	scale 28
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Trajectory after Dubins curves optimization.
+ In the left upper corner the trajectories are not optimized enough.
+ This happened because the optimization got stuck in local minimum.
+ The local minimum was caused by relative localization constraints, which
+ complicates the optimization.
+ The crossing trajectories are very difficult to optimize due to relative
+ localization constraints.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Path-after-Dubins"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Re-sampling-and-optimization"
+
+\end_inset
+
+ shows average, minimal and maximal length of all trajectories from 100
+ optimizations after the re-sampling and optimization.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="12" columns="4">
+<features rotate="0" tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Frequency [Hz]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Minimal distance [m]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Maximal distance [m]
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Average distance [m]
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8582.18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8849.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8721.2904
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8311.65
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8548.81
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8430.23
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8366.88
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8393.09
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8379.985
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8248.9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8275.7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8262.3
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8249.88
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8378.51
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8314.195
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8286.22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8472.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8379.21
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+12
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8302.51
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8309.2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8307.6613
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8303.18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8303.18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8303.18
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+16
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8363.92
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8363.92
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8363.92
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+18
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8510.32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8510.32
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8510.32
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+20
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8194.22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8194.22
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8194.22
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Re-sampling and optimization results of the experiment 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:First-experiment"
+
+\end_inset
+
+.
+ The initial frequency has 
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Re-sampling-and-optimization"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The results are also shown in graph 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Re-sampling-and-optimization"
+
+\end_inset
+
+.
+ In the graph we can see that the initial frequency 1 Hz has worst results
+ and the frequency 20 Hz has the best results.
+ We can also see that in frequency 14 Hz and higher, all 100 iterations
+ had same results, the minimum, maximum and mean value are the same.
+ But the second best frequency in terms of minimal, maximal and mean value
+ is 6 Hz and even the worst optimization in 6 Hz has smaller total distance
+ than 8 to 18 Hz.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment1-frequencyDependence.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Re-sampling and optimization results graph.
+ This is visualization of data from table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Re-sampling-and-optimization"
+
+\end_inset
+
+.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Re-sampling-and-optimization"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Depending on re-sampling frequency, the courses of optimization are also
+ different.
+\end_layout
+
+\begin_layout Standard
+In 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Time-course-of"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Time-course-of-1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Time-course-of-2"
+
+\end_inset
+
+ we can see mean values and standard deviations for different frequencies,
+ divided into three graphs for better readability.
+ The vertical lines are error bars, they show standard deviation during
+ the optimization.
+ Because the error bars would be too dense if they were shown for each iteration
+, only every 100th iteration is shown in the graphs.
+ For comparison, frequency 1 Hz is also shown in each graph, the initial
+ frequency before re-sampling.
+ As we can see, frequencies 14, 16, 18 and 20 Hz have almost zero standard
+ deviation and converge to lower value than the initial frequency.
+ High standard deviation can be seen for frequency 10 Hz.
+ That means the optimization got stuck in local optimum and was not able
+ to shorten any trajectory for many iterations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment1-lowFrequenciesErrors.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+rogress of length of paths during the optimization of trajectory in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+ for 2 Hz, 4 Hz, 6 Hz
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Time-course-of"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment1-middleFrequenciesErrors.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Progress of length of paths during the optimization of trajectory in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+ for 8 Hz, 10 Hz, 12 Hz
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Time-course-of-1"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment1-highFrequenciesErrors.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Progress of length of paths during the optimization of trajectory in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins"
+
+\end_inset
+
+ for 14 Hz, 16 Hz, 18 Hz, 20 Hz
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Time-course-of-2"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Second experiment
+\begin_inset CommandInset label
+LatexCommand label
+name "sub:Second-experiment"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/path-03-27-17-49-16-before-dubins.json.png
+	lyxscale 40
+	scale 28
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Trajectory in experiment 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Second-experiment"
+
+\end_inset
+
+ before Dubins curves optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Path-before-Dubins-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The best result of Dubins curves optimization (re-sampling of 4Hz) is shown
+ in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-after-Dubins-1"
+
+\end_inset
+
+.
+ As we can see, trajectories are much shorter than trajectories before optimizat
+ion in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins-1"
+
+\end_inset
+
+, as in experiment 1, but curves in the upper part of figure still were
+ not optimized.
+ This was caused by optimization algorithm getting stuck in local optimum.
+ As shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-after-Dubins"
+
+\end_inset
+
+, optimizing trajectory for one UAV does not get stuck in local optimum.
+ The local optimum is caused by relative localization constraints and crossing
+ paths.
+ The algorithm tried to optimize other parts and ended due to stopping condition
+s mentioned above.
+ Light grey colour represents obstacle amplification.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/path-04-25-16-23-37-05-optimized.json.png
+	lyxscale 40
+	scale 28
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Trajectory in experiment 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Second-experiment"
+
+\end_inset
+
+ after Dubins curves optimization
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Path-after-Dubins-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The results are shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Re-sampling-and-optimization-1"
+
+\end_inset
+
+.
+ Contrary to the graph from first experiment 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:First-experiment"
+
+\end_inset
+
+, all frequencies have same minimal distance, maximal distance and mean
+ distance.
+ This shows us interesting fact.
+ For same frequency, all 100 runs got stuck in same local optimum, but every
+ frequency has different local optimum where the algorithm can stuck.
+ Trajectory in this experiment is much smaller, which leads to zero standard
+ deviation and difference between minimal and maximal distance between optimizat
+ion results in one frequency.
+ The difference between maximal and minimal results is bigger when optimizing
+ longer and more complicated trajectory.
+ As we can also see from graphs, we can not predict optimal re-sampling
+ frequency from trajectory.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment2-frequencyDependence.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Re-sampling and optimization results graph of experiment 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sub:Second-experiment"
+
+\end_inset
+
+.
+ Mean distance, maximal distance and minimal distance are overlapping in
+ this graph.
+ This is caused by zero standard deviation of results at the end of optimization.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Re-sampling-and-optimization-1"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Depending on re-sampling frequency, the progresses of length of paths during
+ the optimization are also different.
+\end_layout
+
+\begin_layout Standard
+In figures 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Time-course-of-3"
+
+\end_inset
+
+, 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Time-course-of-1-1"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Time-course-of-2-1"
+
+\end_inset
+
+, we can see mean values and standard deviations for different frequencies,
+ divided into three graphs for better readability.
+ The vertical lines are error bars, they show standard deviation during
+ the optimization.
+ The error bars are shown only in every 10th iteration n graphs for better
+ readibility.
+ For comparison, frequency 1 Hz, the initial frequency before re-sampling,
+ is also shown on each graph.
+ As we can see, in comparison to experiment 1, standard deviations are zero,
+ so the optimization algorithm exhibits deterministic behaviour even if
+ this optimization method is stochastic.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment2-lowFrequenciesErrors.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Progress of length of paths during the optimization of trajectory in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins-1"
+
+\end_inset
+
+ for 2 Hz, 4 Hz, 6 Hz.
+ As shown in figure, the optimization got stuck in local optima very soon
+ for frequency 6 Hz.
+ 
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Time-course-of-3"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment2-middleFrequenciesErrors.png
+	lyxscale 40
+	scale 65
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Progress of length of paths during the optimization of trajectory in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins-1"
+
+\end_inset
+
+ for 8 Hz, 10 Hz, 12 Hz.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Time-course-of-1-1"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/experiment2-highFrequenciesErrors.png
+	lyxscale 40
+	scale 70
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Progress of length of paths during the optimization of trajectory in figure
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Path-before-Dubins-1"
+
+\end_inset
+
+ for 14 Hz, 16 Hz, 18 Hz, 20 Hz.
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Time-course-of-2-1"
+
+\end_inset
+
+ 
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\begin_inset Argument 1
+status open
+
+\begin_layout Plain Layout
+Conclusion
+\end_layout
+
+\end_inset
+
+Conclusion
+\end_layout
+
+\begin_layout Standard
+This thesis contributes to the problems of autonomous surveillance with
+ a novel approach by using a sampling-based algorithm for trajectory planning
+ of a swarm of UAVs and consequence optimizing of obtained trajectories
+ by Dubins curves.
+ This thesis also examined the possibility of re-sampling of trajectories
+ and influence of re-sampling on the optimization process.
+\end_layout
+
+\begin_layout Standard
+The goal of this thesis was to design and implement a method based on the
+ RRT-Path algorithm for motion planning of a swarm of cooperating unmanned
+ aerial vehicles in the task of autonomous surveillance, optimize it by
+ Dubins curves and simulate the flight of the swarm in V-REP platform.
+ The algorithm provides trajectories from a depot station to optimal positions
+ in Areas of Interest in two internationally standardized formats (CSV and
+ JSON).
+ An easy computable cost function was created and implemented.
+ 
+\end_layout
+
+\begin_layout Standard
+The task of autonomous surveillance was approached by separating the it
+ to more smaller subtasks.
+ The first subtask is finding a path to a position, in which all UAVs are
+ located above Areas of Interest.
+ The path finding is realized by using A* algorithm to obtain the optimal
+ guiding path.
+ The RRT-Path algorithm uses this path to guide the space-filling tree.
+ The second subtask is optimization of AoIs coverage using the RRT algorithm.
+ The next subtask is re-sampling of trajectories and optimizing trajectories
+ by Dubins manoeuvrers, which provide us shorter trajectories than trajectories
+ found only by using the RRT-Path algorithm.
+ The effectiveness of Dubins curves optimization depends on re-sampling
+ frequency, but unfortunately, the best frequency is heavily dependent on
+ the map where trajectories are searched.
+ 
+\end_layout
+
+\begin_layout Standard
+The presumed use of autonomous surveillance is monitoring of a parking lot
+ near supermarket, shopping centre, company campus, etc.
+ The advantage of an autonomous system over static cameras is the fact the
+ UAV swarm can operatively change the distribution of individual UAVs according
+ to the position of cars and minimize dead angles by moving UAVs.
+ Static cameras usually fail to capture the identity of a criminal due to
+ large distance or a bad angle, while UAVs can change their positions to
+ capture the image of criminal in higher quality or from better angle and
+ even provide simultaneous record from more cameras.
+ Not only parking lots can be monitored, another possibility is monitoring
+ of people during large events or large scale monitoring of agricultural
+ areas.
+ UAVs also scale much easier than static cameras, because UAVs can fly to
+ their destination without human help, but static cameras must be installed
+ by human and fast scalability is important factor in massive events and
+ situations where size of Area of Interest change over time.
+ Contrarily to GPS localized UAVs, swarm described in this thesis can even
+ operate in hard to access areas, dense urban areas, inside buildings and
+ other places with no GPS signal, thanks to the relative localization system.
+ The relative localization also enables the UAVs to fly in compact swarm,
+ which could not be achieved by using GPS due to its errors and inaccuracy.
+\end_layout
+
+\begin_layout Section
+Future work 
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Future-work"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The approach described in chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:Covering-more-AoIs"
+
+\end_inset
+
+ could be modified to be more robust and usable in more maps with more than
+ 2 AoIs.
+ Generalization of this approach would require not crating a chain, which
+ is good only for covering two AoIs, but tree structure, where each leaf
+ covers one AoI.
+ I will now propose principle of the generalized algorithm.
+\end_layout
+
+\begin_layout Standard
+In the first step, we need to decide, which AoIs can be covered by swarm.
+ Some maps can have distant AoIs where all AoIs could not be covered at
+ the same time.
+ This requires finding shortest tree 
+\begin_inset Formula $T$
+\end_inset
+
+ which connects middles of all AoIs.
+ When sum of all edges in this tree 
+\begin_inset Formula $d_{total}$
+\end_inset
+
+ is bigger than 
+\begin_inset Formula $d_{max}=\left(number\,of\,uavs-1\right)\cdot maximal\,distance\,between\,neighbouring\,uavs$
+\end_inset
+
+, which is maximal length of chain created by UAVs, some AoI and branch
+ leading to its middle will be excluded.
+ This results in shortening the value 
+\begin_inset Formula $d_{total}$
+\end_inset
+
+.
+ This process will be repeated while 
+\begin_inset Formula $d_{total}$
+\end_inset
+
+ will be bigger than maximal 
+\begin_inset Formula $d_{max}$
+\end_inset
+
+.
+ When 
+\begin_inset Formula $d_{total}<d_{max}$
+\end_inset
+
+, we obtain set of AoIs which can be covered by swarm of UAVs.
+ In the next step, UAVs will be split to multiple groups connected by relative
+ localization constraints, one group for each AoI.
+ Then the guiding paths will be planned for each groups to reach corresponding
+ branches of 
+\begin_inset Formula $T$
+\end_inset
+
+.
+ Then the RRT-Path algorithm will take place.
+ The final step will be optimization by Dubins curves, described in this
+ thesis.
+ The exclusion of some AoIs could be used to split AoIs to more groups.
+ Then each group will be covered by its own sub-swarm and trajectories will
+ be planned independently.
+\end_layout
+
+\begin_layout Standard
+Another proposal of future work is implementing better controller for the
+ UAV in VREP environment.
+ Controller which is able to control both position and speed of UAV would
+ solve problems described in the chapter 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "chap:V-REP-simulations"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset CommandInset bibtex
+LatexCommand bibtex
+bibfiles "bibliography"
+options "bibtotoc,plainnat"
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+\start_of_appendix
+Contents of the enclosed CD
+\end_layout
+
+\begin_layout Standard
+\begin_inset listings
+inline false
+status open
+
+\begin_layout Plain Layout
+
+SwarmDeployment 	Main application
+\end_layout
+
+\begin_layout Plain Layout
+
+  SwarmDeployment   	Source code of application in C++
+\end_layout
+
+\begin_layout Plain Layout
+
+  Win32 		Compiled binaries for 32bit Windows
+\end_layout
+
+\begin_layout Plain Layout
+
+UtilityScripts  	PHP utility scripts
+\end_layout
+
+\begin_layout Plain Layout
+
+VRepPathBuilder 	Source code of VREP simulation program
+\end_layout
+
+\begin_layout Plain Layout
+
+videos  		Videos of VREP simulations
+\end_layout
+
+\begin_layout Plain Layout
+
+readme.txt		Brief manual for binaries
+\end_layout
+
+\begin_layout Plain Layout
+
+bachelor_thesis.pdf 	Electronic version of bachelor thesis
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Newpage cleardoublepage
+\end_inset
+
+
+\end_layout
+
+\end_body
+\end_document
