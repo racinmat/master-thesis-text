@@ -673,7 +673,7 @@ Klíčová
 \end_inset
 
 slova: Deep learning, Machine learning, GTA V, virtual world, depth estimation,
- voxelmap estimation
+ voxelmap estimation, RAGE
 \begin_inset Newline newline
 \end_inset
 
@@ -765,7 +765,7 @@ In this thesis we explore virtual worlds used as datasoutce for machine
 
 \size small
 Keywords: Deep learning, Machine learning, GTA V, virtual world, depth estimatio
-n, voxelmap estimation
+n, voxelmap estimation, RAGE
 \end_layout
 
 \begin_layout Standard
@@ -812,6 +812,9 @@ This thesis aims to solve two problems.
  The first problem is the lengthy and slow process of manual dataset creation
  and annotation, and the second problem is voxelmap estimation from single
  RGB image.
+ Due to increasing interest in synthetic datasets, this thesis aims to be
+ the documentation for using GTA V as simulator for gathering synthetic
+ datasets.
 \end_layout
 
 \begin_layout Section
@@ -954,7 +957,7 @@ key "cityscapes"
 \end_inset
 
 , being 771 times faster than fine per-image annotation of Cityscapes and
- 514 times faster than per-image annotation of CanVid
+ 514 times faster than per-image annotation of CamVid
 \begin_inset CommandInset citation
 LatexCommand cite
 key "camvid"
@@ -981,6 +984,20 @@ of the CamVid training set (which is ) and all 24 966 GTA V screenshots,
 \end_layout
 
 \begin_layout Standard
+For images extraction, they use RenderDoc
+\begin_inset CommandInset citation
+LatexCommand cite
+key "renderdoc"
+
+\end_inset
+
+, stand-alone graphics debugger.
+ It intercepts the communication between the game and the GPU and allows
+ to gather screenshots.
+ It's advantage is that it can be used for multiple different games.
+\end_layout
+
+\begin_layout Standard
 \begin_inset CommandInset citation
 LatexCommand cite
 key "driving-in-matrix"
@@ -1004,6 +1021,15 @@ key "faster-r-cnn"
  which is one order of magnitude bigger than Cityscapes dataset.
  Using only screenshots for training, they outperformed same architecture
  trained on Cityscapes, evaluating on KITTI dataset.
+ They used GTA V mod
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:GTA-V-modding"
+
+\end_inset
+
+ to hook into GPU calls and to gather screenshots from here.
+ 
 \end_layout
 
 \begin_layout Chapter
@@ -1042,8 +1068,14 @@ key "gta-release-pc"
 \end_layout
 
 \begin_layout Standard
-The game is based on proprietary game engine, called RAGE (Rockstar Advanced
- Game Engine)
+The game is based on proprietary game engine, called 
+\begin_inset CommandInset label
+LatexCommand label
+name "rage"
+
+\end_inset
+
+RAGE (Rockstar Advanced Game Engine)
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gta-5-rage"
@@ -1101,9 +1133,10 @@ Also, there should be good-enough way to interact with the game programatically.
 \end_layout
 
 \begin_layout Standard
-In gaming subculture, there are modding communities which specialize in
- reverse-engineering of games and development of modifications to these
- games.
+In gaming subculture, there are communities where people specialize in reverse-e
+ngineering of games and development of modifications to these games.
+ These people are called modders or mod developers, and these unofficial
+ modifications and extension of games are called mods.
  For few games, developers welcome this kind of activity and sometimes they
  even release tools to ease the game modding.
  
@@ -1152,6 +1185,12 @@ Currently, there are some opensorce simulation platforms for automotive
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:GTA-V-modding"
+
+\end_inset
+
 GTA V modding ecosystem
 \end_layout
 
@@ -1245,7 +1284,7 @@ key "nativeui"
 \end_layout
 
 \begin_layout Standard
-Since GTA V is game, it requires human interaction.
+Since GTA V is a game, it requires human interaction.
  For simulator-like behavior we would want the car to drive autonomously
  to crawl data without human interaction.
  This can be done using VAutodrive
@@ -1259,14 +1298,46 @@ key "vautodrive"
  This allows us to use NPC automatic behaviour patterns for main player,
  letting the player randomly wander the world, even in car, without need
  of human assistance during crawling.
+ Unfortunately, this package is not open-source.
 \end_layout
 
-\begin_layout Section
-Reverse-engineering the RAGE visualization pipeline
+\begin_layout Standard
+Generally, the community is not united in their view on opensource.
+ Some mods are available open-source on github.
+ Other mods are being distributed only as compiled binaries
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-5-mods"
+
+\end_inset
+
+.
+ Lots of modders develop mostly by trial and error, and no comprehensive
+ documentation for mod development is available, unfortunately.
+ There are some tutorials 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-5-mod-tutorial"
+
+\end_inset
+
+, but they are far from complete and provide only basic knowledge, leavin
+ reader without deeper understanding of underlying principles.
 \end_layout
 
-\begin_layout Section
-GTA V native API
+\begin_layout Standard
+Modders mostly meet online on few GTA forums, where they exchange knowledge
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-forums,gta-5-mods-forum"
+
+\end_inset
+
+.
+ Github or StackOverflow, which are biggest sources of information for usual
+ software development, are not used much in GTA modding community.
+ Due to this fact, these forums, along with source code of open-source mods
+ comprise knowledge-base of mod development.
 \end_layout
 
 \begin_layout Section
@@ -1283,6 +1354,520 @@ key "driving-in-matrix"
 
  but enhanced to gain more control of the game.
  Also, the mod in 
+\end_layout
+
+\begin_layout Standard
+In later text, I'll refer to some GTA V native functions or data structures
+ which are output of GTA V native functions.
+ To be consistent and to help understanding, I will use function names from
+ native function list 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nativedb"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Section
+GTA V native API and provided data
+\end_layout
+
+\begin_layout Section
+Reverse-engineering the RAGE rendering pipeline
+\end_layout
+
+\begin_layout Standard
+As mentioned above
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "rage"
+
+\end_inset
+
+, GTA V uses proprietary game engine, Rockstar Advanced Game Engine (RAGE).
+ The basic premise of rendering pipeline is same as in well known graphics
+ engines like OpenGL.
+ The pipeline is shown in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-pipeline"
+
+\end_inset
+
+.
+ Following section will be discussing mostly computer graphics related problems.
+ Due to some terminology inconsistency between computer graphics and computer
+ vision, all terms used here will be compuer graphics related.
+ Probably most confusion here could be caused by projection matrix.
+ In computer vision, projection matrix is projection from 3D to 2D, the
+ matrix reduces dimension.
+ In computer graphics, all coordinates are kept in 4D, in homogeneous coordinate
+s as long as possible.
+ Here the projection matrix prepresents projection from frustum seen by
+ eye into cuboid space of Normalized Device Coordinates.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/transformationPipeline.png
+	lyxscale 30
+	scale 30
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Visualization-pipeline"
+
+\end_inset
+
+Rendering pipeline
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+In is part, I will describe some transformations between individual RAGE
+ coordinate systems.
+ Some points here will have part of name in lower index.
+ The name of coordinate system will be denoted in upper index.
+ In RAGE there are 6 coordinate systems.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Abbreviation
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Example point 
+\begin_inset Formula $x$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Object Coordinates
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+O
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{O}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+World Coordinates
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+W
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{W}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Camera Coordinates
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+C
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{C}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Clip Coordinates
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+L
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{L}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Normalized Device Coordinates
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+NDC
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{NDC}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Windows Coordinates
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+P
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $x^{P}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Most of points we handle in GTA already are in world coordinates.
+ 
+\end_layout
+
+\begin_layout Standard
+But some points, like GAMEPLAY::GET_MODEL_DIMENSIONS
+\begin_inset Formula $=\begin{pmatrix}x_{max}^{O} & y_{max}^{O} & z_{max}^{O}\end{pmatrix}\begin{pmatrix}x_{min}^{O} & y_{min}^{O} & z_{min}^{O}\end{pmatrix}$
+\end_inset
+
+ output, are in object coordinates.
+ Transitions between adjacent coordinate systems will be demonstrated on
+ model dimensions because it is on the few vectors which are obtained in
+ Object Coordinates and there is need to project them into Window Coordinates.
+\end_layout
+
+\begin_layout Subsection
+Object to World Coordinates
+\end_layout
+
+\begin_layout Standard
+To get world coordinates of model dimensions, we use traditional rigid body
+ transformation based on ENTITY::GET_ENTITY_ROTATION
+\begin_inset Formula $=\begin{pmatrix}\alpha & \beta & \gamma\end{pmatrix}$
+\end_inset
+
+ Euler angles, and ENTITY::GET_ENTITY_COORDS
+\begin_inset Formula $=\begin{pmatrix}x^{W} & y^{W} & z^{W}\end{pmatrix}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Because all coordinates will be homogeneous coordinates, the above-mentioned
+ model dimensions vectors will be transformed to following form 
+\begin_inset Formula $\begin{pmatrix}x_{max}^{O} & y_{max}^{O} & z_{max}^{O} & 1\end{pmatrix}\begin{pmatrix}x_{min}^{O} & y_{min}^{O} & z_{min}^{O} & 1\end{pmatrix}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+So the transition matrix is 
+\begin_inset Formula 
+\begin{align*}
+M & =\begin{bmatrix}1 & 0 & 0 & x^{W}\\
+0 & 1 & 0 & y^{W}\\
+0 & 0 & 1 & z^{W}\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}1 & 0 & 0 & 0\\
+0 & \cos\left(\alpha\right) & -\sin\left(\alpha\right) & 0\\
+0 & \sin\left(\alpha\right) & \cos\left(\alpha\right) & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}\cos\left(\beta\right) & 0 & \sin\left(\beta\right) & 0\\
+0 & 1 & 0 & 0\\
+-\sin\left(\beta\right) & 0 & \cos\left(\beta\right) & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}\cos\left(\gamma\right) & -\sin\left(\gamma\right) & 0 & 0\\
+\sin\left(\gamma\right) & \cos\left(\gamma\right) & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\\
+ & =\begin{bmatrix}\cos\left(\beta\right)\cos\left(\gamma\right) & -\cos\left(\beta\right)\sin\left(\gamma\right) & \sin\left(\beta\right) & x^{W}\\
+\sin\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\cos\left(\alpha\right)\sin\left(\gamma\right) & \cos\left(\alpha\right)\cos\left(\gamma\right)-\sin\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right) & -\sin\left(\alpha\right)\cos\left(\beta\right) & y^{W}\\
+\sin\left(\alpha\right)\sin\left(\gamma\right)-\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right) & \cos\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)+\sin\left(\alpha\right)\cos\left(\gamma\right) & \cos\left(\alpha\right)\cos\left(\beta\right) & z^{W}\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+and whole transformation is, as expected 
+\begin_inset Formula 
+\[
+M\begin{bmatrix}x_{max}^{O} & x_{min}^{O}\\
+y_{max}^{O} & y_{min}^{O}\\
+z_{max}^{O} & z_{min}^{O}\\
+1 & 1
+\end{bmatrix}=\begin{bmatrix}x_{max}^{W} & x_{min}^{W}\\
+y_{max}^{W} & y_{min}^{W}\\
+z_{max}^{W} & z_{min}^{W}\\
+w_{max}^{W} & w_{min}^{W}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+World to Camera Coordinates
+\end_layout
+
+\begin_layout Standard
+The transformation from world coordinates is principally the same, but counterin
+tuitive in definition of used rotation matrices.
+ It also is rigid body transformation, but rotation is defined differently
+ than we are usually used to in computer graphics.
+ The rotation matrices were reverse engineered as part of this thesis from
+ camera position, rotation and resulting view matrix, this coordinate system
+ is nowhere else documented.
+ The camera position is CAM::GET_CAM_COORD
+\begin_inset Formula $=\begin{pmatrix}x^{W} & y^{W} & z^{W}\end{pmatrix}$
+\end_inset
+
+ and the camera rotation is CAM::GET_CAM_ROT
+\begin_inset Formula $=\begin{pmatrix}\alpha & \beta & \gamma\end{pmatrix}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The transformation is as follows:
+\begin_inset Formula 
+\begin{align*}
+V & =\begin{bmatrix}1 & 0 & 0 & 0\\
+0 & \sin\left(\alpha\right) & \cos\left(\alpha\right) & 0\\
+0 & \cos\left(\alpha\right) & -\sin\left(\alpha\right) & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}\cos\left(\beta\right) & 0 & -\sin\left(\beta\right) & 0\\
+0 & 1 & 0 & 0\\
+\sin\left(\beta\right) & 0 & \cos\left(\beta\right) & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}\cos\left(\gamma\right) & \sin\left(\gamma\right) & 0 & 0\\
+\sin\left(\gamma\right) & -\cos\left(\gamma\right) & 0 & 0\\
+0 & 0 & 1 & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}1 & 0 & 0 & x^{W}\\
+0 & 1 & 0 & y^{W}\\
+0 & 0 & 1 & z^{W}\\
+0 & 0 & 0 & 1
+\end{bmatrix}\\
+ & =\begin{bmatrix}\cos\left(\beta\right)\cos\left(\gamma\right) & \cos\left(\beta\right)\sin\left(\gamma\right) & -\sin\left(\beta\right) & 0\\
+\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\sin\left(\alpha\right)\sin\left(\gamma\right) & \cos\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\cos\left(\gamma\right) & \cos\left(\alpha\right)\cos\left(\beta\right) & 0\\
+\cos\left(\alpha\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\cos\left(\alpha\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\cos\left(\beta\right) & 0\\
+0 & 0 & 0 & 1
+\end{bmatrix}\begin{bmatrix}1 & 0 & 0 & x^{W}\\
+0 & 1 & 0 & y^{W}\\
+0 & 0 & 1 & z^{W}\\
+0 & 0 & 0 & 1
+\end{bmatrix}\\
+ & =\begin{bmatrix}\cos\left(\beta\right)\cos\left(\gamma\right) & \cos\left(\beta\right)\sin\left(\gamma\right) & -\sin\left(\beta\right) & x^{W}\cos\left(\beta\right)\cos\left(\gamma\right)+y^{W}\cos\left(\beta\right)\sin\left(\gamma\right)-z^{W}\sin\left(\beta\right)\\
+\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\sin\left(\alpha\right)\sin\left(\gamma\right) & \cos\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\cos\left(\gamma\right) & \cos\left(\alpha\right)\cos\left(\beta\right) & x^{W}\left(\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\sin\left(\alpha\right)\sin\left(\gamma\right)\right)+y^{W}\left(\cos\left(\alpha\right)\cos\left(\beta\right)\right)+z^{W}\cos\left(\alpha\right)\cos\left(\beta\right)\\
+\cos\left(\alpha\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\cos\left(\alpha\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\cos\left(\beta\right) & x^{W}\left(\right)+y^{W}\left(\right)+z^{W}\\
+0 & 0 & 0 & 1
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+and whole transformation is, as expected 
+\begin_inset Formula 
+\[
+V\begin{bmatrix}x_{max}^{W} & x_{min}^{W}\\
+y_{max}^{W} & y_{min}^{W}\\
+z_{max}^{W} & z_{min}^{W}\\
+w_{max}^{W} & w_{min}^{W}
+\end{bmatrix}=\begin{bmatrix}x_{max}^{C} & x_{min}^{C}\\
+y_{max}^{C} & y_{min}^{C}\\
+z_{max}^{C} & z_{min}^{C}\\
+w_{max}^{C} & w_{min}^{C}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
