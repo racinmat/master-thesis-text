@@ -1462,13 +1462,7 @@ The basic architecture of C# mods come from the ScriptHookDotNet2, where
 \end_layout
 
 \begin_layout Standard
-Little, but useful note for debugging and developing scripts based on ScriptHook
-DotNet2: when changing mod compiled binaries, we don't have to restart the
- game for newer version of mod to be active.
- Pressing Insert causes all C# binaries to reload, causing new version of
- source code to load into game, which dramatically descreases time of feedback
- loop during development.
- This does not work for C++ mods and compiled .asi files.
+Little, but useful note for debugging and developing scr
 \end_layout
 
 \begin_layout Section

@@ -813,7 +813,7 @@ This thesis aims to solve two problems.
  and annotation, and the second problem is voxelmap estimation from single
  RGB image.
  Due to increasing interest in synthetic datasets, this thesis aims to be
- the documentation for using GTA V as simulator for gathering synthetic
+ the documentation for using GTA V as simulator for creation of synthetic
  datasets.
 \end_layout
 
@@ -872,12 +872,13 @@ Many novel neural network architectures are being proposed every year because
  of increasing computing power.
  With growing capacity and number of parameters in these new models, there
  is need for bigger and bigger datasets for training.
- Data has proven to be limiting factor for many evaluations.
+ 
 \end_layout
 
 \begin_layout Standard
 Automatic data gathering and automatic data annotation could potentially
- solve these problems of lack of datasets in many computer vision tasks.
+ solve these problems of lack of datasets in many computer vision and related
+ tasks.
 \end_layout
 
 \begin_layout Section
@@ -885,13 +886,13 @@ Gaming industry to the rescue
 \end_layout
 
 \begin_layout Standard
-In last decades, gaming industry has grown hugely and expanded from closed
+In last decades, gaming industry has grown hugely and expanded from small
  and specific community into public society and became mainsteam industy.
  
 \end_layout
 
 \begin_layout Standard
-Gaming industry became big driving force in many fields, and indirectly
+The gaming industry became big driving force in many fields, and indirectly
  influenced even machine learning.
  
 \end_layout
@@ -900,7 +901,7 @@ Gaming industry became big driving force in many fields, and indirectly
 The mainsteam model of gaming is on personal computers, where each player
  has his own gaming PC, along with console gaming.
  Thanks to ever-growing number of players, lots of money got into industry
- and the growing demand for better graphics in games caused big improvements
+ and the growing demand for better graphics in games led to big improvements
  in both software-computer graphics and hardware-graphics cards.
  With lots of money being invested by players in their PCs, GPU manufacturers
  were able to deliver more powerful GPUs every year and we can see exponential
@@ -916,8 +917,8 @@ key "high-performance-gpu"
 
 \begin_layout Standard
 Big companies in gaming industry have enough resources to develop the state
- of the art real-time computer graphics and so they deliver AAA games with
- graphics very near to reality.
+ of the art real-time computer graphics, which can we see in their products,
+ AAA games with graphics very near to reality.
  
 \end_layout
 
@@ -929,10 +930,10 @@ key "playing-for-data,driving-in-matrix"
 
 \end_inset
 
- show that we can use screenshots from PC games to obtain automatically
- or semi-automatically annotated dataset which improve learning, allow us
- to outperform same models trained only on real data and achieve state of
- the art results.
+ show that we can use screenshots from PC games to obtain large automatically
+ or semi-automatically annotated datasets, which improve learning, allow
+ us to outperform same models trained only on real data and achieve state
+ of the art results.
 \end_layout
 
 \begin_layout Chapter
@@ -949,15 +950,15 @@ key "playing-for-data"
  used GTA V to obtain screenshots and performed semi-automated pixel-wise
  semantic segmentation.
  Although the process was not fully automatic, the annotation speed per
- image was drastically increased, compared to Cityscapes 
+ image was drastically increased, being 771 times faster than fine per-image
+ annotation of Cityscapes 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "cityscapes"
 
 \end_inset
 
-, being 771 times faster than fine per-image annotation of Cityscapes and
- 514 times faster than per-image annotation of CamVid
+ and 514 times faster than per-image annotation of CamVid
 \begin_inset CommandInset citation
 LatexCommand cite
 key "camvid"
@@ -968,7 +969,7 @@ key "camvid"
  They extracted 24 966 images from game GTA V, which is roughly two orders
  of magnitude larger than CanVid and three orders of magnitude larger than
  semantic annotations for KITTI dataset.
- Then they trained the prediction module of Yu and Koltun
+ They trained the prediction module of Yu and Koltun
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kolthun-dilation"
@@ -994,7 +995,8 @@ key "renderdoc"
 , stand-alone graphics debugger.
  It intercepts the communication between the game and the GPU and allows
  to gather screenshots.
- It's advantage is that it can be used for multiple different games.
+ It's advantage is that it can be used for different games, allowing to
+ gather datasets in various environments.
 \end_layout
 
 \begin_layout Standard
@@ -1021,14 +1023,14 @@ key "faster-r-cnn"
  which is one order of magnitude bigger than Cityscapes dataset.
  Using only screenshots for training, they outperformed same architecture
  trained on Cityscapes, evaluating on KITTI dataset.
- They used GTA V mod
+ They developed their own GTA V mod
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "sec:GTA-V-modding"
 
 \end_inset
 
- to hook into GPU calls and to gather screenshots from here.
+ to hook into GPU calls and gather screenshots from here.
  
 \end_layout
 
@@ -1082,13 +1084,13 @@ key "gta-5-rage"
 
 \end_inset
 
-, which is used as base for most of Rockstar Games products.
+, which is used as a base for most of Rockstar Games products.
  
 \end_layout
 
 \begin_layout Standard
-Until the release on Microsoft, Windows, it has been in development for
- 5 years with approximate 1000-person team
+Till the release on Microsoft, Windows, it has been in development for 5
+ years with approximate 1000-person team
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gta-interview-studio"
@@ -1110,7 +1112,7 @@ key "gta-v-interview"
 
 \begin_layout Standard
 As could be expected from AAA game like GTA V, motion capture was used to
- character'sboth body and facial movements.
+ character's both body and facial movements.
  
 \end_layout
 
@@ -1118,18 +1120,34 @@ As could be expected from AAA game like GTA V, motion capture was used to
 There are several reasons why GTA V is better for dataset creationg than
  other games.
  To use a game for dataset creation, we have multiple requirements.
- The graphics of the game must be near photorealistic, because obviously,
- otherwite it would be useless to be used for computer vision tasks.
- This disqualifies most of games, mostly indie games, and leaves us only
- with AAA games produced by big companies.
+ The graphics of the game must be near photorealistic, since we try to to
+ use it instead of photos for computer vision tasks.
+ This disqualifies most of games, and leaves us only with AAA games produced
+ by big companies and few other games with State of the Art graphics.
  
 \end_layout
 
 \begin_layout Standard
-Also, there should be good-enough way to interact with the game programatically.
+The other requirement is opssibility of good-enough way to interact with
+ the game programatically.
  Usually we want to setup at least part of the environment before gathering
  data.
  This part heavily depends on community around the particular game.
+\end_layout
+
+\begin_layout Standard
+Also the advantage of GTA V compared to some other games is abundance of
+ models and various sceneries in its virtual world.
+ It has complex transportation system of roads, highways, intersections,
+ railroad crossing, tunnels, and pedestrians.
+ It also has urban, suburban, and rural environments 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "video-games-for-autonomous-driving"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -1139,12 +1157,8 @@ ngineering of games and development of modifications to these games.
  modifications and extension of games are called mods.
  For few games, developers welcome this kind of activity and sometimes they
  even release tools to ease the game modding.
- 
-\end_layout
-
-\begin_layout Standard
-In most cases, the game developers simply don't care and in few cases, they
- actively fight against the reverse-engineering and modding.
+ In most cases, the game developers simply don't care and in few cases,
+ they actively fight against the reverse-engineering and modding.
  
 \end_layout
 
@@ -1164,8 +1178,65 @@ The modding community around the GTA V is based mostly on community around
  So many tools are just GTA IV based and only modified to work with GTA
  V.
  Luckily, the community is large and productive, so we have many mods and
- many function in GTA V reverse-engineered and thus prepared to interact
- with programatically.
+ many function in GTA V reverse-engineered and thus prepared for programatic
+ interactions.
+\end_layout
+
+\begin_layout Subsection
+Cars
+\end_layout
+
+\begin_layout Standard
+There is big variety of cars models.
+ Specifically, the are 259 car models, all of them are listed here 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-vehicle-models"
+
+\end_inset
+
+.
+ These models cars of various shapes and sizes, from golf carts to trucks
+ and trailers.
+ This diversity is representative of real distribution of vehicles.
+ It even allows us to simulate environments with various types of vehicles,
+ which would be very difficult in real environment.
+ GTA V provides us many information about cars, more on this will be covered
+ in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:GTA-V-data-obtaining"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+Pedestrians
+\end_layout
+
+\begin_layout Standard
+GTA V has pedestrians and provides some information about them, more on
+ this in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:GTA-V-data-obtaining"
+
+\end_inset
+
+.
+ The game has pedestrians of both genders and various ethnicities.
+ Pedestrians appear in various poses, like standing, walking, sitting, many
+ animations etc.
+ The main drawback of GTA V is that all pedestrians are about the same height
+\begin_inset CommandInset citation
+LatexCommand cite
+key "video-games-for-autonomous-driving"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Section
@@ -1265,11 +1336,6 @@ key "scripthookvdotnet"
 \end_layout
 
 \begin_layout Standard
-Unlike most of mods, these two mods act more as a framework for mod development.
- 
-\end_layout
-
-\begin_layout Standard
 Next notable mod is NativeUI
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1280,6 +1346,12 @@ key "nativeui"
 .
  It renders windows atop of GTA V GUI and allows us to define custom control
  panels for manipulating custom functionality in other mods.
+ 
+\end_layout
+
+\begin_layout Standard
+Unlike most of other mods, these three mods act more as a framework for
+ mod development.
  
 \end_layout
 
@@ -1327,6 +1399,7 @@ key "gta-5-mod-tutorial"
 
 \begin_layout Standard
 Modders mostly meet online on few GTA forums, where they exchange knowledge
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gta-forums,gta-5-mods-forum"
@@ -1334,7 +1407,7 @@ key "gta-forums,gta-5-mods-forum"
 \end_inset
 
 .
- Github or StackOverflow, which are biggest sources of information for usual
+ Github or StackOverflow, which are biggest information sources for usual
  software development, are not used much in GTA modding community.
  Due to this fact, these forums, along with source code of open-source mods
  comprise knowledge-base of mod development.
@@ -1352,8 +1425,9 @@ key "driving-in-matrix"
 
 \end_inset
 
- but enhanced to gain more control of the game.
- Also, the mod in 
+ but enhanced to gain more control of the game and to obtain more information
+ from the game.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -1370,11 +1444,842 @@ key "nativedb"
 .
 \end_layout
 
-\begin_layout Section
-GTA V native API and provided data
+\begin_layout Standard
+The basic architecture of C# mods come from the ScriptHookDotNet2, where
+ each mod script extends the GTA.Script class.
+ For each child of this class, we can set integer Inteval, Tick and KeyUp
+ callbacks.
+ Interval property determines how big interval in milliseconds is between
+ consecutive Tick calls.
+ Tick callback is being called periodically, so here we can set tasks which
+ we want to perform periodically, e.g.
+ screenshot gathering.
+ The KeyUp callback is for interacting with user and reading the user's
+ keyboard input.
+ For data gathering mods, this is mostly used for debugging purposes, script
+ disabling or restarting.
+ 
+\end_layout
+
+\begin_layout Standard
+Little, but useful note for debugging and developing scripts based on ScriptHook
+DotNet2: when changing mod compiled binaries, we don't have to restart the
+ game for newer version of mod to be active.
+ Pressing Insert causes all C# binaries to reload, causing new version of
+ source code to load into game, which dramatically descreases time of feedback
+ loop during development.
+ This does not work for C++ mods and compiled .asi files.
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:GTA-V-data-obtaining"
+
+\end_inset
+
+GTA V native API and data obtaining
+\end_layout
+
+\begin_layout Standard
+The data obtained from GTA V can be divided into multiple categories.
+\end_layout
+
+\begin_layout Itemize
+Image data
+\end_layout
+
+\begin_layout Itemize
+Rendering pipeline matrices
+\end_layout
+
+\begin_layout Itemize
+GTA V internal data
+\end_layout
+
+\begin_deeper
+\begin_layout Itemize
+entities
+\end_layout
+
+\begin_layout Itemize
+camera
+\end_layout
+
+\begin_layout Itemize
+player
+\end_layout
+
+\begin_layout Itemize
+other data via API
+\end_layout
+
+\end_deeper
+\begin_layout Subsection
+Image data
+\end_layout
+
+\begin_layout Standard
+There are 3 image data.
+ RGB image, depth image and stencil image.
+\end_layout
+
+\begin_layout Standard
+RGB image is usual camera image.
+ Depth image is content of GPU's depth buffer, in NDC.
+ More detailed description of depth values is in subsection 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Camera-to-NDC"
+
+\end_inset
+
+.
+ The last is pixel-wise stencil buffer.
+ The stencil semantics is explained in the next paragraph.
+\end_layout
+
+\begin_layout Subsubsection
+Stencil data
+\end_layout
+
+\begin_layout Standard
+Stencil buffer contains auxiliary data per pixel.
+ It is 8bit unsined integer, where 1.-4.
+ bits (counting from LSB) contain object type ID, and 5.-8.
+ bits contain certain flags.
+ 
+\end_layout
+
+\begin_layout Standard
+That means there are 15 object types and 4 flags.
+ 
+\end_layout
+
+\begin_layout Standard
+For some object type IDs, I reverse engineered its semantics based on correspons
+ing RGB image.
+ 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="6" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Object type ID binary
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Object type ID decimal
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Semantics
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0000
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+backround (buildings, roads, hills...)
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0001
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+pederstrian
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0010
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+vehicle
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0011
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+tree, grass
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0111
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+sky
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The background, pedestrian and vehicle IDs are most important for vehicles
+ detection and semantic segmentation, and other object types are not so
+ valuable for these tasks, which is why I didn't investigate further in
+ semantics and they remain to be reverse-engineered.
+\end_layout
+
+\begin_layout Standard
+For stencil flags, semantics was discovered for half of them.
+ 
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+position of bit
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+position in whole stencil value
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Semantics
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+xxx1xxxx
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+artificial light source
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+1xxxxxxx
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+player's character
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Sample stencil image can be seen in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Visualization-pipeline"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/2018-03-30--06-00-56--114-stencil-color-ids.png
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/2018-03-30--06-00-56--114.jpg
+	lyxscale 30
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Sample-stencil-object"
+
+\end_inset
+
+Sample stencil object types image and corresponsing RGB image
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsubsection
+Extracting images from GPU's internal buffers
+\end_layout
+
+\begin_layout Standard
+To understand how the image gathering works, we need to dive deeper into
+ Microsoft Windows graphics.
+\end_layout
+
+\begin_layout Standard
+In Microsoft Windows, the main graphics engine is DirectX (roughly Windows
+ equivalent of OpenGL).
+ One part of DirectX is Direct3D, which is used to render 3D graphics with
+ hardware acceleration, and most importantly, it provides graphics API.
+ The whole process of obtaining image data is done by mod provided as part
+ of the paper 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+.
+ The mod has two parts, called native and managed plugin.
+\end_layout
+
+\begin_layout Standard
+Image data is being obtained by native plugin by hooking into Direct3D 11's
+ present callback.
+ That means the native call is replaced with custom code, which is being
+ executed and then returns to the native call.
+ In that custom code, content of GPU's buffers is copied.
+ Specifically, the depth and stencil data are captured by hooking into Direct3D’
+s ID3D11ImmediateContext:: ClearDepthStencilView and saving the buffers
+ before each call.
+ Because of optimizations applied by the graphics card drivers, the function
+ needs to be rehooked into the clear function each frame.
+ When saving each sample, the managed plugin requests all current buffers
+ from the native plugin and the buffers are downloaded from the GPU and
+ copied into managed memory.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsection
+Rendering pipeline data
+\end_layout
+
+\begin_layout Standard
+Direct3D allows us to get rendering pipelines through the D3D11_MAP_READ
+ call.
+ This way, the world, worldview, and worldviewprojection matrices are obtained.
+ Let's denote them as world matrix = 
+\begin_inset Formula $W$
+\end_inset
+
+, worldview by = 
+\begin_inset Formula $VW$
+\end_inset
+
+, and worldviewprojection = 
+\begin_inset Formula $PVW$
+\end_inset
+
+.
+ We need to get individual matrices, which we obtain by multiplication by
+ matrices inversion:
+\begin_inset Formula 
+\begin{align*}
+V & =VW\cdot W^{-1}\\
+P & =PVW\cdot\left(VW\right)^{-1}=PVW\cdot W^{-1}\cdot V^{-1}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+View and projection matrices are important on their own, without the world
+ matrix.
+ Their semantics and importance is more described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Reverse-engineering-the-RAGE"
+
+\end_inset
+
+.
+ These matrices can be simply obtained by inversion as stated above.
+ But this approach is not numerically stable, and sometimes causes resulting
+ matrix to be incorrect and not usable for further usage.
+ Another cavear of this approach is that during data gathering in higher
+ speeds, the native call becomes laggy and resulting matrices are highly
+ imprecise.
+ Although we can obtain these matrices via the native call, they can be
+ reconstructed with higher precision, as described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Reverse-engineering-the-RAGE"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Subsection
+GTA V internal data
+\end_layout
+
+\begin_layout Standard
+These data are probably most valuable compared to data gathering by other
+ methods.
+ In this section, I describe which data about various game objects can be
+ obtained and how to obtain them.
+ 
+\end_layout
+
+\begin_layout Standard
+All data in this section are obtained though native calls into GTA V, which
+ are listed here 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "nativedb"
+
+\end_inset
+
+.
+ As mentioned above, they can be called from C++ and C#.
+ For convenience, and because most od my mod development is done in C#,
+ I will also describe the C# wrappers.
+ The ScriptHookDotNet2
+\begin_inset CommandInset citation
+LatexCommand cite
+key "scripthookvdotnet"
+
+\end_inset
+
+ wrapper heavily uses object properties.
+ The C# API is divided into multiple classes, listed 
+\begin_inset CommandInset href
+LatexCommand href
+name "here"
+target "https://github.com/crosire/scripthookvdotnet/tree/dev_v3/source/scripting"
+
+\end_inset
+
+.
+ Each class has properties, whose getters and setters are implemented as
+ calling the native functions.
+ This feature is nice tooling and leads to more readable and mantainable
+ code.
+ I will describe parts of API which are most useful for synthetic datasets
+ creation.
+\end_layout
+
+\begin_layout Subsubsection
+Camera
+\end_layout
+
+\begin_layout Standard
+The camera is probably one of the most crucial parts of the API.
+ There is Gameplay Camera, which is the default camera used during usual
+ gaming.
+ This camera can be manipulated, but its usage is limited.
+ Other aproach is usage of scripted cameras, which can be fully controlled
+ programatically.
+ We can create multiple scripted cameras and switch between them, but the
+ community discovered there is hard limit of 26 cameras at time
+\begin_inset CommandInset citation
+LatexCommand cite
+key "gta-mod-camera"
+
+\end_inset
+
+.
+ Camera can be created by calling 
+\end_layout
+
+\begin_layout LyX-Code
+Camera camera = World.CreateCamera(new Vector3(x, y, z), new Vector3(x, y,
+ z), float fov);
+\end_layout
+
+\begin_layout Standard
+which returns handle to the new camera.
+ The position is in world coordinates in meters.
+ The rotation is in degrees in Euler angles.
+ The fov argument is vertical field of view in degrees.
+ The detault value is 50.
+ One can of course call the underlying native functions directly, but this
+ wrapper helps with managing the handles.
+ 
+\end_layout
+
+\begin_layout Standard
+All scripted cameras can be desctroyed by calling the 
+\end_layout
+
+\begin_layout LyX-Code
+World.DestroyAllCameras(); 
+\end_layout
+
+\begin_layout Standard
+Switching to the scripted camera can be done by calling 
+\end_layout
+
+\begin_layout LyX-Code
+camera.IsActive = true;
+\end_layout
+
+\begin_layout Standard
+, and switching from this camera to some other by 
+\end_layout
+
+\begin_layout LyX-Code
+camera.IsActive = false; 
+\end_layout
+
+\begin_layout Standard
+Right after creating the camera, when we don't to switch to this camera
+ immediately, we need to deactivate it by these two lines of code
+\end_layout
+
+\begin_layout LyX-Code
+camera.IsActive = false;
+\end_layout
+
+\begin_layout LyX-Code
+World.RenderingCamera = null;
+\end_layout
+
+\begin_layout Standard
+this code ensures that camera is created properly.
+ We don't know precisely, why is this needed, but this is the price for
+ using the closed and reverse-engineered codebase.
+ By calling the
+\end_layout
+
+\begin_layout LyX-Code
+camera.IsActive = true; 
+\end_layout
+
+\begin_layout LyX-Code
+World.RenderingCamera = camera;
+\end_layout
+
+\begin_layout Standard
+scripted camera becomes active and view is switched to this camera.
+ All properties of camera can be set simply by calling setters
+\end_layout
+
+\begin_layout LyX-Code
+camera.position = new Vector3(x, y, z);
+\end_layout
+
+\begin_layout LyX-Code
+camera.rotation = new Vector3(y, x, z);
+\end_layout
+
+\begin_layout LyX-Code
+camera.nearClip = distance;
+\end_layout
+
+\begin_layout LyX-Code
+camera.farClip = distance;
+\end_layout
+
+\begin_layout LyX-Code
+camera.FieldOfView = fov;
+\end_layout
+
+\begin_layout Standard
+and read by calling getters 
+\end_layout
+
+\begin_layout LyX-Code
+Vector3 position = camera.position;
+\end_layout
+
+\begin_layout LyX-Code
+Vector3 rotation = camera.rotation;
+\end_layout
+
+\begin_layout LyX-Code
+float distance = camera.nearClip;
+\end_layout
+
+\begin_layout LyX-Code
+float distance = camera.farClip;
+\end_layout
+
+\begin_layout LyX-Code
+float fov = camera.FieldOfView;
+\end_layout
+
+\begin_layout Standard
+The near clip and far clip is again in meters.
+ So we can set all needed parameters simply by calling getters and setters.
+ So if we want to use camera, we simply set parameters and then activate
+ it.
+ This creates static camera.
+ There is only one caveat, which is probably bug in the API: when setting
+ the camera rotation Euler angles, the second angle is in first position
+ and first angle is in the second position in the setting vector.
+ Otherwise the camera won't be rotated correctly.
+\end_layout
+
+\begin_layout Standard
+Sometimes we want the camera to be moving, e.g.
+ when gathering data by driving car.
+ Camera can be attached to any entity by calling 
+\end_layout
+
+\begin_layout LyX-Code
+camera.AttachTo(entity, new Vector3(x, y, z));
+\end_layout
+
+\begin_layout Standard
+the second parameter is relative offset to middle of the attached entity.
+ The offset is in model coordinate system which means its position moves
+ and rotates with attached entity.
+ During dataset gathering, I used this code
+\end_layout
+
+\begin_layout LyX-Code
+camera.AttachTo(Game.Player.Character.CurrentVehicle, new Vector3(0f, 0f, 0.4f));
+\end_layout
+
+\begin_layout Standard
+to attach camera to the front part of player's current vehicle.
+ 
+\end_layout
+
+\begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Reverse-engineering-the-RAGE"
+
+\end_inset
+
 Reverse-engineering the RAGE rendering pipeline
 \end_layout
 
@@ -1420,7 +2325,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/transformationPipeline.png
 	lyxscale 30
-	scale 30
+	scale 65
 
 \end_inset
 
@@ -1455,6 +2360,7 @@ In is part, I will describe some transformations between individual RAGE
 \end_layout
 
 \begin_layout Standard
+\align center
 \begin_inset Tabular
 <lyxtabular version="3" rows="7" columns="3">
 <features tabularvalignment="middle">
@@ -1700,6 +2606,9 @@ Most of points we handle in GTA already are in world coordinates.
 
 \begin_layout Standard
 But some points, like GAMEPLAY::GET_MODEL_DIMENSIONS
+\end_layout
+
+\begin_layout Standard
 \begin_inset Formula $=\begin{pmatrix}x_{max}^{O} & y_{max}^{O} & z_{max}^{O}\end{pmatrix}\begin{pmatrix}x_{min}^{O} & y_{min}^{O} & z_{min}^{O}\end{pmatrix}$
 \end_inset
 
@@ -1719,7 +2628,11 @@ To get world coordinates of model dimensions, we use traditional rigid body
 \begin_inset Formula $=\begin{pmatrix}\alpha & \beta & \gamma\end{pmatrix}$
 \end_inset
 
- Euler angles, and ENTITY::GET_ENTITY_COORDS
+ Euler angles, 
+\end_layout
+
+\begin_layout Standard
+and ENTITY::GET_ENTITY_COORDS
 \begin_inset Formula $=\begin{pmatrix}x^{W} & y^{W} & z^{W}\end{pmatrix}$
 \end_inset
 
@@ -1737,7 +2650,7 @@ Because all coordinates will be homogeneous coordinates, the above-mentioned
 \end_layout
 
 \begin_layout Standard
-So the transition matrix is 
+The transition is represented by model matrix
 \begin_inset Formula 
 \begin{align*}
 M & =\begin{bmatrix}1 & 0 & 0 & x^{W}\\
@@ -1813,7 +2726,7 @@ tuitive in definition of used rotation matrices.
 \end_layout
 
 \begin_layout Standard
-The transformation is as follows:
+The transformation is represented by view matrix
 \begin_inset Formula 
 \begin{align*}
 V & =\begin{bmatrix}1 & 0 & 0 & 0\\
@@ -1832,25 +2745,69 @@ V & =\begin{bmatrix}1 & 0 & 0 & 0\\
 0 & 1 & 0 & y^{W}\\
 0 & 0 & 1 & z^{W}\\
 0 & 0 & 0 & 1
-\end{bmatrix}\\
- & =\begin{bmatrix}\cos\left(\beta\right)\cos\left(\gamma\right) & \cos\left(\beta\right)\sin\left(\gamma\right) & -\sin\left(\beta\right) & 0\\
-\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\sin\left(\alpha\right)\sin\left(\gamma\right) & \cos\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\cos\left(\gamma\right) & \cos\left(\alpha\right)\cos\left(\beta\right) & 0\\
-\cos\left(\alpha\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\cos\left(\alpha\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\cos\left(\beta\right) & 0\\
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+to fit the matrix into page, let us propose following substitutions 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cos\left(\alpha\right)=c_{\alpha},sin\left(\alpha\right)=s_{\alpha}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cos\left(\beta\right)=c_{\beta},sin\left(\beta\right)=s_{\beta}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\cos\left(\gamma\right)=c_{\gamma},sin\left(\gamma\right)=s_{\gamma}
+\]
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+V & =\begin{bmatrix}c_{\beta}c_{\gamma} & c_{\beta}s_{\gamma} & -s_{\beta} & 0\\
+c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma} & c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma} & c_{\alpha}c_{\beta} & 0\\
+c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma} & -s_{\alpha}c_{\beta} & 0\\
 0 & 0 & 0 & 1
 \end{bmatrix}\begin{bmatrix}1 & 0 & 0 & x^{W}\\
 0 & 1 & 0 & y^{W}\\
 0 & 0 & 1 & z^{W}\\
 0 & 0 & 0 & 1
 \end{bmatrix}\\
- & =\begin{bmatrix}\cos\left(\beta\right)\cos\left(\gamma\right) & \cos\left(\beta\right)\sin\left(\gamma\right) & -\sin\left(\beta\right) & x^{W}\cos\left(\beta\right)\cos\left(\gamma\right)+y^{W}\cos\left(\beta\right)\sin\left(\gamma\right)-z^{W}\sin\left(\beta\right)\\
-\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\sin\left(\alpha\right)\sin\left(\gamma\right) & \cos\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\cos\left(\gamma\right) & \cos\left(\alpha\right)\cos\left(\beta\right) & x^{W}\left(\cos\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)+\sin\left(\alpha\right)\sin\left(\gamma\right)\right)+y^{W}\left(\cos\left(\alpha\right)\cos\left(\beta\right)\right)+z^{W}\cos\left(\alpha\right)\cos\left(\beta\right)\\
-\cos\left(\alpha\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\cos\left(\alpha\right)\cos\left(\gamma\right) & -\sin\left(\alpha\right)\cos\left(\beta\right) & x^{W}\left(\cos\left(\alpha\right)\sin\left(\gamma\right)-\sin\left(\alpha\right)\sin\left(\beta\right)\cos\left(\gamma\right)\right)+y^{W}\left(-\sin\left(\alpha\right)\sin\left(\beta\right)\sin\left(\gamma\right)-\cos\left(\alpha\right)\cos\left(\gamma\right)\right)-z^{W}\sin\left(\alpha\right)\cos\left(\beta\right)\\
+ & =\begin{bmatrix}c_{\beta}c_{\gamma} & c_{\beta}s_{\gamma} & -s_{\beta} & x^{W}c_{\beta}c_{\gamma}+y^{W}c_{\beta}s_{\gamma}-z^{W}s_{\beta}\\
+c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma} & c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma} & c_{\alpha}c_{\beta} & x^{W}\left(c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma}\right)+y^{W}\left(c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma}\right)+z^{W}c_{\alpha}c_{\beta}\\
+c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma} & -s_{\alpha}c_{\beta} & x^{W}\left(c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma}\right)+y^{W}\left(-s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma}\right)-z^{W}s_{\alpha}c_{\beta}\\
 0 & 0 & 0 & 1
 \end{bmatrix}
 \end{align*}
 
 \end_inset
 
+
+\end_layout
+
+\begin_layout Standard
 and whole transformation is, as expected 
 \begin_inset Formula 
 \[
@@ -1870,19 +2827,662 @@ w_{max}^{C} & w_{min}^{C}
 
 \end_layout
 
-\begin_layout Chapter
-Conclusion
+\begin_layout Standard
+From definition of rotation axes in the rotation matrices, following observation
+ can be made.
+ 
+\begin_inset Formula $z^{C}$
+\end_inset
+
+ represents distance from camera in direction of camera heading, and 
+\begin_inset Formula $x^{C}$
+\end_inset
+
+and 
+\begin_inset Formula $y^{C}$
+\end_inset
+
+ represent horizontal and vertical position of point relative to camera,
+ respectively.
+ But the view frustum of camera is in opposite direction than 
+\begin_inset Formula $z^{C}$
+\end_inset
+
+axis, which means the camera 
+\begin_inset Quotes eld
+\end_inset
+
+is looking
+\begin_inset Quotes erd
+\end_inset
+
+ into negative 
+\begin_inset Formula $z^{C}$
+\end_inset
+
+ coordinates.
 \end_layout
 
-\begin_layout Section
-Future work 
+\begin_layout Subsection
 \begin_inset CommandInset label
 LatexCommand label
-name "sec:Future-work"
+name "subsec:Camera-to-NDC"
+
+\end_inset
+
+Camera to NDC
+\end_layout
+
+\begin_layout Standard
+This is the first transformation which is not rigid-body transformation.
+ Because camera sees only frustum, this transformation prepresents transition
+ from frustum to cuboid in Normalized Device Coordinates.
+ The frustum being projected is specified by near clip, far clip, field
+ of view and screen resolution width and height.
+ Usually, none of these parameters are changing during the game, so the
+ projection matrix is usually the same for multiple scenes during data gathering
+ session.
+ Although all of these parameters can be changed programatically if needed.
+ 
+\end_layout
+
+\begin_layout Standard
+The near clip and far clip of camera can be obtained by 
+\begin_inset CommandInset label
+LatexCommand label
+name "native-call-near-clip"
+
+\end_inset
+
+ CAM::GET_CAM_NEAR_CLIP
+\begin_inset Formula $=n_{c}$
+\end_inset
+
+ and CAM::GET_CAM_FAR_CLIP
+\begin_inset Formula $=f_{c}$
+\end_inset
+
+.
+ Width and height of screen resolution are obtained by GRAPHICS::_GET_ACTIVE_SCR
+EEN_RESOLUTION
+\begin_inset Formula $=\begin{pmatrix}W & H\end{pmatrix}$
+\end_inset
+
+ and field of view of camera by CAM::GET_CAM_FOV
+\begin_inset Formula $=\varphi_{VD}$
+\end_inset
+
+ in degrees.
+ 
+\begin_inset Formula $\varphi_{VD}$
+\end_inset
+
+ in radians will be denoted as 
+\begin_inset Formula $\varphi_{VR}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+The near clip and far clip define planes between which the content is being
+ rendered.
+ Nothing before the near clip and behind the far clip is rendered.
+\end_layout
+
+\begin_layout Standard
+The field of view 
+\begin_inset Formula $\varphi_{VD}$
+\end_inset
+
+ is only vertical.
+ Horizontal field of view can be calculated from 
+\begin_inset Formula $W$
+\end_inset
+
+ and 
+\begin_inset Formula $H$
+\end_inset
+
+ ratio, but currently we don't need it.
+\end_layout
+
+\begin_layout Standard
+There is important observation, the far clip 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ does not figure in the projection matrix at all.
+ In the projection matrix, only 
+\begin_inset Formula $n_{c}$
+\end_inset
+
+ is used.
+ Far clip used in projection matrix is non-changing value which can not
+ be obtained through Camera native function.
+ By reverse-engineering I calculated the value of this new far clip to be
+ 
+\begin_inset Formula $10003.815$
+\end_inset
+
+, details of this calculation are covered in experiments
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Reverse-engineering"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The transformation is represented by projection matrix
+\begin_inset Formula 
+\begin{align*}
+P & =\begin{bmatrix}\frac{H}{W\cdot\tan\left(\frac{\varphi_{VR}}{2}\right)} & 0 & 0 & 0\\
+0 & \frac{1}{\tan\left(\frac{\varphi_{VR}}{2}\right)} & 0 & 0\\
+0 & 0 & \frac{-10003.815}{n_{c}-10003.815} & \frac{-10003.815\cdot n_{c}}{n_{c}-10003.815}\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+\end{align*}
 
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+So the projection to Clip Coordinates is 
+\begin_inset Formula 
+\[
+P\begin{bmatrix}x_{max}^{C} & x_{min}^{C}\\
+y_{max}^{C} & y_{min}^{C}\\
+z_{max}^{C} & z_{min}^{C}\\
+w_{max}^{C} & w_{min}^{C}
+\end{bmatrix}=\begin{bmatrix}x_{max}^{L} & x_{min}^{L}\\
+y_{max}^{L} & y_{min}^{L}\\
+z_{max}^{L} & z_{min}^{L}\\
+w_{max}^{L} & w_{min}^{L}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The transition between Clip Coordinates and NDC is only division by width,
+ so it is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{bmatrix}x_{max}^{L} & x_{min}^{L}\\
+y_{max}^{L} & y_{min}^{L}\\
+z_{max}^{L} & z_{min}^{L}\\
+w_{max}^{L} & w_{min}^{L}
+\end{bmatrix}\circ\begin{bmatrix}\frac{1}{w_{max}^{L}} & \frac{1}{w_{min}^{L}}\\
+\frac{1}{w_{max}^{L}} & \frac{1}{w_{min}^{L}}\\
+\frac{1}{w_{max}^{L}} & \frac{1}{w_{min}^{L}}\\
+\frac{1}{w_{max}^{L}} & \frac{1}{w_{min}^{L}}
+\end{bmatrix}=\begin{bmatrix}x_{max}^{NDC} & x_{min}^{NDC}\\
+y_{max}^{NDC} & y_{min}^{NDC}\\
+z_{max}^{NDC} & z_{min}^{NDC}\\
+1 & 1
+\end{bmatrix}
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\circ$
+\end_inset
+
+ is Hadamard product, also known as entry-wise product or element-wise matrix
+ multiplication.
+ 
+\end_layout
+
+\begin_layout Standard
+Let us have vector 
+\begin_inset Formula $\boldsymbol{x}=\begin{bmatrix}x & y & z & w\end{bmatrix}^{T}$
+\end_inset
+
+in both coordinate systems, 
+\begin_inset Formula $\boldsymbol{x}^{L}=\begin{bmatrix}x^{L} & y^{L} & z^{L} & w^{L}\end{bmatrix}^{T}$
+\end_inset
+
+, 
+\begin_inset Formula $\boldsymbol{x}^{NDC}=\begin{bmatrix}x^{NDC} & y^{NDC} & z^{NDC} & w^{NDC}\end{bmatrix}^{T}$
+\end_inset
+
+.
+ Then, the relation between Clip Coordinates and NDC can also be expressed
+ by following relationship 
+\begin_inset Formula 
+\[
+\boldsymbol{x}^{L}=\begin{bmatrix}x^{L}\\
+y^{L}\\
+z^{L}\\
+w^{L}
+\end{bmatrix}=\begin{bmatrix}x^{NDC}w^{L}\\
+y^{NDC}w^{L}\\
+z^{NDC}w^{L}\\
+w^{L}
+\end{bmatrix}=w^{L}\begin{bmatrix}x^{NDC}\\
+y^{NDC}\\
+z^{NDC}\\
+1
+\end{bmatrix}=w^{L}\boldsymbol{x}^{NDC}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The view frustum was now transformed into NDC cuboid.
+ The NDC cuboid has dimensions 
+\begin_inset Formula $x\in\left[-1,1\right],y\in\left[-1,1\right],z\in\left[0,1\right]$
+\end_inset
+
+.
+ The x and y coordinates are intuitive, but the z-axis is reverted, so near
+ clip is being mapped to 1 and far clip is being mapped to 0.
+ The NDC is important because it is coordinate space in which GPU operates
+ and depth is gathered from GPU in NDC.
+ The value of 
+\begin_inset Formula $z^{NDC}=0$
+\end_inset
+
+ usually belongs to sky.
+\end_layout
+
+\begin_layout Subsection
+NDC to Window Coordinates
+\end_layout
+
+\begin_layout Standard
+This is the last transformation of the rendering pipeline and only in this
+ transformation the dimension reduction happen.
+ So far points have been kept in homogeneous coordinates, but window coordinates
+ are only 2D, expressing 
+\begin_inset Formula $x$
+\end_inset
+
+ and 
+\begin_inset Formula $y$
+\end_inset
+
+ coordinates of pixel where point will be rendered.
+ Here, we need only GRAPHICS::_GET_ACTIVE_SCREEN_RESOLUTION
+\begin_inset Formula $=\begin{pmatrix}W & H\end{pmatrix}$
+\end_inset
+
+ because this transformation depends only on screen with and height.
+ 
+\end_layout
+
+\begin_layout Standard
+The transformation matrix is 
+\begin_inset Formula 
+\begin{align*}
+T & =\begin{bmatrix}\frac{W}{2} & 0 & 0 & \frac{W}{2}\\
+0 & \frac{-H}{2} & 0 & \frac{H}{2}
+\end{bmatrix}
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+so the NDC to screen transformation is
+\begin_inset Formula 
+\[
+T\begin{bmatrix}x_{max}^{NDC} & x_{min}^{NDC}\\
+y_{max}^{NDC} & y_{min}^{NDC}\\
+z_{max}^{NDC} & z_{min}^{NDC}\\
+1 & 1
+\end{bmatrix}=\begin{bmatrix}x_{max}^{P} & x_{min}^{P}\\
+y_{max}^{P} & y_{min}^{P}
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Due to the division by width, the pipeline unfortunately can not be expressed
+ as matrix multiplication by matrix constant for all points in one scene.
+ 
+\end_layout
+
+\begin_layout Chapter
+Experiments
+\end_layout
+
+\begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Reverse-engineering"
+
+\end_inset
+
+Reverse engineering the true Far Clip
+\end_layout
+
+\begin_layout Standard
+For reverse engineering the far clip, I gathered 33293 screenshots with
+ parameters for projection matrix reconstruction and projection matrices.
+ Because during whole data gathering none of the parameters used to reconstruct
+ projection matrix, was changed, the projection matrix should be same for
+ all records.
+ As mentioned in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Camera-to-NDC"
+
+\end_inset
+
+ parameters for reconstructing the Projection matrix are near clip, far
+ clip, screen width, screen height and field of view.
+\end_layout
+
+\begin_layout Standard
+The screenshot contain both RGB images and depth buffer from GPU.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/2018-03-30--06-00-56--114.jpg
+	lyxscale 40
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-RGB"
+
+\end_inset
+
+Example of RGB image
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/2018-03-30--06-00-56--114-depth-8bit-rescaled.png
+	lyxscale 40
+	scale 20
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Example-of-depth"
+
+\end_inset
+
+Example of depth buffer
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The projection matrix transforms frustum into cuboid.
+ For approximate estimation of projection matrix parameters, I used DirectX
+ projection matrix
+\begin_inset CommandInset citation
+LatexCommand cite
+key "real-time-rendering"
+
+\end_inset
+
+ as a starting point for analysis, because GTA V requires DirectX, so I
+ assumed it is underlying framework of RAGE.
+\end_layout
+
+\begin_layout Standard
+The DirectX projection matrix is 
+\begin_inset Formula 
+\[
+P=\begin{bmatrix}\frac{2n}{r-l} & 0 & -\frac{r+l}{r-l} & 0\\
+0 & \frac{2n}{t-b} & -\frac{t+b}{t-b} & 0\\
+0 & 0 & \frac{f}{f-n} & -\frac{fn}{f-n}\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $n$
+\end_inset
+
+ is near clip, 
+\begin_inset Formula $f$
+\end_inset
+
+ is far clip, 
+\begin_inset Formula $l$
+\end_inset
+
+ and 
+\begin_inset Formula $r$
+\end_inset
+
+ determine distance between left and right planes of the frustum and 
+\begin_inset Formula $t$
+\end_inset
+
+ and 
+\begin_inset Formula $b$
+\end_inset
+
+ determine distance between top and bottom planes.
+\end_layout
+
+\begin_layout Standard
+The view frustum is symmetric, so 
+\begin_inset Formula $r=-l$
+\end_inset
+
+ and 
+\begin_inset Formula $t=-b$
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "real-time-rendering"
+
+\end_inset
+
+.
+ In that case, the projection matrix is simplified to form
+\begin_inset Formula 
+\[
+P=\begin{bmatrix}\frac{2n}{r+r} & 0 & -\frac{r-r}{r+r} & 0\\
+0 & \frac{2n}{t+t} & -\frac{t-t}{t+t} & 0\\
+0 & 0 & \frac{f}{f-n} & -\frac{fn}{f-n}\\
+0 & 0 & -1 & 0
+\end{bmatrix}=\begin{bmatrix}\frac{n}{r} & 0 & 0 & 0\\
+0 & \frac{n}{t} & 0 & 0\\
+0 & 0 & \frac{f}{f-n} & -\frac{fn}{f-n}\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+The DirectX maps near clip to 0 and far clip to 1, but from data, where
+ obviously
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-depth"
+
+\end_inset
+
+ nearer pixels had higher value in depth buffer than pixel more far from
+ camera, I concluded that near and far clip are being mapped to 1 and 0,
+ respectively.
+ The far clip being mapped to 0 can also be deduced by pixels for sky having
+ 0 value.
+\end_layout
+
+\begin_layout Standard
+The example in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-depth"
+
+\end_inset
+
+ does not have actual depth buffer values, but instead, it is rescled visualizat
+ion.
+ Since the depth buffer pixels are in range 
+\begin_inset Formula $\left[0,1\right]$
+\end_inset
+
+ and png images take unsinged 8bit integer, this image is mapped linearly
+ from 
+\begin_inset Formula $\left[0,1\right]$
+\end_inset
+
+ to 
+\begin_inset Formula $\left[0,255\right]$
+\end_inset
+
+.
+ Since even the nearest pixels were distant from near clip and real range
+ of pixels in this image was 
+\begin_inset Formula $\left[0,19\right]$
+\end_inset
+
+, I rescaled it 10 times to range 
+\begin_inset Formula $\left[0,190\right]$
+\end_inset
+
+, so the depth is visible.
+\end_layout
+
+\begin_layout Standard
+At first, I assumed the camera near clip and far clip obtained by native
+ calls 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "native-call-near-clip"
+
+\end_inset
+
+ and the projection matrix is same as in DirectX.
+ 
+\end_layout
+
+\begin_layout Standard
+The near clip and far clip calculation can be demonstrated on image 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Example-of-RGB"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+By calling CAM::GET_CAM_NEAR_CLIP
+\begin_inset Formula $=n_{c}$
+\end_inset
+
+ and CAM::GET_CAM_FAR_CLIP
+\begin_inset Formula $=f_{c}$
+\end_inset
+
+ I obtained values 
+\begin_inset Formula $n_{c}=0.15$
+\end_inset
+
+ and 
+\begin_inset Formula $f_{c}=800$
+\end_inset
+
+.
+ The obtained projection matrix is.
+\end_layout
+
+\begin_layout Chapter
+Future work
+\end_layout
+
+\begin_layout Standard
+In GTA V reverse-engineering, many stencil values semantics remain to be
+ discovered.
+ 
 \end_layout
 
 \begin_layout Standard
