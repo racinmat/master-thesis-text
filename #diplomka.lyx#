@@ -308,7 +308,7 @@ Thesis
 
 supervisor: doc.
  Ing.
- Karel Zimmermann, Ph.D.
+ Karel Zimmermann, PhD.
 \begin_inset space \hfill{}
 \end_inset
 
@@ -380,7 +380,7 @@ status open
 \end_layout
 
 \begin_layout Subparagraph*
-Author statement for thegraduate thesis: 
+Author statement for the graduate thesis: 
 \begin_inset Newline newline
 \end_inset
 
@@ -631,7 +631,7 @@ práce:
 \size large
 doc.
  Ing.
- Karel Zimmermann, Ph.D.
+ Karel Zimmermann, PhD.
 \end_layout
 
 \begin_layout Description
@@ -753,9 +753,9 @@ address: zimmerk@fel.cvut.cz
 \size small
 Abstract 
 \size default
-In this thesis we explore virtual worlds used as datasoutce for machine
- learning and voxelmap estimation from single RGB image with deep learning.
- This thesis describes principles and omplementation of hooking into GTA
+In this thesis we explore virtual worlds used as data source for machine
+ learning and voxel map estimation from single RGB image with deep learning.
+ This thesis describes principles and implementation of hooking into GTA
  V and gathering data from it to create automatically annotated dataset,
  and implementation of deep neural network in TensorFlow.
 \end_layout
@@ -765,7 +765,7 @@ In this thesis we explore virtual worlds used as datasoutce for machine
 
 \size small
 Keywords: Deep learning, Machine learning, GTA V, virtual world, depth estimatio
-n, voxelmap estimation, RAGE
+n, voxel map estimation, RAGE
 \end_layout
 
 \begin_layout Standard
@@ -809,35 +809,48 @@ Introduction
 
 \begin_layout Standard
 This thesis aims to solve two problems.
- The first problem is the lengthy and slow process of manual dataset creation
- and annotation, and the second problem is voxelmap estimation from single
- RGB image.
+ The first problem is the slow process of manual dataset creation and annotation
+, and the second problem is voxel map estimation from a single RGB image.
  Due to increasing interest in synthetic datasets, this thesis aims to be
- the documentation for using GTA V as simulator for creation of synthetic
+ the documentation for using GTA V as a simulator for a creation of synthetic
  datasets.
 \end_layout
 
+\begin_layout Standard
+In this thesis, I demonstrate the power of rich virtual worlds in creating
+ synthetic datasets, and propose software architecture of dataset creation.
+ To demonstrate the power of synthetic datasets, I propose two new datasets,
+ and train deep neural network for voxel map estimation on one of them.
+\end_layout
+
 \begin_layout Section
-Problems with machine learning datasets
+Deep learning is data hungry
 \end_layout
 
 \begin_layout Standard
 In recent years, both machine learning and deep learning has experienced
- great progress in many fields.
+ great progress in many fields
+\begin_inset CommandInset citation
+LatexCommand cite
+key "history-began-from-alexnet"
+
+\end_inset
+
+.
  Deep learning has outperformed many other machine learning approaches by
  using deep, high-capacity models trained on large datasets.
  Especially in the field of computer vision, neural networks achieve state
  of the art results in most of the tasks.
  Many tasks in computer vision are the first where deep neural networks
  achieve state of the art results before being used in other fields, and
- in this field deeper and deeper architectures are being proposed earlier
+ in this field, deeper and deeper architectures are being proposed earlier
  than in other fields.
  
 \end_layout
 
 \begin_layout Standard
 With larger amount of parameters, the need for large datasets is growing,
- with currect datasets unable to cover the need for annotated data.
+ with current datasets unable to cover the need for annotated data.
 \end_layout
 
 \begin_layout Standard
@@ -863,7 +876,7 @@ key "semantic-instance-annotation"
 
 \end_inset
 
-, because more detailed semantic labeling leads to smaller size of dataset.
+, because more detailed semantic labelling leads to smaller size of dataset.
  
 \end_layout
 
@@ -872,7 +885,16 @@ Many novel neural network architectures are being proposed every year because
  of increasing computing power.
  With growing capacity and number of parameters in these new models, there
  is need for bigger and bigger datasets for training.
+ Several papers shown positive correlation between the size of data and
+ performance.
  
+\begin_inset CommandInset citation
+LatexCommand cite
+key "unreasonable-effectiveness-of-data,revisiting-unreasonable-efectiveness,real-time-human-pose-recognition-in-parts-from-a-single-depth-image"
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -887,7 +909,7 @@ Gaming industry to the rescue
 
 \begin_layout Standard
 In last decades, gaming industry has grown hugely and expanded from small
- and specific community into public society and became mainsteam industy.
+ and specific community into public society and became mainstream industry.
  
 \end_layout
 
@@ -898,7 +920,7 @@ The gaming industry became big driving force in many fields, and indirectly
 \end_layout
 
 \begin_layout Standard
-The mainsteam model of gaming is on personal computers, where each player
+The mainstream model of gaming is on personal computers, where each player
  has his own gaming PC, along with console gaming.
  Thanks to ever-growing number of players, lots of money got into industry
  and the growing demand for better graphics in games led to big improvements
@@ -936,6 +958,19 @@ key "playing-for-data,driving-in-matrix"
  of the art results.
 \end_layout
 
+\begin_layout Standard
+přidat my contribution.
+ Být pádnější, údernější názvy, např.
+ performance is correlated with size of data, deep learning is samples hungry.
+ ZMínit mechanical turk, projít paper supervise.ly, zmínit pomalost dat i
+ v introduction, dělat to ručně je šíleně drahý
+\end_layout
+
+\begin_layout Standard
+do introduction examply anotovaných dat z GTA, jako demonstraci síly, u
+ studií napsat i názvy autorů
+\end_layout
+
 \begin_layout Chapter
 Related work
 \end_layout
@@ -967,9 +1002,9 @@ key "camvid"
 
 .
  They extracted 24 966 images from game GTA V, which is roughly two orders
- of magnitude larger than CanVid and three orders of magnitude larger than
+ of magnitude larger than CamVid and three orders of magnitude larger than
  semantic annotations for KITTI dataset.
- They trained the prediction module of Yu and Koltun
+ They trained the prediction module of Yu and Kolthun
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kolthun-dilation"
@@ -1051,7 +1086,7 @@ GTA V introduction
 \begin_layout Standard
 GTA V is action-adventure open-world video game developed by Rockstar North
  and published by Rockstar Games.
- The game was released on 17.9.2013 for Playstation 3 and Xbox 360
+ The game was released on 17.9.2013 for PlayStation 3 and Xbox 360
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gta-release"
@@ -1105,8 +1140,8 @@ key "gta-v-interview"
 
 \end_inset
 
- and other areas of Southen California, with road networks respecting design
- od Los Angeles map.
+ and other areas of Southern California, with road networks respecting design
+ of Los Angeles map.
  
 \end_layout
 
@@ -1117,7 +1152,7 @@ As could be expected from AAA game like GTA V, motion capture was used to
 \end_layout
 
 \begin_layout Standard
-There are several reasons why GTA V is better for dataset creationg than
+There are several reasons why GTA V is better for dataset creation than
  other games.
  To use a game for dataset creation, we have multiple requirements.
  The graphics of the game must be near photorealistic, since we try to to
@@ -1128,8 +1163,8 @@ There are several reasons why GTA V is better for dataset creationg than
 \end_layout
 
 \begin_layout Standard
-The other requirement is opssibility of good-enough way to interact with
- the game programatically.
+The other requirement is possibility of good-enough way to interact with
+ the game programmatically.
  Usually we want to setup at least part of the environment before gathering
  data.
  This part heavily depends on community around the particular game.
@@ -1178,7 +1213,7 @@ The modding community around the GTA V is based mostly on community around
  So many tools are just GTA IV based and only modified to work with GTA
  V.
  Luckily, the community is large and productive, so we have many mods and
- many function in GTA V reverse-engineered and thus prepared for programatic
+ many function in GTA V reverse-engineered and thus prepared for programmatic
  interactions.
 \end_layout
 
@@ -1244,7 +1279,7 @@ Automotive Simulators
 \end_layout
 
 \begin_layout Standard
-Currently, there are some opensorce simulation platforms for automotive
+Currently, there are some open-source simulation platforms for automotive
  industry which could be theoretically used for creating synthetic datasets.
  But compared to AAA games like GTA V, they have much less resources and
  much less customers to finance the development.
@@ -1266,9 +1301,9 @@ GTA V modding ecosystem
 \end_layout
 
 \begin_layout Standard
-Although the modding community is quite big, as it is in lots of opensource
+Although the modding community is quite big, as it is in lots of open-source
  communities, essential part of community depends on one person.
- Here, it is Alexader Blade.
+ Here, it is Alexander Blade.
  In his free time, he reverse-engineered big part of GTA V and developed
  ScriptHookV
 \begin_inset CommandInset citation
@@ -1300,11 +1335,11 @@ key "nativedb"
 \end_inset
 
 .
- Assumingly, GTA V contains ~5200 natives.
+ Assumably, GTA V contains ~5200 natives.
  There is no original native name list of functions in GTA V, name hashes
  are used instead.
- During reverse-engineering ande game decompilation, ~2600 native names
- were discovered using bruteforce and manual checking afterwards.
+ During reverse-engineering and game decompilation, ~2600 native names were
+ discovered using brute-force and manual checking afterwards.
  For these functions, number of parameters and returns of these calls are
  also known.
  In the native functions list, for big part of functions we know their name,
@@ -1321,7 +1356,7 @@ When new version of game is released, in few days to weeks, new version
 Other heavily used mod in community is ScriptHookDotNet2, which is built
  atop of ScriptHookV and creates bridge between C# language and ScriptHookV,
  effectively allowing to write GTA V mods in C#.
- It is availabe as open-source 
+ It is available as open-source 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "scripthookvdotnet"
@@ -1357,7 +1392,7 @@ Unlike most of other mods, these three mods act more as a framework for
 
 \begin_layout Standard
 Since GTA V is a game, it requires human interaction.
- For simulator-like behavior we would want the car to drive autonomously
+ For simulator-like behaviour we would want the car to drive autonomously
  to crawl data without human interaction.
  This can be done using VAutodrive
 \begin_inset CommandInset citation
@@ -1374,8 +1409,8 @@ key "vautodrive"
 \end_layout
 
 \begin_layout Standard
-Generally, the community is not united in their view on opensource.
- Some mods are available open-source on github.
+Generally, the community is not united in their view on open-source.
+ Some mods are available open-source on GitHub.
  Other mods are being distributed only as compiled binaries
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1393,7 +1428,7 @@ key "gta-5-mod-tutorial"
 
 \end_inset
 
-, but they are far from complete and provide only basic knowledge, leavin
+, but they are far from complete and provide only basic knowledge, leaving
  reader without deeper understanding of underlying principles.
 \end_layout
 
@@ -1407,7 +1442,7 @@ key "gta-forums,gta-5-mods-forum"
 \end_inset
 
 .
- Github or StackOverflow, which are biggest information sources for usual
+ GitHub or Stack Overflow, which are biggest information sources for usual
  software development, are not used much in GTA modding community.
  Due to this fact, these forums, along with source code of open-source mods
  comprise knowledge-base of mod development.
@@ -1447,7 +1482,7 @@ key "nativedb"
 \begin_layout Standard
 The basic architecture of C# mods come from the ScriptHookDotNet2, where
  each mod script extends the GTA.Script class.
- For each child of this class, we can set integer Inteval, Tick and KeyUp
+ For each child of this class, we can set integer Interval, Tick and KeyUp
  callbacks.
  Interval property determines how big interval in milliseconds is between
  consecutive Tick calls.
@@ -1462,7 +1497,13 @@ The basic architecture of C# mods come from the ScriptHookDotNet2, where
 \end_layout
 
 \begin_layout Standard
-Little, but useful note for debugging and developing scr
+Little, but useful note for debugging and developing scripts based on ScriptHook
+DotNet2: when changing mod compiled binaries, we don't have to restart the
+ game for newer version of mod to be active.
+ Pressing Insert causes all C# binaries to reload, causing new version of
+ source code to load into game, which dramatically decreases time of feedback
+ loop during development.
+ This does not work for C++ mods and compiled .asi files.
 \end_layout
 
 \begin_layout Section
@@ -1539,7 +1580,7 @@ Stencil data
 
 \begin_layout Standard
 Stencil buffer contains auxiliary data per pixel.
- It is 8bit unsined integer, where 1.-4.
+ It is 8bit unsigned integer, where 1.-4.
  bits (counting from LSB) contain object type ID, and 5.-8.
  bits contain certain flags.
  
@@ -1551,7 +1592,7 @@ That means there are 15 object types and 4 flags.
 \end_layout
 
 \begin_layout Standard
-For some object type IDs, I reverse engineered its semantics based on correspons
+For some object type IDs, I reverse engineered its semantics based on correspond
 ing RGB image.
  
 \end_layout
@@ -1616,7 +1657,7 @@ Semantics
 \begin_inset Text
 
 \begin_layout Plain Layout
-backround (buildings, roads, hills...)
+background (buildings, roads, hills...)
 \end_layout
 
 \end_inset
@@ -1645,7 +1686,7 @@ backround (buildings, roads, hills...)
 \begin_inset Text
 
 \begin_layout Plain Layout
-pederstrian
+pedestrian
 \end_layout
 
 \end_inset
@@ -1910,7 +1951,7 @@ name "fig:Sample-stencil-object"
 
 \end_inset
 
-Sample stencil object types image and corresponsing RGB image
+Sample stencil object types image and corresponding RGB image
 \end_layout
 
 \end_inset
@@ -1963,7 +2004,7 @@ Image data is being obtained by native plugin by hooking into Direct3D 11's
 s ID3D11ImmediateContext:: ClearDepthStencilView and saving the buffers
  before each call.
  Because of optimizations applied by the graphics card drivers, the function
- needs to be rehooked into the clear function each frame.
+ needs to be re-hooked into the clear function each frame.
  When saving each sample, the managed plugin requests all current buffers
  from the native plugin and the buffers are downloaded from the GPU and
  copied into managed memory.
@@ -1978,22 +2019,29 @@ key "driving-in-matrix"
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:Rendering-pipeline-data"
+
+\end_inset
+
 Rendering pipeline data
 \end_layout
 
 \begin_layout Standard
 Direct3D allows us to get rendering pipelines through the D3D11_MAP_READ
  call.
- This way, the world, worldview, and worldviewprojection matrices are obtained.
+ This way, the world, world-view, and world-view-projection matrices are
+ obtained.
  Let's denote them as world matrix = 
 \begin_inset Formula $W$
 \end_inset
 
-, worldview by = 
+, world-view by = 
 \begin_inset Formula $VW$
 \end_inset
 
-, and worldviewprojection = 
+, and world-view-projection = 
 \begin_inset Formula $PVW$
 \end_inset
 
@@ -2025,7 +2073,7 @@ reference "sec:Reverse-engineering-the-RAGE"
  These matrices can be simply obtained by inversion as stated above.
  But this approach is not numerically stable, and sometimes causes resulting
  matrix to be incorrect and not usable for further usage.
- Another cavear of this approach is that during data gathering in higher
+ Another caveat of this approach is that during data gathering in higher
  speeds, the native call becomes laggy and resulting matrices are highly
  imprecise.
  Although we can obtain these matrices via the native call, they can be
@@ -2062,7 +2110,7 @@ key "nativedb"
 
 .
  As mentioned above, they can be called from C++ and C#.
- For convenience, and because most od my mod development is done in C#,
+ For convenience, and because most of my mod development is done in C#,
  I will also describe the C# wrappers.
  The ScriptHookDotNet2
 \begin_inset CommandInset citation
@@ -2083,7 +2131,7 @@ target "https://github.com/crosire/scripthookvdotnet/tree/dev_v3/source/scriptin
 .
  Each class has properties, whose getters and setters are implemented as
  calling the native functions.
- This feature is nice tooling and leads to more readable and mantainable
+ This feature is nice tooling and leads to more readable and maintainable
  code.
  I will describe parts of API which are most useful for synthetic datasets
  creation.
@@ -2098,8 +2146,8 @@ The camera is probably one of the most crucial parts of the API.
  There is Gameplay Camera, which is the default camera used during usual
  gaming.
  This camera can be manipulated, but its usage is limited.
- Other aproach is usage of scripted cameras, which can be fully controlled
- programatically.
+ Other approach is usage of scripted cameras, which can be fully controlled
+ programmatically.
  We can create multiple scripted cameras and switch between them, but the
  community discovered there is hard limit of 26 cameras at time
 \begin_inset CommandInset citation
@@ -2122,14 +2170,14 @@ which returns handle to the new camera.
  The position is in world coordinates in meters.
  The rotation is in degrees in Euler angles.
  The fov argument is vertical field of view in degrees.
- The detault value is 50.
+ The default value is 50.
  One can of course call the underlying native functions directly, but this
  wrapper helps with managing the handles.
  
 \end_layout
 
 \begin_layout Standard
-All scripted cameras can be desctroyed by calling the 
+All scripted cameras can be destroyed by calling the 
 \end_layout
 
 \begin_layout LyX-Code
@@ -2298,14 +2346,14 @@ reference "fig:Visualization-pipeline"
 .
  Following section will be discussing mostly computer graphics related problems.
  Due to some terminology inconsistency between computer graphics and computer
- vision, all terms used here will be compuer graphics related.
+ vision, all terms used here will be computer graphics related.
  Probably most confusion here could be caused by projection matrix.
  In computer vision, projection matrix is projection from 3D to 2D, the
  matrix reduces dimension.
  In computer graphics, all coordinates are kept in 4D, in homogeneous coordinate
 s as long as possible.
- Here the projection matrix prepresents projection from frustum seen by
- eye into cuboid space of Normalized Device Coordinates.
+ Here the projection matrix represents projection from frustum seen by eye
+ into cuboid space of Normalized Device Coordinates.
 \end_layout
 
 \begin_layout Standard
@@ -2701,8 +2749,8 @@ World to Camera Coordinates
 \end_layout
 
 \begin_layout Standard
-The transformation from world coordinates is principally the same, but counterin
-tuitive in definition of used rotation matrices.
+The transformation from world coordinates is principally the same, but counter-i
+ntuitive in definition of used rotation matrices.
  It also is rigid body transformation, but rotation is defined differently
  than we are usually used to in computer graphics.
  The rotation matrices were reverse engineered as part of this thesis from
@@ -2869,14 +2917,14 @@ Camera to NDC
 
 \begin_layout Standard
 This is the first transformation which is not rigid-body transformation.
- Because camera sees only frustum, this transformation prepresents transition
+ Because camera sees only frustum, this transformation represents transition
  from frustum to cuboid in Normalized Device Coordinates.
  The frustum being projected is specified by near clip, far clip, field
  of view and screen resolution width and height.
  Usually, none of these parameters are changing during the game, so the
  projection matrix is usually the same for multiple scenes during data gathering
  session.
- Although all of these parameters can be changed programatically if needed.
+ Although all of these parameters can be changed programmatically if needed.
  
 \end_layout
 
@@ -3159,6 +3207,43 @@ Due to the division by width, the pipeline unfortunately can not be expressed
  
 \end_layout
 
+\begin_layout Section
+Datasets proposal
+\end_layout
+
+\begin_layout Standard
+As part of my thesis, I propose two novel synthetic datasets.
+ Both of these datasets are outdoor, taken from virtual car.
+ Both of these datasets contain outdoor images in all parts of day, dawn,
+ day, evening, and night.
+ They contain most of data described above, to provide as much information
+ as possible for usability in various tasks.
+ Both of these datasets contain full HD RGB-D images, stencil images, position
+ and rotation of camera, positions, rotations, identifiers and types of
+ cars and pedestrians around the camera, projection and view matrix for
+ aligning data between different images.
+ 
+\end_layout
+
+\begin_layout Standard
+The first dataset was used for voxel map reconstruction.
+ It contains images from 4 virtual cameras attached to driving car, placed
+ in circle opposite to each other, mapping space in front of car to create
+ its detailed 3D reconstruction.
+ There are XXXX scenes, each taken from 4 cameras.
+ 
+\end_layout
+
+\begin_layout Standard
+The second dataset is demonstration of common automotive dataset from driving
+ car.
+ Compared to real-world datasets, this one has advantage of pixel-wise depth,
+ precise on all surfaces and even in high distances, outperforming LIDAR
+ technology in accuracy and depth point density.
+ It is directly aligned with pixels of RGB images.
+ 
+\end_layout
+
 \begin_layout Chapter
 Experiments
 \end_layout
@@ -3230,10 +3315,6 @@ Example of RGB image
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -3283,6 +3364,10 @@ Example of depth buffer
 
 \begin_layout Standard
 The projection matrix transforms frustum into cuboid.
+ Open frameworks have publicly available projection matrices, but RAGE does
+ not have publicly available any information about projection matrix, so
+ in order to obtain true far clip, I needed to reverse-engineer the mathematical
+ description of the projection matrix.
  For approximate estimation of projection matrix parameters, I used DirectX
  projection matrix
 \begin_inset CommandInset citation
@@ -3299,10 +3384,10 @@ key "real-time-rendering"
 The DirectX projection matrix is 
 \begin_inset Formula 
 \[
-P=\begin{bmatrix}\frac{2n}{r-l} & 0 & -\frac{r+l}{r-l} & 0\\
+P^{DirectX}=\begin{bmatrix}\frac{2n}{r-l} & 0 & -\frac{r+l}{r-l} & 0\\
 0 & \frac{2n}{t-b} & -\frac{t+b}{t-b} & 0\\
 0 & 0 & \frac{f}{f-n} & -\frac{fn}{f-n}\\
-0 & 0 & -1 & 0
+0 & 0 & 1 & 0
 \end{bmatrix}
 \]
 
@@ -3359,14 +3444,14 @@ key "real-time-rendering"
  In that case, the projection matrix is simplified to form
 \begin_inset Formula 
 \[
-P=\begin{bmatrix}\frac{2n}{r+r} & 0 & -\frac{r-r}{r+r} & 0\\
+P^{formal}=\begin{bmatrix}\frac{2n}{r+r} & 0 & -\frac{r-r}{r+r} & 0\\
 0 & \frac{2n}{t+t} & -\frac{t-t}{t+t} & 0\\
 0 & 0 & \frac{f}{f-n} & -\frac{fn}{f-n}\\
-0 & 0 & -1 & 0
+0 & 0 & 1 & 0
 \end{bmatrix}=\begin{bmatrix}\frac{n}{r} & 0 & 0 & 0\\
 0 & \frac{n}{t} & 0 & 0\\
 0 & 0 & \frac{f}{f-n} & -\frac{fn}{f-n}\\
-0 & 0 & -1 & 0
+0 & 0 & 1 & 0
 \end{bmatrix}
 \]
 
@@ -3388,6 +3473,25 @@ reference "fig:Example-of-depth"
 \end_layout
 
 \begin_layout Standard
+Due to this fact, we switch the near and clip in the matrix formal description
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+P^{formal}=\begin{bmatrix}\frac{f}{r} & 0 & 0 & 0\\
+0 & \frac{f}{t} & 0 & 0\\
+0 & 0 & \frac{n}{n-f} & -\frac{fn}{n-f}\\
+0 & 0 & 1 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
 The example in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -3395,13 +3499,13 @@ reference "fig:Example-of-depth"
 
 \end_inset
 
- does not have actual depth buffer values, but instead, it is rescled visualizat
-ion.
+ does not have actual depth buffer values, but instead, it is rescaled visualiza
+tion.
  Since the depth buffer pixels are in range 
 \begin_inset Formula $\left[0,1\right]$
 \end_inset
 
- and png images take unsinged 8bit integer, this image is mapped linearly
+ and PNG images take unsigned 8bit integer, this image is mapped linearly
  from 
 \begin_inset Formula $\left[0,1\right]$
 \end_inset
@@ -3437,7 +3541,7 @@ reference "native-call-near-clip"
 \end_layout
 
 \begin_layout Standard
-The near clip and far clip calculation can be demonstrated on image
+The near clip and far clip calculation can be demonstrated on image 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Example-of-RGB"
@@ -3445,7 +3549,11 @@ reference "fig:Example-of-RGB"
 \end_inset
 
 .
- By calling CAM::GET_CAM_NEAR_CLIP
+ 
+\end_layout
+
+\begin_layout Standard
+By calling CAM::GET_CAM_NEAR_CLIP
 \begin_inset Formula $=n_{c}$
 \end_inset
 
@@ -3454,7 +3562,7 @@ reference "fig:Example-of-RGB"
 \end_inset
 
  I obtained values 
-\begin_inset Formula $n_{c}=0.15$
+\begin_inset Formula $n_{c}=1.5$
 \end_inset
 
  and 
@@ -3462,7 +3570,297 @@ reference "fig:Example-of-RGB"
 \end_inset
 
 .
- The obtained projection matrix is.
+ I also obtain projection matrix calculated by method described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Rendering-pipeline-data"
+
+\end_inset
+
+, which is 
+\begin_inset Formula 
+\[
+P^{real}=\begin{bmatrix}1.210067 & 0 & 0 & -0.000004\\
+0 & 2.144507 & 0 & 0.000002\\
+0 & 0 & 0.00015 & 1.500225\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+In the formalization of the matrix, 
+\begin_inset Formula $P_{formal}$
+\end_inset
+
+, there are 4 variables.
+ 
+\begin_inset Formula $r$
+\end_inset
+
+ and 
+\begin_inset Formula $t$
+\end_inset
+
+ appear only in one element of matrix, so they can be verified only after
+ reverse engineering the far clip.
+ From the 
+\begin_inset Formula $P_{2,2}^{formal}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{2,3}^{formal}$
+\end_inset
+
+, I can calculate the near and far clip by 
+\begin_inset Formula 
+\begin{align*}
+P_{2,2}^{formal} & =\frac{n}{n-f}\\
+nP_{2,2}^{formal}-fP_{2,2}^{formal} & =n\\
+\frac{n\left(P_{2,2}^{formal}-1\right)}{P_{2,2}^{formal}} & =f
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+P_{2,3}^{formal} & =-\frac{fn}{n-f}\\
+P_{2,3}^{formal}\left(n-f\right) & =-fn\\
+nP_{2,3}^{formal} & =f\left(P_{2,3}^{formal}-n\right)\\
+\frac{nP_{2,3}^{formal}}{\left(P_{2,3}^{formal}-n\right)} & =f
+\end{align*}
+
+\end_inset
+
+
+\begin_inset Formula 
+\begin{align*}
+\frac{nP_{2,3}^{formal}}{\left(P_{2,3}^{formal}-n\right)} & =\frac{n\left(P_{2,2}^{formal}-1\right)}{P_{2,2}^{formal}}\\
+P_{2,3}^{formal}P_{2,2}^{formal} & =\left(P_{2,2}^{formal}-1\right)\left(P_{2,3}^{formal}-n\right)\\
+\frac{P_{2,3}^{formal}P_{2,2}^{formal}}{P_{2,2}^{formal}-1} & =P_{2,3}^{formal}-n\\
+P_{2,3}^{formal}-\frac{P_{2,3}^{formal}P_{2,2}^{formal}}{P_{2,2}^{formal}-1} & =n\\
+-\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}-1} & =n
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{\left(-\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}-1}\right)\left(P_{2,2}^{formal}-1\right)}{P_{2,2}^{formal}} & =f\\
+-\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}} & =f
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From these calculations, we can calculate near and far clip as 
+\begin_inset Formula 
+\begin{align*}
+n & =-\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}-1}=-\frac{1.500225}{0.00015-1}=1.500225\\
+f & =-\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}}=-\frac{1.500225}{0.00015}=-10001.5
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+From these calculations we can see the third column of the projection matrix
+ has incorrect sign, because the 
+\begin_inset Formula $P_{3,2}^{formal}$
+\end_inset
+
+ should be 1 and instead it is -1, and the far clip is negative, which should
+ not be.
+ When changing signs of third column of projection matrix, we obtain following
+ formal definition of projection matrix.
+ That sign switching means the view frustum is in opposite direction of
+ Z axis.
+\begin_inset Formula 
+\[
+P^{formal}=\begin{bmatrix}\frac{f}{r} & 0 & 0 & 0\\
+0 & \frac{f}{t} & 0 & 0\\
+0 & 0 & -\frac{n}{n-f} & -\frac{fn}{n-f}\\
+0 & 0 & -1 & 0
+\end{bmatrix}
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+After fixing the sign issue, the relationship between 
+\begin_inset Formula $P^{formal}$
+\end_inset
+
+ and clips is
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\begin{align*}
+\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}+1} & =n=\frac{1.500225}{0.00015+1}=1.499999\\
+\frac{P_{2,3}^{formal}}{P_{2,2}^{formal}} & =f=\frac{1.500225}{0.00015}=10001.5
+\end{align*}
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+As we can see, the 
+\begin_inset Formula $n=1.499999\approx n_{c}=1.5$
+\end_inset
+
+ so for near clip, we can say we successfully reverse-engineered the relation
+ between the projection matrix and the near clip.
+ The far clip, on the other hand, differs 
+\begin_inset Formula $f=10001.5\neq f_{c}=800$
+\end_inset
+
+.
+ The difference is very high, which lead us to assumption that there is
+ some new far clip, which is not same as obtained through API, 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+The other check we can perform is projecting points laying on near clip
+ and far clip into NDC space.
+ 
+\end_layout
+
+\begin_layout Standard
+We prepare two points.
+ Because of many zero elements in 
+\begin_inset Formula $P^{formal}$
+\end_inset
+
+, we can see 
+\begin_inset Formula $x$
+\end_inset
+
+-axis and 
+\begin_inset Formula $y$
+\end_inset
+
+-axis don't affect the 
+\begin_inset Formula $z$
+\end_inset
+
+-axis of projected point.
+ Thus I prepared two points:
+\begin_inset Formula 
+\[
+\begin{bmatrix}1 & 1\\
+1 & 1\\
+-1.5 & -800\\
+1 & 1
+\end{bmatrix}
+\]
+
+\end_inset
+
+, which are laying on the near clip and far clip, respectively.
+ We would assume that they would be mapped to 1 and 0, respectively.
+ The negative sign is here because in RAGE, the camera view frustum is in
+ negative part of Z axis.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\begin{bmatrix}1.210067 & 0 & 0 & -0.000004\\
+0 & 2.144507 & 0 & 0.000002\\
+0 & 0 & 0.00015 & 1.500225\\
+0 & 0 & -1 & 0
+\end{bmatrix}\begin{bmatrix}1 & 1\\
+1 & 1\\
+-0.15 & -800\\
+1 & 1
+\end{bmatrix}=\begin{bmatrix}1.210063 & 1.210063\\
+2.144509 & 2.144509\\
+1.5 & 1.380225\\
+1.5 & 800
+\end{bmatrix}
+\]
+
+\end_inset
+
+by normalization we obtain 
+\begin_inset Formula 
+\[
+\begin{bmatrix}\frac{1.210063}{1.5} & \frac{1.210063}{800}\\
+\frac{2.144509}{1.5} & \frac{2.144509}{800}\\
+\frac{1.50045}{1.5} & \frac{1.620225}{800}\\
+\frac{1.5}{1.5} & \frac{800}{800}
+\end{bmatrix}=\begin{bmatrix}0.80670867 & 0.00151258\\
+1.42967267 & 0.00268064\\
+1 & 0.00172528\\
+1 & 1
+\end{bmatrix}
+\]
+
+\end_inset
+
+from which we can see the near clip 
+\begin_inset Formula $n_{c}$
+\end_inset
+
+ is being projected correctly, but far clip 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+ is not being projected into 0 and that true far clip 
+\begin_inset Formula $f$
+\end_inset
+
+ is behind this far flip 
+\begin_inset Formula $f_{c}$
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+These calculations give us some insight into projection matrix and its role
+ in far clip estimation, but for more robust estimate, I analysed all 33293
+ matrices.
+ 
+\end_layout
+
+\begin_layout Standard
+In GTA, matrices are not gathered correctly every time and in some cases,
+ resulting matrices are unusable.
+ Because I knew the near clip precisely, I discarded all matrices, with
+ calculated near clip 
+\begin_inset Formula $\left|n-n_{c}\right|>10^{-4}$
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Chapter
