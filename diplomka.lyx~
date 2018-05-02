@@ -816,13 +816,6 @@ This thesis aims to solve two problems.
  datasets.
 \end_layout
 
-\begin_layout Standard
-In this thesis, I demonstrate the power of rich virtual worlds in creating
- synthetic datasets, and propose software architecture of dataset creation.
- To demonstrate the power of synthetic datasets, I propose two new datasets,
- and train deep neural network for voxel map estimation on one of them.
-\end_layout
-
 \begin_layout Section
 Deep learning is data hungry
 \end_layout
@@ -882,25 +875,102 @@ key "semantic-instance-annotation"
 
 \begin_layout Standard
 Many novel neural network architectures are being proposed every year because
- of increasing computing power.
+ of ongoing research and increasing computing power.
  With growing capacity and number of parameters in these new models, there
  is need for bigger and bigger datasets for training.
  Several papers shown positive correlation between the size of data and
- performance.
- 
+ performance 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "unreasonable-effectiveness-of-data,revisiting-unreasonable-efectiveness,real-time-human-pose-recognition-in-parts-from-a-single-depth-image"
 
 \end_inset
 
-
+.
 \end_layout
 
 \begin_layout Standard
-Automatic data gathering and automatic data annotation could potentially
- solve these problems of lack of datasets in many computer vision and related
- tasks.
+There are attempts to develop tooling necessary to speed up the manual annotatio
+n process during datasets creation, most known being the Amazon Mechanical
+ Turk (AMT) 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mechanical-turk"
+
+\end_inset
+
+ and Supervise.ly
+\begin_inset CommandInset citation
+LatexCommand cite
+key "supervise.ly"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+Amazon Mechanical Turk is a platform for crowdsourcing work and has been
+ used in many academic fields.
+ AMT is a 
+\begin_inset Quotes eld
+\end_inset
+
+marketplace for work that requires human intelligence
+\begin_inset Quotes erd
+\end_inset
+
+
+\begin_inset CommandInset citation
+LatexCommand cite
+key "amt-article"
+
+\end_inset
+
+, a web-based platform for distributing tasks to a pool of human workers,
+ known colloquially as Turkers.
+ These tasks are typically small (i.e.
+ a few minutes to perform a task rather than days or weeks) and payments
+ pay task are low, in the orders of cents per task.
+ This platform provides possibility to distribute the annotation process
+ among many people at once and for low price.
+ Although still being manual, it accelerates the annotation process and
+ helps researchers to annotate data more easily.
+\begin_inset CommandInset citation
+LatexCommand cite
+key "amt-cv-annotation"
+
+\end_inset
+
+.
+ Quality of work can not be guaranteed since task provider can't supervise
+ workers and correct them manually, but this disadvantage can be compensated
+ by various quality assurance approaches
+\begin_inset CommandInset citation
+LatexCommand cite
+key "amt-cv-annotation"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Supervise.ly is another web-based platform, focused on computer vision datasets
+ annotation.
+ It provides helpful tooling for annotators in unified web interface, speeding
+ up the annotation process.
+ It offers integration with the AMT, so together, they seem to be candidate
+ for industrial standard of data annotation.
+ 
+\end_layout
+
+\begin_layout Standard
+Although these tools lead to faster annotation process at lower cost, it
+ still can not be compared to the fully automated data gathering and annotation,
+ which could potentially solve these problems of lack of datasets in many
+ computer vision and related tasks.
 \end_layout
 
 \begin_layout Section
@@ -953,18 +1023,39 @@ key "playing-for-data,driving-in-matrix"
 \end_inset
 
  show that we can use screenshots from PC games to obtain large automatically
- or semi-automatically annotated datasets, which improve learning, allow
- us to outperform same models trained only on real data and achieve state
- of the art results.
+ or semi-automatically annotated datasets, which improve learning.
+ This lets us to outperform same models trained only on real data and achieve
+ state of the art results.
 \end_layout
 
 \begin_layout Section
-Synthetic dataset samples
+Contribution
 \end_layout
 
 \begin_layout Standard
-To demonstrate power of virtual worlds, this section shows some examples
- of automatically annotated synthetic data obtained using my approach described
+In this thesis, I demonstrate the power of rich virtual worlds in creating
+ synthetic datasets, and propose software architecture of dataset creation.
+ Then I create voxel map of space in front of camera to create RGB image,
+ voxel map pairs for learning.
+ In the last part, I train deep convolutional neural network for voxel map
+ estimation.
+\end_layout
+
+\begin_layout Standard
+This thesis is structured as follows.
+ Chapter 2 covers related work and previous achievements of synthetic datasets.
+ Chapter 3 describes game Grand Theft Auto V and its utilization in creating
+ synthetic datasets.
+ I describe here whole modding process, the game API, internal game coordinate
+ systems and data which can be obtained from the game.
+ Chapter 4 describes voxel map estimation from a single RGB image.
+ It is followed by chapter 5, where I describe all experiments done as part
+ of this thesis.
+\end_layout
+
+\begin_layout Standard
+To demonstrate possibilities of synthetic, automatically annotated datasets,
+ here are some sample images obtained using my data extraction described
  in 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -973,10 +1064,24 @@ reference "sec:GTA-V-data-obtaining"
 \end_inset
 
  .
+ The dataset contains position, rotation, model sizes, identifier and the
+ pixel-wise class segmentation of each car.
+ With this data, I was able to do the 3D and 2D bounding boxes extraction,
+ pixel-wise object segmentation and trajectory tracking.
+ 
 \begin_inset Float figure
 wide false
 sideways false
 status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/bbox-night.png
+
+\end_inset
+
+
+\end_layout
 
 \begin_layout Plain Layout
 \begin_inset Caption Standard
@@ -990,10 +1095,6 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -1003,6 +1104,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/bbox-day-people.png
+
+\end_inset
+
 
 \end_layout
 
@@ -1018,10 +1124,6 @@ status open
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -1031,6 +1133,11 @@ sideways false
 status open
 
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/pixelwise-night.png
+
+\end_inset
+
 
 \end_layout
 
@@ -1046,7 +1153,35 @@ pixel-wise annotation
 
 \end_layout
 
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
 \begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/trajectories-day.png
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+individual car trajectories
+\end_layout
+
+\end_inset
+
 
 \end_layout
 
@@ -1055,24 +1190,13 @@ pixel-wise annotation
 
 \end_layout
 
-\begin_layout Standard
-přidat my contribution.
- Být pádnější, údernější názvy, např.
- performance is correlated with size of data, deep learning is samples hungry.
- ZMínit mechanical turk, projít paper supervise.ly, zmínit pomalost dat i
- v introduction, dělat to ručně je šíleně drahý
-\end_layout
-
-\begin_layout Standard
-do introduction examply anotovaných dat z GTA, jako demonstraci síly, u
- studií napsat i názvy autorů
-\end_layout
-
 \begin_layout Chapter
 Related work
 \end_layout
 
 \begin_layout Standard
+Richter et al.
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "playing-for-data"
@@ -1098,8 +1222,9 @@ key "camvid"
 \end_inset
 
 .
- They extracted 24 966 images from game GTA V, which is roughly two orders
- of magnitude larger than CamVid and three orders of magnitude larger than
+ Richter et al.
+ extracted 24 966 images from game GTA V, which is roughly two orders of
+ magnitude larger than CamVid and three orders of magnitude larger than
  semantic annotations for KITTI dataset.
  They trained the prediction module of Yu and Kolthun
 \begin_inset CommandInset citation
@@ -1132,14 +1257,16 @@ key "renderdoc"
 \end_layout
 
 \begin_layout Standard
+Johnson-Roberson et al.
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "driving-in-matrix"
 
 \end_inset
 
- use GTA V screenshots, depth and stencil buffer to produce car images and
- automatically calculate their bounding boxes.
+ used GTA V screenshots, depth and stencil buffer to produce car images
+ and automatically calculated their bounding boxes.
  
 \end_layout
 
@@ -1151,7 +1278,7 @@ key "faster-r-cnn"
 
 \end_inset
 
- only of screenshots from the GTA V game, using up to 200 000 screenshots,
+ only on screenshots from the GTA V game, using up to 200 000 screenshots,
  which is one order of magnitude bigger than Cityscapes dataset.
  Using only screenshots for training, they outperformed same architecture
  trained on Cityscapes, evaluating on KITTI dataset.
@@ -2056,10 +2183,6 @@ Sample stencil object types image and corresponding RGB image
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
@@ -2241,7 +2364,7 @@ Camera
 \begin_layout Standard
 The camera is probably one of the most crucial parts of the API.
  There is Gameplay Camera, which is the default camera used during usual
- gaming.
+ playing.
  This camera can be manipulated, but its usage is limited.
  Other approach is usage of scripted cameras, which can be fully controlled
  programmatically.
@@ -2265,7 +2388,17 @@ Camera camera = World.CreateCamera(new Vector3(x, y, z), new Vector3(x, y,
 \begin_layout Standard
 which returns handle to the new camera.
  The position is in world coordinates in meters.
- The rotation is in degrees in Euler angles.
+ The rotation is in degrees as rotation around particular axis, as in OpenGL
+ engine.
+ In the Aircraft principal axes terminology, the 
+\begin_inset Formula $\left(x,y,z\right)$
+\end_inset
+
+ rotation vector means 
+\begin_inset Formula $\left(pitch,yaw,roll\right)$
+\end_inset
+
+ respectively.
  The fov argument is vertical field of view in degrees.
  The default value is 50.
  One can of course call the underlying native functions directly, but this
@@ -2404,12 +2537,14 @@ the second parameter is relative offset to middle of the attached entity.
 \end_layout
 
 \begin_layout LyX-Code
-camera.AttachTo(Game.Player.Character.CurrentVehicle, new Vector3(0f, 0f, 0.4f));
+camera.AttachTo(Game.Player.Character.CurrentVehicle, new Vector3(2f, 0f, 0.4f));
 \end_layout
 
 \begin_layout Standard
 to attach camera to the front part of player's current vehicle.
- 
+ As seen from code, it attaches camera 2 meters in front of mar model's
+ centre and 40cm above it, making it effectively sitting on top of the hood
+ of the car.
 \end_layout
 
 \begin_layout Section
@@ -3327,8 +3462,12 @@ The first dataset was used for voxel map reconstruction.
  It contains images from 4 virtual cameras attached to driving car, placed
  in circle opposite to each other, mapping space in front of car to create
  its detailed 3D reconstruction.
- There are XXXX scenes, each taken from 4 cameras.
- 
+ There are 8371 scenes, each taken from 4 cameras.
+ During this dataset gathering, 
+\begin_inset Formula $13059$
+\end_inset
+
+ meters were driven in virtual world.
 \end_layout
 
 \begin_layout Standard
@@ -3338,11 +3477,65 @@ The second dataset is demonstration of common automotive dataset from driving
  precise on all surfaces and even in high distances, outperforming LIDAR
  technology in accuracy and depth point density.
  It is directly aligned with pixels of RGB images.
- The datasets consists of XXXX scenes, every of them captured by 4 cameras
- attached to car, heading different direction, as seen in figure DOPLNIT
- OBRÁZEK, a pak třeba i napočítat vzdálenosti, jaké se ujely a napsat je
- tam.
- 
+ The datasets consists of 22285 scenes, every of them captured by 4 cameras
+ attached to car, heading different direction, as seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Camera-positions-for"
+
+\end_inset
+
+ where camera positions are marked by white cubes.
+ During this dataset gathering, 
+\begin_inset Formula $34340$
+\end_inset
+
+ meters were driven in virtual world.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/dataset-2-cameras.png
+	lyxscale 50
+	scale 50
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Camera-positions-for"
+
+\end_inset
+
+Camera positions for second dataset
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Chapter
+Voxel map estimation
 \end_layout
 
 \begin_layout Chapter
