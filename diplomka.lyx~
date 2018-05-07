@@ -35,6 +35,9 @@
 \end_preamble
 \options cleardoublepage=empty,BCOR15mm,DIV12
 \use_default_options false
+\begin_modules
+logicalmkup
+\end_modules
 \maintain_unincluded_children false
 \language british
 \language_package default
@@ -822,7 +825,7 @@ Deep learning is data hungry
 
 \begin_layout Standard
 In recent years, both machine learning and deep learning has experienced
- great progress in many fields
+ great progress in many fields 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "history-began-from-alexnet"
@@ -862,7 +865,7 @@ curse of dataset annotation
 \begin_inset Quotes erd
 \end_inset
 
-
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "semantic-instance-annotation"
@@ -899,7 +902,7 @@ key "mechanical-turk"
 
 \end_inset
 
- and Supervise.ly
+ and Supervise.ly 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "supervise.ly"
@@ -920,7 +923,7 @@ marketplace for work that requires human intelligence
 \begin_inset Quotes erd
 \end_inset
 
-
+ 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "amt-article"
@@ -935,7 +938,7 @@ key "amt-article"
  This platform provides possibility to distribute the annotation process
  among many people at once and for low price.
  Although still being manual, it accelerates the annotation process and
- helps researchers to annotate data more easily.
+ helps researchers to annotate data more easily 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "amt-cv-annotation"
@@ -945,7 +948,7 @@ key "amt-cv-annotation"
 .
  Quality of work can not be guaranteed since task provider can't supervise
  workers and correct them manually, but this disadvantage can be compensated
- by various quality assurance approaches
+ by various quality assurance approaches 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "amt-cv-annotation"
@@ -973,6 +976,31 @@ Although these tools lead to faster annotation process at lower cost, it
  computer vision and related tasks.
 \end_layout
 
+\begin_layout Standard
+The power of automatic annotation can be also expressed in terms of money.
+ Although not many manually annotated datasets describe time of annotation,
+ some of them do.
+ In Cityscapes, the fine annotation took 1.5 hour per image 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "cityscapes"
+
+\end_inset
+
+.
+ If we had annotators paid minimum hourly wage in USA, 7.25$, what would
+ mean each fine annotated image has price 10.875$.
+ The whole fine annotated Cityscapes dataset with 5000 images thus have
+ has price at least 54 375$ and took 312.5 days to annotate.
+ In the dataset I created as part of my thesis, I gathered 33292 images
+ in 3.5 hours.
+ If we would annotate this dataset same as Cityscapes fine annotation, it
+ would take over 2080 days, which is approximately 5.7 years, and it would
+ cost 362 050$.
+ Now we can see how this automatic annotation approach is significantly
+ both time and money saving.
+\end_layout
+
 \begin_layout Section
 Gaming industry to the rescue
 \end_layout
@@ -997,7 +1025,7 @@ The mainstream model of gaming is on personal computers, where each player
  in both software-computer graphics and hardware-graphics cards.
  With lots of money being invested by players in their PCs, GPU manufacturers
  were able to deliver more powerful GPUs every year and we can see exponential
- growth of GPU computational power
+ growth of GPU computational power 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "high-performance-gpu"
@@ -1015,17 +1043,31 @@ Big companies in gaming industry have enough resources to develop the state
 \end_layout
 
 \begin_layout Standard
-Recent papers
+Recent papers 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "playing-for-data,driving-in-matrix"
 
 \end_inset
 
- show that we can use screenshots from PC games to obtain large automatically
- or semi-automatically annotated datasets, which improve learning.
+ have shown that we can use screenshots from PC games to obtain large automatica
+lly or semi-automatically annotated datasets, which improve learning.
  This lets us to outperform same models trained only on real data and achieve
- state of the art results.
+ state of the art results on public datasets (KITTI dataset in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+ and CamVid dataset in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "playing-for-data"
+
+\end_inset
+
+).
 \end_layout
 
 \begin_layout Section
@@ -1068,7 +1110,9 @@ reference "sec:GTA-V-data-obtaining"
  pixel-wise class segmentation of each car.
  With this data, I was able to do the 3D and 2D bounding boxes extraction,
  pixel-wise object segmentation and trajectory tracking.
- 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -1077,6 +1121,8 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename obrazky/bbox-night.png
+	lyxscale 70
+	scale 40
 
 \end_inset
 
@@ -1106,6 +1152,8 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename obrazky/bbox-day-people.png
+	lyxscale 70
+	scale 40
 
 \end_inset
 
@@ -1135,6 +1183,8 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename obrazky/pixelwise-night.png
+	lyxscale 70
+	scale 40
 
 \end_inset
 
@@ -1145,7 +1195,7 @@ status open
 \begin_inset Caption Standard
 
 \begin_layout Plain Layout
-pixel-wise annotation
+pixel-wise annotation of cars
 \end_layout
 
 \end_inset
@@ -1167,6 +1217,8 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename obrazky/trajectories-day.png
+	lyxscale 70
+	scale 40
 
 \end_inset
 
@@ -1214,7 +1266,7 @@ key "cityscapes"
 
 \end_inset
 
- and 514 times faster than per-image annotation of CamVid
+ and 514 times faster than per-image annotation of CamVid 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "camvid"
@@ -1226,7 +1278,7 @@ key "camvid"
  extracted 24 966 images from game GTA V, which is roughly two orders of
  magnitude larger than CamVid and three orders of magnitude larger than
  semantic annotations for KITTI dataset.
- They trained the prediction module of Yu and Kolthun
+ They trained the prediction module of Yu and Kolthun 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "kolthun-dilation"
@@ -1237,7 +1289,7 @@ key "kolthun-dilation"
 \begin_inset Formula $\frac{1}{3}$
 \end_inset
 
-of the CamVid training set (which is ) and all 24 966 GTA V screenshots,
+ of the CamVid training set (which is ) and all 24 966 GTA V screenshots,
  they outperformed same model trained on whole CamVid training dataset.
 \end_layout
 
@@ -1271,7 +1323,7 @@ key "driving-in-matrix"
 \end_layout
 
 \begin_layout Standard
-On these generated data, they trained Faster R-CNN
+On these generated data, they trained Faster R-CNN 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "faster-r-cnn"
@@ -2271,7 +2323,7 @@ Direct3D allows us to get rendering pipelines through the D3D11_MAP_READ
 \begin_inset Formula 
 \begin{align*}
 V & =VW\cdot W^{-1}\\
-P & =PVW\cdot\left(VW\right)^{-1}=PVW\cdot W^{-1}\cdot V^{-1}
+P & =PVW\cdot\left(VW\right)^{-1}=PV\cdot W^{-1}\cdot V^{-1}
 \end{align*}
 
 \end_inset
@@ -2358,6 +2410,289 @@ target "https://github.com/crosire/scripthookvdotnet/tree/dev_v3/source/scriptin
 \end_layout
 
 \begin_layout Subsubsection
+Coordinate systems and axes
+\end_layout
+
+\begin_layout Standard
+The model, world and view coordinate systems are all in meters.
+ In the model coordinate system, e.g.
+ when we have coordinate system of a car, Z-axis is oriented upwards, Y-axis
+ is oriented in front of the car, and X-axis to the right of the car.
+ In the camera coordinate system, the Z-axis is oriented behind the camera,
+ Y-axis upwards of camera and the X-axis to the left of camera.
+ In the world coordinate system, if the camera has rotation = 
+\begin_inset Formula $\left(0,0,0\right)$
+\end_inset
+
+, it is heading in direction of Y-axis, X-axis is heading right of the camera,
+ and Z axis is heading upwards.
+\end_layout
+
+\begin_layout Subsubsection
+Game state manipulation
+\end_layout
+
+\begin_layout Standard
+In the ScriptHookVDotNet2, where is Game class, which is the main entry-point
+ for most of game state manipulation.
+ Here I'll describe methods and properties useful and needed for data retrieval.
+\end_layout
+
+\begin_layout LyX-Code
+Game.Pause(true)
+\end_layout
+
+\begin_layout Standard
+pauses the whole game.
+ 
+\end_layout
+
+\begin_layout LyX-Code
+Game.Pause(false)
+\end_layout
+
+\begin_layout Standard
+un-pauses the game.
+ The 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Game.ScreenResolution
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+property returns Size object with height and width of the current screen,
+ so 
+\end_layout
+
+\begin_layout LyX-Code
+Game.ScreenResolution.Width; Game.ScreenResolution.Height;
+\end_layout
+
+\begin_layout Standard
+returns screen width and height respectively.
+ As seen above, the main player character can be accessed by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Game.Player.Character
+\end_layout
+
+\end_inset
+
+ property.
+ 
+\end_layout
+
+\begin_layout Standard
+The Player Character property is used for handling the main player.
+ It has following method important for data retrieval.
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Game.Player.Character.Position
+\end_layout
+
+\end_inset
+
+ provides position of player in world coordinates.
+ This is useful if we want to obtain entities only in certain distance of
+ player or if we want to spawn new vehicle on player's position.
+ Similarly to position, we can access player's current velocity by 
+\end_layout
+
+\begin_layout LyX-Code
+Game.Player.Character.Velocity
+\end_layout
+
+\begin_layout Standard
+which returns the velocity 3D vector.
+ If we have a vehicle, we set the player as driver as follows 
+\end_layout
+
+\begin_layout LyX-Code
+Game.Player.Character.SetIntoVehicle(vehicle, 
+\end_layout
+
+\begin_layout LyX-Code
+VehicleSeat.Driver)
+\end_layout
+
+\begin_layout Standard
+.
+ When player is in a vehicle, we can access it later by the 
+\end_layout
+
+\begin_layout LyX-Code
+Game.Player.Character.CurrentVehicle
+\end_layout
+
+\begin_layout Standard
+property.
+ 
+\end_layout
+
+\begin_layout Standard
+Other important Class is World, which, as seen above, provides the camera
+ handling interface, and many other features.
+ As mentioned above, the World.DestroyAllCameras() clears all scripted cameras.
+ The 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.CreateCamera()
+\end_layout
+
+\end_inset
+
+ creates new scripted camera.
+ The 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.RenderingCamera
+\end_layout
+
+\end_inset
+
+ holds reference to the currently active scripted camera.
+ Setting the camera to the 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.RenderingCamera
+\end_layout
+
+\end_inset
+
+ activates that camera and starts rendering with that camera, and setting
+ null reference returns the view to the Gameplay camera, which is default
+ camera used during playing.
+ 
+\end_layout
+
+\begin_layout Standard
+Other methods allow us directly manipulate the world.
+ The 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.CurrentDayTime
+\end_layout
+
+\end_inset
+
+ returns the TimeSpan object, which is time in day in the GTA world.
+ By setting this property we can change the time of day as we need by assigning
+ the TimeSpan instance 
+\end_layout
+
+\begin_layout LyX-Code
+World.CurrentDayTime = 
+\end_layout
+
+\begin_layout LyX-Code
+new TimeSpan(int hours, int minutes, int seconds)
+\end_layout
+
+\begin_layout Standard
+.
+ The 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.Weather
+\end_layout
+
+\end_inset
+
+ uses same getter, setter interface, so 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.Weather
+\end_layout
+
+\end_inset
+
+ returns current weather, and 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.Weather = Weather.Foggy
+\end_layout
+
+\end_inset
+
+ sets the weather to be foggy.
+ List of all possible weathers is in the Weather enum, which contains Unknown,
+ ExtraSunny, Clear, Clouds, Smog, Foggy, Overcast, Raining, ThunderStorm,
+ Clearing, Neutral, Snowing, Blizzard, Snowlight, Christmas, Halloween.
+ 
+\end_layout
+
+\begin_layout Standard
+The World class also contains the 
+\end_layout
+
+\begin_layout LyX-Code
+World.CreateVehicle(Model model, Vector3 position)
+\end_layout
+
+\begin_layout Standard
+which spawn new car in the game and returns reference to the newly spawned
+ car.
+ Position is in world coordinates and model can be any of vehicle models
+ in game.
+ For instance,
+\end_layout
+
+\begin_layout LyX-Code
+World.CreateVehicle(new Model(VehicleHash.Seven70), 
+\end_layout
+
+\begin_layout LyX-Code
+Game.Player.Character.Position)
+\end_layout
+
+\begin_layout Standard
+creates new sports car in player's position .
+ Whole list of known models is available in 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/crosire/scripthookvdotnet/blob/dev_v3/source/scripting/World/E
+ntities/Vehicles/VehicleHash.cs
+\end_layout
+
+\end_inset
+
+ where 554 model hashes are enumerated.
+ 
+\end_layout
+
+\begin_layout Subsubsection
 Camera
 \end_layout
 
@@ -2381,8 +2716,11 @@ key "gta-mod-camera"
 \end_layout
 
 \begin_layout LyX-Code
-Camera camera = World.CreateCamera(new Vector3(x, y, z), new Vector3(x, y,
- z), float fov);
+Camera camera = World.CreateCamera(
+\end_layout
+
+\begin_layout LyX-Code
+new Vector3(x, y, z), new Vector3(x, y, z), float fov);
 \end_layout
 
 \begin_layout Standard
@@ -2395,7 +2733,7 @@ which returns handle to the new camera.
 \end_inset
 
  rotation vector means 
-\begin_inset Formula $\left(pitch,yaw,roll\right)$
+\begin_inset Formula $\left(pitch,roll,yaw\right)$
 \end_inset
 
  respectively.
@@ -2512,11 +2850,8 @@ The near clip and far clip is again in meters.
  So we can set all needed parameters simply by calling getters and setters.
  So if we want to use camera, we simply set parameters and then activate
  it.
- This creates static camera.
- There is only one caveat, which is probably bug in the API: when setting
- the camera rotation Euler angles, the second angle is in first position
- and first angle is in the second position in the setting vector.
- Otherwise the camera won't be rotated correctly.
+ This creates the static camera.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -2537,7 +2872,11 @@ the second parameter is relative offset to middle of the attached entity.
 \end_layout
 
 \begin_layout LyX-Code
-camera.AttachTo(Game.Player.Character.CurrentVehicle, new Vector3(2f, 0f, 0.4f));
+camera.AttachTo(Game.Player.Character.CurrentVehicle, 
+\end_layout
+
+\begin_layout LyX-Code
+new Vector3(0f, 2f, 0.4f));
 \end_layout
 
 \begin_layout Standard
@@ -2545,6 +2884,249 @@ to attach camera to the front part of player's current vehicle.
  As seen from code, it attaches camera 2 meters in front of mar model's
  centre and 40cm above it, making it effectively sitting on top of the hood
  of the car.
+ These parameters are taken from 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "video-games-for-autonomous-driving"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+When we have camera attached to the car, we need to update periodically
+ its rotation, otherwise it will be heading the same direction in world
+ coordinates and won't rotate with car it is attached to.
+ So when we have our Tick method, which is being called periodically, we
+ need to update the active camera like this:
+\end_layout
+
+\begin_layout LyX-Code
+camera.AttachTo(Game.Player.Character.CurrentVehicle, 
+\end_layout
+
+\begin_layout LyX-Code
+cameraPosition);
+\end_layout
+
+\begin_layout LyX-Code
+camera.Rotation = cameraRotation;
+\end_layout
+
+\begin_layout Standard
+if we want to have our camera rotated in fixed offset compared to car rotation
+ (e.g.
+ camera looking behind the car), we simply set camera's rotation as offset
+ like this
+\end_layout
+
+\begin_layout LyX-Code
+camera.AttachTo(Game.Player.Character.CurrentVehicle, 
+\end_layout
+
+\begin_layout LyX-Code
+new Vector3(0f, -2f, 0.6f));  // now our camera is sitting in back of the
+ car
+\end_layout
+
+\begin_layout LyX-Code
+camera.Rotation = Game.Player.Character.CurrentVehicle.Rotation 
+\end_layout
+
+\begin_layout LyX-Code
++ new Vector3(0f, 0f, 180f);
+\end_layout
+
+\begin_layout Standard
+which sets camera rotation in world coordinates as a sum of car's rotation
+ and relative rotation of camera, 180° yaw.
+\end_layout
+
+\begin_layout Subsubsection
+Game entities
+\end_layout
+
+\begin_layout Standard
+All game entities extend the abstract Entity class.
+ Important children of Entity class are Ped, Vehicle and Prop classes, wrapping
+ pedestrians, vehicles, and various objects, respectively.
+ List of all entities contained in the entity pool can be obtained by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+World.GetAllEntities()
+\end_layout
+
+\end_inset
+
+.
+ Methods 
+\end_layout
+
+\begin_layout LyX-Code
+World.GetAllPeds(); World.GetAllVehicles(); World.GetAllProps();
+\end_layout
+
+\begin_layout Standard
+will return list of all pedestrians, vehicles, and props, respectively.
+ These lists are huge and we don't need all of returned entities usually.
+ Most of the time, we are interested only in objects on the screen, which
+ are only in certain distance from us.
+ The most straightforward option is to filter these lists afterwards, but
+ luckily, the library offers us helper methods for filtering the nearby
+ entities more effectively, without need to instantiate more distant entities.
+ These helper methods are 
+\end_layout
+
+\begin_layout LyX-Code
+World.GetNearbyEntities(Vector3 position, float radius)
+\end_layout
+
+\begin_layout Standard
+, and analogously, 
+\end_layout
+
+\begin_layout LyX-Code
+World.GetNearbyPeds(Vector3 position, float radius); 
+\end_layout
+
+\begin_layout LyX-Code
+World.GetNearbyVehicles(Vector3 position, float radius); 
+\end_layout
+
+\begin_layout LyX-Code
+World.GetNearbyProps(Vector3 position, float radius);
+\end_layout
+
+\begin_layout Standard
+.
+ As expected, radius is in meters, position is in world coordinates.
+ So obtaining for instance all vehicles up to half kilometres distant from
+ the current player, we call 
+\end_layout
+
+\begin_layout LyX-Code
+World.GetNearbyVehicles(Game.Player.Character, 500.0f)
+\end_layout
+
+\begin_layout Standard
+.
+ Every entity has position, rotation, velocity, and handle.
+ Position and rotation have similar semantics as cameras.
+ Velocity is velocity as a 3D vector.
+ The handle is unique in-game identifier of particular entity, allowing
+ identifying it across whole game during data gathering, and lets us identify
+ same entity on multiple images, which is useful for identifying motion
+ of entity through different images.
+ By calling 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+entity.Model.Hash
+\end_layout
+
+\end_inset
+
+ on a particular entity, we obtain its hash, which can be used to spawn
+ new entities with same model.
+ For vehicles, there is 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+
+\family roman
+entity.ClassType
+\end_layout
+
+\end_inset
+
+ property, describing type as one of 21 vehicle types.
+ Whole list can be seen in the enum VehicleClass in the 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/crosire/scripthookvdotnet/blob/dev_v3/source/scripting/World/E
+ntities/Vehicles/Vehicle.cs
+\end_layout
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Subsubsection
+Gathering data from active camera
+\end_layout
+
+\begin_layout Standard
+In this part, I'll describe how to access data from internal GPU buffers
+ and how to persist these data.
+ 
+\end_layout
+
+\begin_layout Standard
+Before we gather buffers contents, we want to pause the game.
+ Since we don't get the data from buffers perfectly synchronized, we pause
+ the game to make sure RGB, depth and stencil buffer contain data coming
+ from same frame.
+ 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+Game.Pause(true)
+\end_layout
+
+\end_inset
+
+ pauses the game.
+ The whole data retrieval from buffers is done via GTAVisionExport native
+ plugin 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+.
+ When the game is stopped, we can obtain RGB, depth and stencil buffer contents
+ by 
+\end_layout
+
+\begin_layout LyX-Code
+var color = VisionNative.GetColorBuffer();
+\end_layout
+
+\begin_layout LyX-Code
+var depth = VisionNative.GetDepthBuffer();
+\end_layout
+
+\begin_layout LyX-Code
+var stencil = VisionNative.GetStencilBuffer(); 
+\end_layout
+
+\begin_layout Standard
+and then, we save it to the filesystem as TIFF image.
+ Although TIFF is not the most used format for data, it is able to persist
+ image whose pixels contain float values, which is crucial for depth buffer.
+\end_layout
+
+\begin_layout Standard
+The RGB buffer is usual 8bit unsigned integer RGBA image.
+ The depth buffer contains float values, with 32bits precision, in range
+ from 0 to 1, representing depth value in NDC space.
+ The stencil buffer contains 8bit unsigned integer image.
+ 
 \end_layout
 
 \begin_layout Section
@@ -2558,7 +3140,7 @@ Reverse-engineering the RAGE rendering pipeline
 \end_layout
 
 \begin_layout Standard
-As mentioned above
+As mentioned above 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "rage"
@@ -3535,7 +4117,72 @@ Camera positions for second dataset
 \end_layout
 
 \begin_layout Chapter
-Voxel map estimation
+3D map estimation
+\end_layout
+
+\begin_layout Standard
+Restoring 3D map from single image is a complex task.
+ We can think of depth estimation as preceding problem to the 3D map estimation,
+ because in depth estimation, we estimate distance of nearest object pixel-wise,
+ and in 3D map estimation, we have multiple depth levels per pixel and estimate
+ occupancy per each depth level.
+ The neural network output is cuboid with size of XxYxZ neurons, hence it
+ is useful to represent 3D map of a cuboid as a voxel map with X width levels,
+ Y height levels and Z depth levels.
+ Then we can estimate occupancy per voxel, in other words, per each neuron
+ output.
+ Thus we can represent both depth and 3D map estimation as similar instances,
+ depth estimation being single class occupancy classification per pixel,
+ and 3D map estimation being multi-class occupancy classification per pixel.
+\end_layout
+
+\begin_layout Section
+Depth estimation
+\end_layout
+
+\begin_layout Standard
+Depth estimation is one of the most fundamental tasks in computer vision.
+ Most existing methods 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-and-surface-estimation,predicting-depth"
+
+\end_inset
+
+ formulate depth estimation as a regression task due to the continuous nature
+ of depth values.
+ Those models for depth estimation are usually trained to minimize L2 norm
+ between ground truth and predicted depths.
+ However it shows that regressing to exact depth is difficult task.
+ In many applications, depth can be known only approximately.
+ With aforementioned approach, I approximate the regression formulation
+ of depth estimation with classification problem.
+ Thus instead of training to predict exact depth, we predict only depth
+ range, still small enough to be useful for our application.
+ Advantage of classification formulation of the problem is that after applying
+ softmax on output of neural network, depths are naturally predicted as
+ confidence in form of probability that particular depth level is occupied
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+.
+ Most notable methods 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification,depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
+ use deep convolutional network architectures based on famous object classificat
+ion architectures.
+\end_layout
+
+\begin_layout Standard
+
 \end_layout
 
 \begin_layout Chapter
