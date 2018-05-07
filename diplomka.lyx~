@@ -1782,6 +1782,10 @@ DotNet2: when changing mod compiled binaries, we don't have to restart the
  This does not work for C++ mods and compiled .asi files.
 \end_layout
 
+\begin_layout Standard
+todo: popsat sem architekturu
+\end_layout
+
 \begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
@@ -4137,6 +4141,149 @@ Restoring 3D map from single image is a complex task.
 \end_layout
 
 \begin_layout Section
+Residual networks
+\end_layout
+
+\begin_layout Standard
+In machine learning, deep convolutional neural networks have been used more
+ and more mostly due to significant breakthroughs in image classification
+ tasks.
+ Advantage of deep neural networks is they are capable to naturally utilize
+ low-level, mid-level, and high-level features, without need for manual
+ feature-engineering and lets us train whole architectures end-to-end.
+ Recent results 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "going-deeper-with-convolutions,very-deep-image-recognition"
+
+\end_inset
+
+ in visual recognition tasks, mostly on ImageNet dataset 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "imagenet"
+
+\end_inset
+
+, reveal depth of network plays crucial role in model accuracy.
+ When deeper networks were created simply by stacking more and more layers
+ in the model, these models become hard to train.
+ One of these problems is the notorious vanishing gradient, which is being
+ addressed by many approaches, like normalized initialization 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "efficient-backprop,difficulty-deep-forward"
+
+\end_inset
+
+ and normalization layers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "batch-normalization"
+
+\end_inset
+
+.
+ Other problem is the degradation problems, where training accuracy starts
+ to worsen, after stacking more layers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "highway-networks"
+
+\end_inset
+
+.
+ Residual networks aim to address this problem of degradation.
+\end_layout
+
+\begin_layout Standard
+If shallower model is able to learn with higher accuracy than deeper model,
+ we want the deeper model to be able to learn at least same as shallower
+ one, or better.
+ If we stack new layer into model, we want them to be able to learn identity
+ mapping.
+ Then the model with new layers will behave same as shallower model during
+ prediction.
+ Experiments show that current solvers using gradient descent are not able
+ to find such solution which would let newer layer to learn identity mapping
+ in feasible time.
+ The residual learning aims to tackle this problem by explicitly learning
+ the residual mapping instead of original mapping.
+ If we want our newly stacked layers to represent mapping 
+\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)$
+\end_inset
+
+, instead we let them learn another mapping 
+\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)=\mathcal{H}\left(\boldsymbol{x}\right)-\boldsymbol{x}$
+\end_inset
+
+.
+ The original mapping we aim to, 
+\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)$
+\end_inset
+
+ is then reconstructed as 
+\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)=\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
+\end_inset
+
+.
+ He et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+ shows it is easier to learn the residual mapping than to learn the original
+ mapping.
+ It also more easily preserves the identity mapping, if 
+\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)=\boldsymbol{0}$
+\end_inset
+
+, because it is easier to fit these layers to zero than to explicitly learn
+ identity mapping.
+ 
+\end_layout
+
+\begin_layout Standard
+The formulation of 
+\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
+\end_inset
+
+ can be realized by feed-forward neural network with shortcut connections
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bishop-neural-networks"
+
+\end_inset
+
+, also known as skip connections.
+ The advantage of this approach is it can be easily implemented in current
+ neural network frameworks out of the box, and it whole network can still
+ be learned by SGD end-to-end without any further modifications.
+ Intuitively, the identity mapping, shortcut connection can be seen as an
+ information highway, where information flows unchanged both forwards and
+ backwards without any changes.
+ He et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+ show the residual learning lets us train very deep models and present several
+ architectures based on residual learning: ResNet-18, ResNet-34, Resnet-50,
+ ResNet-101, and ResNet-152.
+ basically ResNet architecture consists of 4 residual blocks, repeated many
+ times.
+ The difference between individual architectures is only in number of repetition
+s these residual blocks.
+\end_layout
+
+\begin_layout Section
 Depth estimation
 \end_layout
 
@@ -4179,6 +4326,7 @@ key "depth-estimation-as-classification,depth-estimation-hierarchical-fusion-sof
 
  use deep convolutional networks based on famous object classification architect
 ures.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -4190,7 +4338,7 @@ key "depth-estimation-hierarchical-fusion-soft-weighting"
 
 \end_inset
 
- uses architecture based on deep residual network 
+ use architecture based on deep residual network 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "resnet"
@@ -4198,25 +4346,20 @@ key "resnet"
 \end_inset
 
 , specifically Resnet-152.
-\end_layout
-
-\begin_layout Subsection
-Residual networks
-\end_layout
-
-\begin_layout Standard
-In machine learning, deep convolutional neural networks have been used more
- and more mostly due to significant breakthroughs in image classification
- tasks.
- Advantage of deep neural networks is they are capable to naturally utilize
- low-level, mid-level, and high-level features, without need for manual
- feature-engineering and lets us train whole architectures end-to-end.
- Recent results in visual recognition tasks, mostly on ImageNet dataset
- , reveal depth of network plays crucial role in model accuracy.
+ The architecture is modified, it does not use the fully connected layer
+ in the end of the network, which drastically decreases the number of trainable
+ parameters, and instead it appends one convolutional and one deconvolutional
+ layer.
+ Also, Li et al.
+ utilize the hierarchical fusion, where output of each block of ResNet is
+ concatenated to other outputs, with dropout layer afterwards, then the
+ network utilizes both low-level and high-level features of the input image
+ during the final layers of depth estimation.
+ 
 \end_layout
 
 \begin_layout Standard
-todo: popsat oba papery, resnet apod.
+The 
 \end_layout
 
 \begin_layout Chapter
