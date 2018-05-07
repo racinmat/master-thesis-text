@@ -4211,8 +4211,24 @@ In machine learning, deep convolutional neural networks have been used more
  Advantage of deep neural networks is they are capable to naturally utilize
  low-level, mid-level, and high-level features, without need for manual
  feature-engineering and lets us train whole architectures end-to-end.
- Recent results in visual recognition tasks, mostly on ImageNet dataset
- , reveal depth of network plays crucial role in model accuracy.
+ Recent results 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "going-deeper-with-convolutions,very-deep-image-recognition"
+
+\end_inset
+
+ in visual recognition tasks, mostly on ImageNet dataset 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "imagenet"
+
+\end_inset
+
+, reveal depth of network plays crucial role in model accuracy.
+ When deeper networks were created simply by stacking more and more layers
+ in the model, the model becomes hard to train because of notorious problem
+ of vanishing gradient.
 \end_layout
 
 \begin_layout Standard

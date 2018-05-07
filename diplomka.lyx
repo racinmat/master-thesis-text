@@ -4160,7 +4160,7 @@ key "depth-and-surface-estimation,predicting-depth"
  Thus instead of training to predict exact depth, we predict only depth
  range, still small enough to be useful for our application.
  Advantage of classification formulation of the problem is that after applying
- softmax on output of neural network, depths are naturally predicted as
+ soft-max on output of neural network, depths are naturally predicted as
  confidence in form of probability that particular depth level is occupied
  
 \begin_inset CommandInset citation
@@ -4177,8 +4177,55 @@ key "depth-estimation-as-classification,depth-estimation-hierarchical-fusion-sof
 
 \end_inset
 
- use deep convolutional network architectures based on famous object classificat
-ion architectures.
+ use deep convolutional networks based on famous object classification architect
+ures.
+\end_layout
+
+\begin_layout Standard
+Li et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
+ uses architecture based on deep residual network 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+, specifically Resnet-152.
+\end_layout
+
+\begin_layout Subsection
+Residual networks
+\end_layout
+
+\begin_layout Standard
+In machine learning, deep convolutional neural networks have been used more
+ and more mostly due to significant breakthroughs in image classification
+ tasks.
+ Advantage of deep neural networks is they are capable to naturally utilize
+ low-level, mid-level, and high-level features, without need for manual
+ feature-engineering and lets us train whole architectures end-to-end.
+ Recent results 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "going-deeper-with-convolutions,very-deep-image-recognition"
+
+\end_inset
+
+ in visual recognition tasks, mostly on ImageNet dataset 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "imagenet"
+
+\end_inset
+
+, reveal depth of network plays crucial role in model accuracy.
 \end_layout
 
 \begin_layout Standard
