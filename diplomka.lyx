@@ -4086,7 +4086,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/dataset-2-cameras.png
 	lyxscale 50
-	scale 50
+	scale 40
 
 \end_inset
 
@@ -4307,7 +4307,7 @@ key "depth-and-surface-estimation,predicting-depth"
  Thus instead of training to predict exact depth, we predict only depth
  range, still small enough to be useful for our application.
  Advantage of classification formulation of the problem is that after applying
- soft-max on output of neural network, depths are naturally predicted as
+ softmax on output of neural network, depths are naturally predicted as
  confidence in form of probability that particular depth level is occupied
  
 \begin_inset CommandInset citation
@@ -4355,7 +4355,187 @@ key "resnet"
  concatenated to other outputs, with dropout layer afterwards, then the
  network utilizes both low-level and high-level features of the input image
  during the final layers of depth estimation.
+ The output of final layer is 120x160x200, meaning it outputs 120x160 pixels
+ image with 200 depth levels.
+ The depth space is equally discretized in log space.
+ Specifically, 
+\begin_inset Formula 
+\[
+l=round\left(\frac{\log\left(d\right)-\log\left(d_{min}\right)}{q}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $l$
+\end_inset
+
+ is the quantized label, q is the width of quantization bin, 
+\begin_inset Formula $d$
+\end_inset
+
+ is the continuous depth value and 
+\begin_inset Formula $d_{min}$
+\end_inset
+
+ is the minimum depth value in the dataset.
  
+\end_layout
+
+\begin_layout Standard
+Other notable approach of Li et al.
+ is soft weighted sum inference.
+ Usually, the depth is reconstructed intuitively as a centre of depth bin
+ with maximum value pixel-wise 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+.
+ The last layer is softmax, so values can be interpreted as probabilities
+ of each depth bin being being correct one.
+ Thus the output contains probability distribution of depth pixel-wise.
+ Li et al.
+ reconstruct depth as a soft weighted sum inference by 
+\begin_inset Formula 
+\[
+\hat{d}=\exp\left\{ \boldsymbol{w}^{T}\boldsymbol{p}\right\} ,w_{i}=\log\left(d_{min}\right)+q\cdot i
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\boldsymbol{w}$
+\end_inset
+
+ is the weight vector of depth bins, 
+\begin_inset Formula $i$
+\end_inset
+
+ is bin index, and 
+\begin_inset Formula $\boldsymbol{p}$
+\end_inset
+
+ is the output score.
+\end_layout
+
+\begin_layout Standard
+Then the model is trained end-to-end to minimize the pixel-wise multinomial
+ logistic loss 
+\begin_inset Formula 
+\[
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the number of pixels, 
+\begin_inset Formula $K$
+\end_inset
+
+ is the number of depth bins, 
+\begin_inset Formula $D_{i}^{*}$
+\end_inset
+
+ is ground truth depth on pixel 
+\begin_inset Formula $i$
+\end_inset
+
+, and 
+\begin_inset Formula $p_{i}^{D_{k}}$
+\end_inset
+
+ is the probability of pixel 
+\begin_inset Formula $i$
+\end_inset
+
+ to be labelled with 
+\begin_inset Formula $D_{k}$
+\end_inset
+
+ depth bin.
+\end_layout
+
+\begin_layout Standard
+The classical multi-class classification assumes categorical labels without
+ any ordering defined.
+ However depth bins are ordinal labels, not categorical, because they have
+ defined ordering and semantically it makes sense to take into account distance
+ between correct and predicted label during training.
+ This approach is not usable for categorical data, but for nominal data,
+ this knowledge can be used to provide more information for the learning.
+ Cao et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+ propose modified loss function which takes distance between depth ins into
+ account.
+ They use similar architecture, with pixel-wise multinomial logistic loss,
+ but with slight modification.
+ In usual logistic loss, the loss is non-zero only for correct label, due
+ to the 
+\begin_inset Formula $1\left\{ D_{k}=D_{i}^{*}\right\} $
+\end_inset
+
+part of the function.
+ Cao et al.
+ propose 
+\begin_inset Quotes eld
+\end_inset
+
+information gain
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+ instead, where 
+\begin_inset Formula $1\left\{ D_{k}=D_{i}^{*}\right\} $
+\end_inset
+
+ is replaced by 
+\begin_inset Formula $H\left(D_{i}^{*},D_{k}\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $H$
+\end_inset
+
+ is 
+\begin_inset Formula $B\times B$
+\end_inset
+
+ symmetric matrix with elements 
+\begin_inset Formula $H\left(p,q\right)=exp\left(-\alpha\left(p-q\right)^{2}\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a constant.
+ This information gain matrix lets the SGD propagate the error not only
+ through correct label and preceding softmax layer, but also through its
+ neighbouring labels, which helps updating the network parameters.
+\end_layout
+
+\begin_layout Standard
+todo: popsat můj setup, dodat obrázky a experimenty
 \end_layout
 
 \begin_layout Chapter
