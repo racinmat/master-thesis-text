@@ -1122,7 +1122,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/bbox-night.png
 	lyxscale 70
-	scale 40
+	width 12cm
 
 \end_inset
 
@@ -1153,7 +1153,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/bbox-day-people.png
 	lyxscale 70
-	scale 40
+	width 12cm
 
 \end_inset
 
@@ -1184,7 +1184,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/pixelwise-night.png
 	lyxscale 70
-	scale 40
+	width 12cm
 
 \end_inset
 
@@ -1218,7 +1218,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/trajectories-day.png
 	lyxscale 70
-	scale 40
+	width 12cm
 
 \end_inset
 
@@ -3563,6 +3563,12 @@ w_{max}^{W} & w_{min}^{W}
 \end_layout
 
 \begin_layout Subsection
+\begin_inset CommandInset label
+LatexCommand label
+name "subsec:World-to-Camera"
+
+\end_inset
+
 World to Camera Coordinates
 \end_layout
 
@@ -3645,7 +3651,7 @@ to fit the matrix into page, let us propose following substitutions
 
 
 \begin_inset Formula 
-\begin{align*}
+\begin{align}
 V & =\begin{bmatrix}c_{\beta}c_{\gamma} & c_{\beta}s_{\gamma} & -s_{\beta} & 0\\
 c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma} & c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma} & c_{\alpha}c_{\beta} & 0\\
 c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma} & -s_{\alpha}c_{\beta} & 0\\
@@ -3654,13 +3660,13 @@ c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gam
 0 & 1 & 0 & y^{W}\\
 0 & 0 & 1 & z^{W}\\
 0 & 0 & 0 & 1
-\end{bmatrix}\\
+\end{bmatrix}\nonumber \\
  & =\begin{bmatrix}c_{\beta}c_{\gamma} & c_{\beta}s_{\gamma} & -s_{\beta} & x^{W}c_{\beta}c_{\gamma}+y^{W}c_{\beta}s_{\gamma}-z^{W}s_{\beta}\\
 c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma} & c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma} & c_{\alpha}c_{\beta} & x^{W}\left(c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma}\right)+y^{W}\left(c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma}\right)+z^{W}c_{\alpha}c_{\beta}\\
 c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma} & -s_{\alpha}c_{\beta} & x^{W}\left(c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma}\right)+y^{W}\left(-s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma}\right)-z^{W}s_{\alpha}c_{\beta}\\
 0 & 0 & 0 & 1
-\end{bmatrix}
-\end{align*}
+\end{bmatrix}\label{eq:camera-m}
+\end{align}
 
 \end_inset
 
@@ -3839,13 +3845,13 @@ reference "subsec:Reverse-engineering"
 \begin_layout Standard
 The transformation is represented by projection matrix
 \begin_inset Formula 
-\begin{align*}
+\begin{align}
 P & =\begin{bmatrix}\frac{H}{W\cdot\tan\left(\frac{\varphi_{VR}}{2}\right)} & 0 & 0 & 0\\
 0 & \frac{1}{\tan\left(\frac{\varphi_{VR}}{2}\right)} & 0 & 0\\
 0 & 0 & \frac{-10003.815}{n_{c}-10003.815} & \frac{-10003.815\cdot n_{c}}{n_{c}-10003.815}\\
 0 & 0 & -1 & 0
-\end{bmatrix}
-\end{align*}
+\end{bmatrix}\label{eq:projection-m}
+\end{align}
 
 \end_inset
 
@@ -3960,6 +3966,37 @@ The view frustum was now transformed into NDC cuboid.
 \end_inset
 
  usually belongs to sky.
+\end_layout
+
+\begin_layout Standard
+The camera divides the camera space to two half-spaces, in front of camera
+ 
+\begin_inset Formula $z^{C}<0$
+\end_inset
+
+, and behind camera 
+\begin_inset Formula $z^{C}\geq0$
+\end_inset
+
+ .
+ The projection transformation from camera space to NDC space works correctly
+ only for points that belong to half-space 
+\begin_inset Formula $z^{C}<0$
+\end_inset
+
+.
+ For every point in camera space, we can easily verify to which half-space
+ it belongs and project only points belonging to the 
+\begin_inset Formula $z^{C}<0$
+\end_inset
+
+ half-space.
+ If we project points behind the camera,
+\begin_inset Formula $z^{C}\geq0$
+\end_inset
+
+ to the NDC space, they will be mapped into the NDC space as if they were
+ in front of camera.
 \end_layout
 
 \begin_layout Subsection
@@ -4077,6 +4114,13 @@ reference "fig:Camera-positions-for"
 \end_inset
 
  meters were driven in virtual world.
+\end_layout
+
+\begin_layout Standard
+todo: dodělat datasets proposal
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -4085,8 +4129,8 @@ status open
 \begin_layout Plain Layout
 \begin_inset Graphics
 	filename obrazky/dataset-2-cameras.png
-	lyxscale 50
-	scale 40
+	lyxscale 40
+	width 12cm
 
 \end_inset
 
@@ -4281,6 +4325,48 @@ key "resnet"
  times.
  The difference between individual architectures is only in number of repetition
 s these residual blocks.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/resnet-layers.png
+	lyxscale 80
+	width 5cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Residual and shortcut layers
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -4414,11 +4500,15 @@ where
 \begin_inset Formula $i$
 \end_inset
 
- is bin index, and 
+ is bin index, 
 \begin_inset Formula $\boldsymbol{p}$
 \end_inset
 
- is the output score.
+ is the output score, and 
+\begin_inset Formula $\hat{d}$
+\end_inset
+
+ is reconstructed depth.
 \end_layout
 
 \begin_layout Standard
@@ -4532,6 +4622,511 @@ key "depth-estimation-as-classification"
  This information gain matrix lets the SGD propagate the error not only
  through correct label and preceding softmax layer, but also through its
  neighbouring labels, which helps updating the network parameters.
+ So the modified loss is 
+\begin_inset Formula 
+\[
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Multiple datasets are being used for depth estimation.
+ Most of them are indoor, since indoor we are able to measure depth more
+ precisely and we generally deal with smaller distances.
+ In my case, I trained for estimating outdoor depth.
+ The synthetic dataset retrieved from GTA V has big advantage in dense and
+ high precision depth labels seen nowhere in real datasets.
+ In the outdoor depth estimation, I don't care about very distant points,
+ so the depth estimation is thresholded 
+\end_layout
+
+\begin_layout Section
+3D map estimation
+\end_layout
+
+\begin_layout Standard
+The 3D map estimation from single RGB image is an abstract task and has
+ many possible representations.
+ In many tasks, voxel-map has proven to be good representation of the 3D
+ space.
+ Voxel (volumetric pixel) is the smallest distinguishable unit in 3D space,
+ it is 3D analogy of 2D pixel.
+ In this scenario, each voxel has one of three states: free, occupied and
+ unknown.
+ The size of voxel is not generally set and is being chosen to fit particular
+ task.
+ Too big voxel size causes high loss of information, and too small voxel
+ size leads to high amount of voxels, more complicated manipulation with
+ the resulting voxelmap and higher size when persisting the voxelmap.
+ 
+\end_layout
+
+\begin_layout Standard
+Image which is used as an input for 3D map estimation is representing only
+ a frustum in 3D map and does not contain information about space outside
+ of this frustum.
+ Because of this fact, setup in this thesis focuses only on reconstruction
+ of 3D space inside the frustum viewed by the camera taking the image.
+ Output of the neural network is 
+\begin_inset Formula $X\times Y\times Z$
+\end_inset
+
+ cuboid, which will be mapped to the frustum so output of each neuron represents
+ point in the frustum.
+ Mapping between the the cuboid and frustum is contained in the projection
+ matrix 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Camera-to-NDC"
+
+\end_inset
+
+ which is used for the training dataset creation and for reconstruction
+ of pointcloud from neural network output during prediction.
+ With this setup, the model is predicting occupancy of points sampled from
+ the frustum.
+ In my setup, the frustum will be up to 25m from camera.
+\end_layout
+
+\begin_layout Subsection
+Training dataset construction from depth images
+\end_layout
+
+\begin_layout Standard
+The synthetic dataset created from GTA V contains depth images and camera
+ parameters, so there is need to reconstruct the 3D map and sample it to
+ create the training dataset.
+ For 3D map reconstruction, I gathered data from four cameras with positions
+ relative to the driving car, as seen in figure X where each white cube
+ represents camera position 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Camera-positions-for-3d"
+
+\end_inset
+
+.
+ Totally there are 4 cameras, equally placed on the circle with 8 meters
+ circumference.
+ This setup will demonstrate the whole process of building 3D frustum map
+ from 4 cameras
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/dataset-1-cameras.png
+	lyxscale 50
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Camera-positions-for-3d"
+
+\end_inset
+
+Camera positions for 3d reconstruction
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-35--576.jpg
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-35--972.jpg
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-36--349.jpg
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-36--728.jpg
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:extracted-RGB-images"
+
+\end_inset
+
+extracted RGB images from 4 cameras
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-35--576-depth.png
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-35--972-depth.png
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-36--349-depth.png
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/2018-05-08--14-15-36--728-depth.png
+	lyxscale 40
+	width 7cm
+
+\end_inset
+
+
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:extracted-depth-images"
+
+\end_inset
+
+extracted depth images from 4 cameras
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+From these 4 cameras, I gathered 4 RGB and depth images, shown in figures
+ 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:extracted-RGB-images"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:extracted-depth-images"
+
+\end_inset
+
+.
+ I also gathered camera parameters, namely position, rotation, near clip,
+ and field of view.
+ With these parameters, depth images can be easily transformed into the
+ pointcloud in world coordinate system.
+ Let us have 
+\begin_inset Formula $\boldsymbol{I}^{1}$
+\end_inset
+
+depth image from the 1st camera with with width 
+\begin_inset Formula $W$
+\end_inset
+
+ and height 
+\begin_inset Formula $H$
+\end_inset
+
+ pixels.
+ Since depth image contains value in NDC space then, 
+\begin_inset Formula $\boldsymbol{I}^{1}=\left(d_{i,j}\right)\in\left[0,1\right]^{W\times H}$
+\end_inset
+
+ holds, where 
+\begin_inset Formula $d_{i,j}$
+\end_inset
+
+ is value of pixel with coordinates 
+\begin_inset Formula $\left[i,j\right]$
+\end_inset
+
+.
+ For every pixel, we know its depth value and coordinates in the pixel space,
+ thus we can describe it as a point in NDC space
+\begin_inset Formula 
+\[
+\boldsymbol{x}_{i,j}^{NDC}=\begin{bmatrix}x^{NDC}\\
+y^{NDC}\\
+z^{NDC}\\
+1
+\end{bmatrix}=\begin{bmatrix}\frac{2i}{W}-1\\
+-\left(\frac{2j}{H}-1\right)\\
+d_{i,j}\\
+1
+\end{bmatrix}
+\]
+
+\end_inset
+
+, where the 
+\begin_inset Formula $\boldsymbol{x}_{i,j}^{NDC}$
+\end_inset
+
+ is pixel
+\begin_inset Formula $\left[i,j\right]$
+\end_inset
+
+ transformed into NDC space.
+ The sign change in 
+\begin_inset Formula $y^{NDC}$
+\end_inset
+
+ is cause by indexing conventions of images, where lowest pixel height is
+ in the upper part of image but in NDC space, lowest 
+\begin_inset Formula $y^{NDC}$
+\end_inset
+
+ value is in the lower part of image.
+ This holds because 
+\begin_inset Formula $x^{NDC},x^{NDC}\in\left[-1,1\right]$
+\end_inset
+
+.
+ With this pixel-wise transformation, we can transform each depth image
+ 
+\begin_inset Formula $\boldsymbol{I}^{k},k\in1..4$
+\end_inset
+
+ into pointcloud in NDC 
+\begin_inset Formula $\boldsymbol{P}_{k}^{NDC}$
+\end_inset
+
+.
+ By using transformation matrices described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:World-to-Camera"
+
+\end_inset
+
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "subsec:Camera-to-NDC"
+
+\end_inset
+
+ we can transform these pointclouds from different cameras into the same
+ world coordinate space.
+ Let us have 
+\begin_inset Formula $P$
+\end_inset
+
+ matrix from 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:projection-m"
+
+\end_inset
+
+ and 
+\begin_inset Formula $V_{k}$
+\end_inset
+
+ matrix from 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:camera-m"
+
+\end_inset
+
+ denoting the view matrix of 
+\begin_inset Formula $k$
+\end_inset
+
+-th camera, since these matrices are regular, we can do the transformation
+ 
+\begin_inset Formula 
+\[
+\boldsymbol{P}_{k}^{W}=V_{k}^{-1}P^{-1}\boldsymbol{P}_{k}^{NDC}\forall k\in1..4
+\]
+
+\end_inset
+
+.
+ Then, all pointclouds are merged into one pointcloud 
+\begin_inset Formula $\boldsymbol{P}^{W}$
+\end_inset
+
+ of whole scene seen from 4 cameras
+\end_layout
+
+\begin_layout Standard
+\begin_inset Formula 
+\[
+\boldsymbol{P}^{W}=\underset{k\in1..4}{\bigcup}\boldsymbol{P}_{k}^{W}
+\]
+
+\end_inset
+
+.
+ The resulting pointcloud can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Merged-pointcloud-from"
+
+\end_inset
+
+.
+ In this setup, all images are nearly Full HD, specifically 
+\begin_inset Formula $1920\times1057$
+\end_inset
+
+.
+ This leads to pointcloud of size 
+\begin_inset Formula $1920\cdot1057=2029440\thickapprox2M$
+\end_inset
+
+ points.
+ Most of these points are near camera, in unnecessarily high density for
+ this application.
+ To decrease the size of pointclouds and the time to process, them I clustered
+ them into 12cm big voxels and sampled only 1 point per voxel.
+ This sub-sampling decreases the pointcloud size from 
+\begin_inset Formula $\sim2M$
+\end_inset
+
+ points into 
+\begin_inset Formula $\sim80k$
+\end_inset
+
+ to 
+\begin_inset Formula $\sim120k$
+\end_inset
+
+ points, which is 4% to 6% of original size.
+ This sub-sampling is performed per depth image so we can easily link each
+ point in pointcloud with camera it is seen from which is crucial for building
+ occupancy voxelmap.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Merged-pointcloud-from"
+
+\end_inset
+
+Merged pointcloud from all cameras
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+todo: dodat obrázek s pozicemi kamery, ukázat celé workflow
 \end_layout
 
 \begin_layout Standard
@@ -4542,7 +5137,7 @@ todo: popsat můj setup, dodat obrázky a experimenty
 Experiments
 \end_layout
 
-\begin_layout Subsection
+\begin_layout Section
 \begin_inset CommandInset label
 LatexCommand label
 name "subsec:Reverse-engineering"
@@ -5155,6 +5750,10 @@ In GTA, matrices are not gathered correctly every time and in some cases,
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Section
+Depth estimation
 \end_layout
 
 \begin_layout Chapter
