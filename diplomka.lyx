@@ -1070,6 +1070,31 @@ key "playing-for-data"
 ).
 \end_layout
 
+\begin_layout Standard
+Other approaches utilizing computer games for machine learning have appeared
+ recently, one of the most knows being OpenAI Gym, software platform providing
+ reinforcement learning framework 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "openai-gym"
+
+\end_inset
+
+.
+ Later, Universe 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "universe"
+
+\end_inset
+
+ has been released, designed to turn various computer games into OpenAI
+ Gym environment, easing to deploy same reinforcement learning algorithms
+ into many different virtual worlds, but due to legal issues, they require
+ permission from the game owner to integrate particular game into the Universe.
+ 
+\end_layout
+
 \begin_layout Section
 Contribution
 \end_layout
@@ -1250,6 +1275,10 @@ individual car trajectories
 Related work
 \end_layout
 
+\begin_layout Section
+Using Computer Games for Machine Learning
+\end_layout
+
 \begin_layout Standard
 Richter et al.
  
@@ -1349,6 +1378,492 @@ reference "sec:GTA-V-modding"
  
 \end_layout
 
+\begin_layout Standard
+GTA V has also been used as a part of the OpenAI Universe, promising powerful
+ environment for machine learning, but due to Rockstar Games Terms of Services,
+ it has been removed and is not currently supported by the OpenAI Universe.
+\end_layout
+
+\begin_layout Section
+3D map estimation
+\end_layout
+
+\begin_layout Standard
+Restoring 3D map from single image is a complex task.
+ We can think of depth estimation as preceding problem to the 3D map estimation,
+ because in depth estimation, we estimate distance of nearest object pixel-wise,
+ and in 3D map estimation, we have multiple depth levels per pixel and estimate
+ occupancy per each depth level.
+ The neural network output is cuboid with size of 
+\begin_inset Formula $X\times Y\times Z$
+\end_inset
+
+ neurons, hence it is useful to represent 3D map of a cuboid as a voxel
+ map with X width levels, Y height levels and Z depth levels.
+ Then we can estimate occupancy per voxel, in other words, per each neuron
+ output.
+ Thus we can represent both depth and 3D map estimation as similar instances,
+ depth estimation being single class occupancy classification per pixel,
+ and 3D map estimation being multi-class occupancy classification per pixel.
+\end_layout
+
+\begin_layout Subsection
+Residual networks
+\end_layout
+
+\begin_layout Standard
+In machine learning, deep convolutional neural networks have been used more
+ and more mostly due to significant breakthroughs in image classification
+ tasks.
+ Advantage of deep neural networks is they are capable to naturally utilize
+ low-level, mid-level, and high-level features, without need for manual
+ feature-engineering and lets us train whole architectures end-to-end.
+ Recent results 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "going-deeper-with-convolutions,very-deep-image-recognition"
+
+\end_inset
+
+ in visual recognition tasks, mostly on ImageNet dataset 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "imagenet"
+
+\end_inset
+
+, reveal depth of network plays crucial role in model accuracy.
+ When deeper networks were created simply by stacking more and more layers
+ in the model, these models become hard to train.
+ One of these problems is the notorious vanishing gradient, which is being
+ addressed by many approaches, like normalized initialization 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "efficient-backprop,difficulty-deep-forward"
+
+\end_inset
+
+ and normalization layers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "batch-normalization"
+
+\end_inset
+
+.
+ Other problem is the degradation problems, where training accuracy starts
+ to worsen, after stacking more layers 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "highway-networks"
+
+\end_inset
+
+.
+ Residual networks aim to address this problem of degradation.
+\end_layout
+
+\begin_layout Standard
+If shallower model is able to learn with higher accuracy than deeper model,
+ we want the deeper model to be able to learn at least same as shallower
+ one, or better.
+ If we stack new layer into model, we want them to be able to learn identity
+ mapping.
+ Then the model with new layers will behave same as shallower model during
+ prediction.
+ Experiments show that current solvers using gradient descent are not able
+ to find such solution which would let newer layer to learn identity mapping
+ in feasible time.
+ The residual learning aims to tackle this problem by explicitly learning
+ the residual mapping instead of original mapping.
+ If we want our newly stacked layers to represent mapping 
+\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)$
+\end_inset
+
+, instead we let them learn another mapping 
+\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)=\mathcal{H}\left(\boldsymbol{x}\right)-\boldsymbol{x}$
+\end_inset
+
+.
+ The original mapping we aim to, 
+\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)$
+\end_inset
+
+ is then reconstructed as 
+\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)=\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
+\end_inset
+
+.
+ He et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+ shows it is easier to learn the residual mapping than to learn the original
+ mapping.
+ It also more easily preserves the identity mapping, if 
+\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)=\boldsymbol{0}$
+\end_inset
+
+, because it is easier to fit these layers to zero than to explicitly learn
+ identity mapping.
+ 
+\end_layout
+
+\begin_layout Standard
+The formulation of 
+\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
+\end_inset
+
+ can be realized by feed-forward neural network with shortcut connections
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "bishop-neural-networks"
+
+\end_inset
+
+, also known as skip connections.
+ The advantage of this approach is it can be easily implemented in current
+ neural network frameworks out of the box, and it whole network can still
+ be learned by SGD end-to-end without any further modifications.
+ Intuitively, the identity mapping, shortcut connection can be seen as an
+ information highway, where information flows unchanged both forwards and
+ backwards without any changes.
+ He et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+ show the residual learning lets us train very deep models and present several
+ architectures based on residual learning: ResNet-18, ResNet-34, Resnet-50,
+ ResNet-101, and ResNet-152.
+ basically ResNet architecture consists of 4 residual blocks, repeated many
+ times.
+ The difference between individual architectures is only in number of repetition
+s these residual blocks.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/resnet-layers.png
+	lyxscale 80
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+Residual and shortcut layers
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Subsection
+Depth estimation
+\end_layout
+
+\begin_layout Standard
+Depth estimation is one of the most fundamental tasks in computer vision.
+ Most existing methods 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-and-surface-estimation,predicting-depth"
+
+\end_inset
+
+ formulate depth estimation as a regression task due to the continuous nature
+ of depth values.
+ Those models for depth estimation are usually trained to minimize L2 norm
+ between ground truth and predicted depths.
+ However it shows that regressing to exact depth is difficult task.
+ In many applications, depth can be known only approximately.
+ With aforementioned approach, I approximate the regression formulation
+ of depth estimation with classification problem.
+ Thus instead of training to predict exact depth, we predict only depth
+ range, still small enough to be useful for our application.
+ Advantage of classification formulation of the problem is that after applying
+ softmax on output of neural network, depths are naturally predicted as
+ confidence in form of probability that particular depth level is occupied
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+.
+ Most notable methods 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification,depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
+ use deep convolutional networks based on famous object classification architect
+ures.
+ 
+\end_layout
+
+\begin_layout Standard
+Li et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
+ use architecture based on deep residual network 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+, specifically Resnet-152.
+ The architecture is modified, it does not use the fully connected layer
+ in the end of the network, which drastically decreases the number of trainable
+ parameters, and instead it appends one convolutional and one deconvolutional
+ layer.
+ Also, Li et al.
+ utilize the hierarchical fusion, where output of each block of ResNet is
+ concatenated to other outputs, with dropout layer afterwards, then the
+ network utilizes both low-level and high-level features of the input image
+ during the final layers of depth estimation.
+ The output of final layer is 120x160x200, meaning it outputs 120x160 pixels
+ image with 200 depth levels.
+ The depth space is equally discretized in log space.
+ Specifically, 
+\begin_inset Formula 
+\[
+l=round\left(\frac{\log\left(d\right)-\log\left(d_{min}\right)}{q}\right)
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $l$
+\end_inset
+
+ is the quantized label, q is the width of quantization bin, 
+\begin_inset Formula $d$
+\end_inset
+
+ is the continuous depth value and 
+\begin_inset Formula $d_{min}$
+\end_inset
+
+ is the minimum depth value in the dataset.
+ 
+\end_layout
+
+\begin_layout Standard
+Other notable approach of Li et al.
+ is soft weighted sum inference.
+ Usually, the depth is reconstructed intuitively as a centre of depth bin
+ with maximum value pixel-wise 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+.
+ The last layer is softmax, so values can be interpreted as probabilities
+ of each depth bin being being correct one.
+ Thus the output contains probability distribution of depth pixel-wise.
+ Li et al.
+ reconstruct depth as a soft weighted sum inference by 
+\begin_inset Formula 
+\[
+\hat{d}=\exp\left\{ \boldsymbol{w}^{T}\boldsymbol{p}\right\} ,w_{i}=\log\left(d_{min}\right)+q\cdot i
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $\boldsymbol{w}$
+\end_inset
+
+ is the weight vector of depth bins, 
+\begin_inset Formula $i$
+\end_inset
+
+ is bin index, 
+\begin_inset Formula $\boldsymbol{p}$
+\end_inset
+
+ is the output score, and 
+\begin_inset Formula $\hat{d}$
+\end_inset
+
+ is reconstructed depth.
+\end_layout
+
+\begin_layout Standard
+Then the model is trained end-to-end to minimize the pixel-wise multinomial
+ logistic loss 
+\begin_inset Formula 
+\[
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]
+\]
+
+\end_inset
+
+where 
+\begin_inset Formula $N$
+\end_inset
+
+ is the number of pixels, 
+\begin_inset Formula $K$
+\end_inset
+
+ is the number of depth bins, 
+\begin_inset Formula $D_{i}^{*}$
+\end_inset
+
+ is ground truth depth on pixel 
+\begin_inset Formula $i$
+\end_inset
+
+, and 
+\begin_inset Formula $p_{i}^{D_{k}}$
+\end_inset
+
+ is the probability of pixel 
+\begin_inset Formula $i$
+\end_inset
+
+ to be labelled with 
+\begin_inset Formula $D_{k}$
+\end_inset
+
+ depth bin.
+\end_layout
+
+\begin_layout Standard
+The classical multi-class classification assumes categorical labels without
+ any ordering defined.
+ However depth bins are ordinal labels, not categorical, because they have
+ defined ordering and semantically it makes sense to take into account distance
+ between correct and predicted label during training.
+ This approach is not usable for categorical data, but for nominal data,
+ this knowledge can be used to provide more information for the learning.
+ Cao et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+ propose modified loss function which takes distance between depth ins into
+ account.
+ They use similar architecture, with pixel-wise multinomial logistic loss,
+ but with slight modification.
+ In usual logistic loss, the loss is non-zero only for correct label, due
+ to the 
+\begin_inset Formula $1\left\{ D_{k}=D_{i}^{*}\right\} $
+\end_inset
+
+part of the function.
+ Cao et al.
+ propose 
+\begin_inset Quotes eld
+\end_inset
+
+information gain
+\begin_inset Quotes erd
+\end_inset
+
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-as-classification"
+
+\end_inset
+
+ instead, where 
+\begin_inset Formula $1\left\{ D_{k}=D_{i}^{*}\right\} $
+\end_inset
+
+ is replaced by 
+\begin_inset Formula $H\left(D_{i}^{*},D_{k}\right)$
+\end_inset
+
+, where 
+\begin_inset Formula $H$
+\end_inset
+
+ is 
+\begin_inset Formula $B\times B$
+\end_inset
+
+ symmetric matrix with elements 
+\begin_inset Formula $H\left(p,q\right)=exp\left(-\alpha\left(p-q\right)^{2}\right)$
+\end_inset
+
+ where 
+\begin_inset Formula $\alpha$
+\end_inset
+
+ is a constant.
+ This information gain matrix lets the SGD propagate the error not only
+ through correct label and preceding softmax layer, but also through its
+ neighbouring labels, which helps updating the network parameters.
+ So the modified loss is 
+\begin_inset Formula 
+\[
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]
+\]
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Multiple datasets are being used for depth estimation.
+ Most of them are indoor, since indoor we are able to measure depth more
+ precisely and we generally deal with smaller distances.
+ In my case, I trained for estimating outdoor depth.
+ The synthetic dataset retrieved from GTA V has big advantage in dense and
+ high precision depth labels seen nowhere in real datasets.
+ In the outdoor depth estimation, I don't care about very distant points,
+ so the depth estimation is thresholded 
+\end_layout
+
 \begin_layout Chapter
 Transforming GTA V into the State of the Art simulator
 \end_layout
@@ -1392,7 +1907,7 @@ name "rage"
 
 \end_inset
 
-RAGE (Rockstar Advanced Game Engine)
+RAGE (Rockstar Advanced Game Engine) 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gta-5-rage"
@@ -1405,7 +1920,7 @@ key "gta-5-rage"
 
 \begin_layout Standard
 Till the release on Microsoft, Windows, it has been in development for 5
- years with approximate 1000-person team
+ years with approximate 1000-person team 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "gta-interview-studio"
@@ -1777,9 +2292,10 @@ The basic architecture of C# mods come from the ScriptHookDotNet2, where
 \end_layout
 
 \begin_layout Standard
-Little, but useful note for debugging and developing scripts based on ScriptHook
-DotNet2: when changing mod compiled binaries, we don't have to restart the
- game for newer version of mod to be active.
+The ScriptHookDotNet2 brings useful feature for debugging and developing
+ scripts based on in.
+ When changing mod compiled binaries, we don't have to restart the game
+ for newer version of mod to be active.
  Pressing Insert causes all C# binaries to reload, causing new version of
  source code to load into game, which dramatically decreases time of feedback
  loop during development.
@@ -1787,7 +2303,46 @@ DotNet2: when changing mod compiled binaries, we don't have to restart the
 \end_layout
 
 \begin_layout Standard
-todo: popsat sem architekturu
+During the data retrieval from the game, two types of data are being gathered.
+ Image data from GPU buffers and data about camera, cars, pedestrians and
+ other in-game entities.
+ All image data are being persistent into the filesystem directly.
+ Other data are persisted into PostgreSQL database running locally on the
+ machine.
+ Since the main mod life-cycle loop is running in single thread, other threads
+ are used for sending data into the database for faster simulation.
+ Other setups are possible, depending on use-case of gathered data and need
+ for scalability.
+ Johnson-Roberson et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "driving-in-matrix"
+
+\end_inset
+
+ send all images into the Amazon Web Services and save them in a S3 bucket,
+ also the database may run remotely and since the communication with database
+ runs in separate thread, longer delay is not an issue.
+ Other approached are saving all data into the filesystem directly, without
+ database.
+ This is easier to setup, but leads to complications during data querying,
+ because SQL is much more suited querying tool due to the relational nature
+ of this data.
+\end_layout
+
+\begin_layout Standard
+Since the data retrieval takes many hours usually, there is sometimes need
+ to change some parameters of the environment without stopping the run or
+ to generally control the data retrieval remotely.
+ For this purpose, the mod opens a socket server during startup and reads
+ from it during the Tick method call.
+ Along with the modded game running, there is a python REST based web server
+ with simple controls for changing time of day, weather, stopping and restarting
+ the data retrieval.
+ During the web server startup, it created socket client which connects
+ to the socket server in GTA mod.
+ This setup allows to remotely control the data retrieval over the internet.
 \end_layout
 
 \begin_layout Section
@@ -4190,467 +4745,6 @@ Restoring 3D map from single image is a complex task.
 \end_layout
 
 \begin_layout Section
-Residual networks
-\end_layout
-
-\begin_layout Standard
-In machine learning, deep convolutional neural networks have been used more
- and more mostly due to significant breakthroughs in image classification
- tasks.
- Advantage of deep neural networks is they are capable to naturally utilize
- low-level, mid-level, and high-level features, without need for manual
- feature-engineering and lets us train whole architectures end-to-end.
- Recent results 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "going-deeper-with-convolutions,very-deep-image-recognition"
-
-\end_inset
-
- in visual recognition tasks, mostly on ImageNet dataset 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "imagenet"
-
-\end_inset
-
-, reveal depth of network plays crucial role in model accuracy.
- When deeper networks were created simply by stacking more and more layers
- in the model, these models become hard to train.
- One of these problems is the notorious vanishing gradient, which is being
- addressed by many approaches, like normalized initialization 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "efficient-backprop,difficulty-deep-forward"
-
-\end_inset
-
- and normalization layers 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "batch-normalization"
-
-\end_inset
-
-.
- Other problem is the degradation problems, where training accuracy starts
- to worsen, after stacking more layers 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "highway-networks"
-
-\end_inset
-
-.
- Residual networks aim to address this problem of degradation.
-\end_layout
-
-\begin_layout Standard
-If shallower model is able to learn with higher accuracy than deeper model,
- we want the deeper model to be able to learn at least same as shallower
- one, or better.
- If we stack new layer into model, we want them to be able to learn identity
- mapping.
- Then the model with new layers will behave same as shallower model during
- prediction.
- Experiments show that current solvers using gradient descent are not able
- to find such solution which would let newer layer to learn identity mapping
- in feasible time.
- The residual learning aims to tackle this problem by explicitly learning
- the residual mapping instead of original mapping.
- If we want our newly stacked layers to represent mapping 
-\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)$
-\end_inset
-
-, instead we let them learn another mapping 
-\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)=\mathcal{H}\left(\boldsymbol{x}\right)-\boldsymbol{x}$
-\end_inset
-
-.
- The original mapping we aim to, 
-\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)$
-\end_inset
-
- is then reconstructed as 
-\begin_inset Formula $\mathcal{H}\left(\boldsymbol{x}\right)=\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
-\end_inset
-
-.
- He et al.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "resnet"
-
-\end_inset
-
- shows it is easier to learn the residual mapping than to learn the original
- mapping.
- It also more easily preserves the identity mapping, if 
-\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)=\boldsymbol{0}$
-\end_inset
-
-, because it is easier to fit these layers to zero than to explicitly learn
- identity mapping.
- 
-\end_layout
-
-\begin_layout Standard
-The formulation of 
-\begin_inset Formula $\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
-\end_inset
-
- can be realized by feed-forward neural network with shortcut connections
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "bishop-neural-networks"
-
-\end_inset
-
-, also known as skip connections.
- The advantage of this approach is it can be easily implemented in current
- neural network frameworks out of the box, and it whole network can still
- be learned by SGD end-to-end without any further modifications.
- Intuitively, the identity mapping, shortcut connection can be seen as an
- information highway, where information flows unchanged both forwards and
- backwards without any changes.
- He et al.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "resnet"
-
-\end_inset
-
- show the residual learning lets us train very deep models and present several
- architectures based on residual learning: ResNet-18, ResNet-34, Resnet-50,
- ResNet-101, and ResNet-152.
- basically ResNet architecture consists of 4 residual blocks, repeated many
- times.
- The difference between individual architectures is only in number of repetition
-s these residual blocks.
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename obrazky/resnet-layers.png
-	lyxscale 80
-	width 6cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-Residual and shortcut layers
-\begin_inset CommandInset citation
-LatexCommand cite
-key "resnet"
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Section
-Depth estimation
-\end_layout
-
-\begin_layout Standard
-Depth estimation is one of the most fundamental tasks in computer vision.
- Most existing methods 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-and-surface-estimation,predicting-depth"
-
-\end_inset
-
- formulate depth estimation as a regression task due to the continuous nature
- of depth values.
- Those models for depth estimation are usually trained to minimize L2 norm
- between ground truth and predicted depths.
- However it shows that regressing to exact depth is difficult task.
- In many applications, depth can be known only approximately.
- With aforementioned approach, I approximate the regression formulation
- of depth estimation with classification problem.
- Thus instead of training to predict exact depth, we predict only depth
- range, still small enough to be useful for our application.
- Advantage of classification formulation of the problem is that after applying
- softmax on output of neural network, depths are naturally predicted as
- confidence in form of probability that particular depth level is occupied
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-estimation-as-classification"
-
-\end_inset
-
-.
- Most notable methods 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-estimation-as-classification,depth-estimation-hierarchical-fusion-soft-weighting"
-
-\end_inset
-
- use deep convolutional networks based on famous object classification architect
-ures.
- 
-\end_layout
-
-\begin_layout Standard
-Li et al.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-estimation-hierarchical-fusion-soft-weighting"
-
-\end_inset
-
- use architecture based on deep residual network 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "resnet"
-
-\end_inset
-
-, specifically Resnet-152.
- The architecture is modified, it does not use the fully connected layer
- in the end of the network, which drastically decreases the number of trainable
- parameters, and instead it appends one convolutional and one deconvolutional
- layer.
- Also, Li et al.
- utilize the hierarchical fusion, where output of each block of ResNet is
- concatenated to other outputs, with dropout layer afterwards, then the
- network utilizes both low-level and high-level features of the input image
- during the final layers of depth estimation.
- The output of final layer is 120x160x200, meaning it outputs 120x160 pixels
- image with 200 depth levels.
- The depth space is equally discretized in log space.
- Specifically, 
-\begin_inset Formula 
-\[
-l=round\left(\frac{\log\left(d\right)-\log\left(d_{min}\right)}{q}\right)
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $l$
-\end_inset
-
- is the quantized label, q is the width of quantization bin, 
-\begin_inset Formula $d$
-\end_inset
-
- is the continuous depth value and 
-\begin_inset Formula $d_{min}$
-\end_inset
-
- is the minimum depth value in the dataset.
- 
-\end_layout
-
-\begin_layout Standard
-Other notable approach of Li et al.
- is soft weighted sum inference.
- Usually, the depth is reconstructed intuitively as a centre of depth bin
- with maximum value pixel-wise 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-estimation-as-classification"
-
-\end_inset
-
-.
- The last layer is softmax, so values can be interpreted as probabilities
- of each depth bin being being correct one.
- Thus the output contains probability distribution of depth pixel-wise.
- Li et al.
- reconstruct depth as a soft weighted sum inference by 
-\begin_inset Formula 
-\[
-\hat{d}=\exp\left\{ \boldsymbol{w}^{T}\boldsymbol{p}\right\} ,w_{i}=\log\left(d_{min}\right)+q\cdot i
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $\boldsymbol{w}$
-\end_inset
-
- is the weight vector of depth bins, 
-\begin_inset Formula $i$
-\end_inset
-
- is bin index, 
-\begin_inset Formula $\boldsymbol{p}$
-\end_inset
-
- is the output score, and 
-\begin_inset Formula $\hat{d}$
-\end_inset
-
- is reconstructed depth.
-\end_layout
-
-\begin_layout Standard
-Then the model is trained end-to-end to minimize the pixel-wise multinomial
- logistic loss 
-\begin_inset Formula 
-\[
-L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]
-\]
-
-\end_inset
-
-where 
-\begin_inset Formula $N$
-\end_inset
-
- is the number of pixels, 
-\begin_inset Formula $K$
-\end_inset
-
- is the number of depth bins, 
-\begin_inset Formula $D_{i}^{*}$
-\end_inset
-
- is ground truth depth on pixel 
-\begin_inset Formula $i$
-\end_inset
-
-, and 
-\begin_inset Formula $p_{i}^{D_{k}}$
-\end_inset
-
- is the probability of pixel 
-\begin_inset Formula $i$
-\end_inset
-
- to be labelled with 
-\begin_inset Formula $D_{k}$
-\end_inset
-
- depth bin.
-\end_layout
-
-\begin_layout Standard
-The classical multi-class classification assumes categorical labels without
- any ordering defined.
- However depth bins are ordinal labels, not categorical, because they have
- defined ordering and semantically it makes sense to take into account distance
- between correct and predicted label during training.
- This approach is not usable for categorical data, but for nominal data,
- this knowledge can be used to provide more information for the learning.
- Cao et al.
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-estimation-as-classification"
-
-\end_inset
-
- propose modified loss function which takes distance between depth ins into
- account.
- They use similar architecture, with pixel-wise multinomial logistic loss,
- but with slight modification.
- In usual logistic loss, the loss is non-zero only for correct label, due
- to the 
-\begin_inset Formula $1\left\{ D_{k}=D_{i}^{*}\right\} $
-\end_inset
-
-part of the function.
- Cao et al.
- propose 
-\begin_inset Quotes eld
-\end_inset
-
-information gain
-\begin_inset Quotes erd
-\end_inset
-
- 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "depth-estimation-as-classification"
-
-\end_inset
-
- instead, where 
-\begin_inset Formula $1\left\{ D_{k}=D_{i}^{*}\right\} $
-\end_inset
-
- is replaced by 
-\begin_inset Formula $H\left(D_{i}^{*},D_{k}\right)$
-\end_inset
-
-, where 
-\begin_inset Formula $H$
-\end_inset
-
- is 
-\begin_inset Formula $B\times B$
-\end_inset
-
- symmetric matrix with elements 
-\begin_inset Formula $H\left(p,q\right)=exp\left(-\alpha\left(p-q\right)^{2}\right)$
-\end_inset
-
- where 
-\begin_inset Formula $\alpha$
-\end_inset
-
- is a constant.
- This information gain matrix lets the SGD propagate the error not only
- through correct label and preceding softmax layer, but also through its
- neighbouring labels, which helps updating the network parameters.
- So the modified loss is 
-\begin_inset Formula 
-\[
-L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]
-\]
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-Multiple datasets are being used for depth estimation.
- Most of them are indoor, since indoor we are able to measure depth more
- precisely and we generally deal with smaller distances.
- In my case, I trained for estimating outdoor depth.
- The synthetic dataset retrieved from GTA V has big advantage in dense and
- high precision depth labels seen nowhere in real datasets.
- In the outdoor depth estimation, I don't care about very distant points,
- so the depth estimation is thresholded 
-\end_layout
-
-\begin_layout Section
 3D map estimation
 \end_layout
 
@@ -5338,7 +5432,8 @@ Occupied samples in frustum
 
 \begin_layout Standard
 todo: popsat můj setup, dodat obrázky a experimenty, video na prezentaci
- s rgb, depth, a mapou?, zvýšit u voxelmpay velikost bodů
+ s rgb, depth, a mapou?, zvýšit u voxelmpay velikost bodů.
+ popsat gta pro ai gym a popsat rozdíly oproti mému přístupu
 \end_layout
 
 \begin_layout Chapter
