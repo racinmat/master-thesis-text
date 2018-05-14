@@ -1096,7 +1096,7 @@ key "universe"
 \end_layout
 
 \begin_layout Section
-Contribution
+Thesis Contribution
 \end_layout
 
 \begin_layout Standard
@@ -1389,33 +1389,40 @@ GTA V has also been used as a part of the OpenAI Universe, promising powerful
 \end_layout
 
 \begin_layout Standard
-Restoring 3D map from single image is a complex task.
- We can think of depth estimation as preceding problem to the 3D map estimation,
- because in depth estimation, we estimate distance of nearest object pixel-wise,
- and in 3D map estimation, we have multiple depth levels per pixel and estimate
- occupancy per each depth level.
- The neural network output is cuboid with size of 
-\begin_inset Formula $X\times Y\times Z$
+3D map estimation is a complex an important task in computer vision, and
+ many approaches have been used in attempts to solve this task.
+ It is tightly coupled to the depth estimation, because the most important
+ part of the 3D estimation is to estimate the depth of objects on the image,
+ since spatial information about horizontal and vertical position is contained
+ in the image directly.
+ Most studies focus on binocular cameras 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "taxonomy-stereo"
+
 \end_inset
 
- neurons, hence it is useful to represent 3D map of a cuboid as a voxel
- map with X width levels, Y height levels and Z depth levels.
- Then we can estimate occupancy per voxel, in other words, per each neuron
- output.
- Thus we can represent both depth and 3D map estimation as similar instances,
- depth estimation being single class occupancy classification per pixel,
- and 3D map estimation being multi-class occupancy classification per pixel.
+, also called stereo vision where depth and 3D map is reconstructed using
+ information from two cameras, and thus depth and position in 3D can be
+ estimated from seeing same points from different views.
+ The other approach is to use only single image, without the binocular informati
+on.
+ That task is more challenging due to lack of information from the second
+ image, and even the State of the Art approaches fall short compared to
+ the binocular vision.
+ But thanks to the recent success of deep convolutional neural networks,
+ there have been advances in monocular depth estimation.
 \end_layout
 
 \begin_layout Subsection
-Residual networks
+Deep convolutional neural networks
 \end_layout
 
 \begin_layout Standard
 In machine learning, deep convolutional neural networks have been used more
  and more mostly due to significant breakthroughs in image classification
  tasks.
- Advantage of deep neural networks is they are capable to naturally utilize
+ Advantage of deep neural networks is the capability to naturally utilize
  low-level, mid-level, and high-level features, without need for manual
  feature-engineering and lets us train whole architectures end-to-end.
  Recent results 
@@ -1432,7 +1439,108 @@ key "imagenet"
 
 \end_inset
 
-, reveal depth of network plays crucial role in model accuracy.
+, reveal depth of network plays crucial role in model accuracy and started
+ the revolution in many computer vision tasks 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "deep-learning-nature"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+Neural networks are machine learning models vaguely inspired by the biological
+ neural networks that constitute human brains.
+ Neural networks are being used as universal approximators, theoretically
+ capable of arbitrarily accurate approximation to an arbitrary function
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "universal-approximation"
+
+\end_inset
+
+ and thus are used for many different tasks, for instance classification,
+ regression, clustering, and many other.
+ The neural network, as name suggests, is network of interconnected artificial
+ neurons.
+ An artificial neuron is based on biological neuron, but with many simplificatio
+ns.
+ It consists of inputs to the neuron (inspired by dendrites), the neuron
+ itself, and the output of the neuron (inspired by axon).
+ Intuitively the artificial neuron sums all inputs weighted by neuron weights
+ and send them to into its activation function, inspired by axon.
+ Formally, the output of neuron 
+\begin_inset Formula $y$
+\end_inset
+
+ with inputs 
+\begin_inset Formula $\boldsymbol{x}=\left(x_{0},...,x_{n}\right)$
+\end_inset
+
+ , weights 
+\begin_inset Formula $\boldsymbol{w}=\left(w_{0},...,w_{n}\right)$
+\end_inset
+
+, bias 
+\begin_inset Formula $\beta$
+\end_inset
+
+ and activation function 
+\begin_inset Formula $\varphi\left(\cdot\right)$
+\end_inset
+
+ is defined as 
+\begin_inset Formula 
+\[
+y=\varphi\left(\beta+\stackrel[i=0]{n}{\sum}w_{i}x_{i}\right)=\varphi\left(\boldsymbol{w}\cdot\boldsymbol{x}+\beta\right)
+\]
+
+\end_inset
+
+.
+ In its typical architecture, the neural network comprises of many layers
+ stacked on top of each other, with output of neurons in one layer connected
+ to all inputs of all neurons in the next layer and information flows from
+ each neuron of previous layer to each neuron of next layer.
+ This is called fully-connected neural network.
+ Other approach is to connect inputs of a neuron only to a subset of neurons
+ in previous layers, specifically its corresponding neuron in previous layer
+ and its neighbours.
+ This dramatically reduces number of parameters needed to be learned.
+ The neural network is then usually learned end-to-end by the back-propagation
+ algorithm 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "backprop"
+
+\end_inset
+
+ which minimizes the loss function using stochastic gradient descent or
+ its alternatives.
+\end_layout
+
+\begin_layout Standard
+When neural network has many layers stacked on top of each other, it is
+ called a deep neural network.
+ The success of deep neural networks lies in their abilities to approximate
+ non-trivial function because of high number of parameters of the network.
+ The disadvantage of deep neural networks is the time they need to learn
+ because it takes days or weeks to train state of the art deep neural networks.
+\end_layout
+
+\begin_layout Subsection
+Residual networks
+\end_layout
+
+\begin_layout Standard
+As mentioned above, deep network became very popular and widely used in
+ computer vision and machine learning.
+ But there are some caveats when building a new deep architecture for neural
+ network.
  When deeper networks were created simply by stacking more and more layers
  in the model, these models become hard to train.
  One of these problems is the notorious vanishing gradient, which is being
@@ -1850,18 +1958,11 @@ L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\ri
 
 \end_inset
 
-
-\end_layout
-
-\begin_layout Standard
-Multiple datasets are being used for depth estimation.
- Most of them are indoor, since indoor we are able to measure depth more
- precisely and we generally deal with smaller distances.
- In my case, I trained for estimating outdoor depth.
- The synthetic dataset retrieved from GTA V has big advantage in dense and
- high precision depth labels seen nowhere in real datasets.
- In the outdoor depth estimation, I don't care about very distant points,
- so the depth estimation is thresholded 
+.
+ todo: 3d map estimation do related work, konkrétně 3D-R2N2: a zchecknout,
+ že cituju a nějak zmíním všechny papery v zadání.
+ A tímhle multicore zazipuju složku tar cf - without_db | bzip2 > closed_virtual
+scapes.tar.gz
 \end_layout
 
 \begin_layout Chapter
@@ -2325,10 +2426,10 @@ key "driving-in-matrix"
  also the database may run remotely and since the communication with database
  runs in separate thread, longer delay is not an issue.
  Other approached are saving all data into the filesystem directly, without
- database.
+ database, denormalized per image.
  This is easier to setup, but leads to complications during data querying,
  because SQL is much more suited querying tool due to the relational nature
- of this data.
+ of these data.
 \end_layout
 
 \begin_layout Standard
@@ -4640,7 +4741,8 @@ As part of my thesis, I propose two novel synthetic datasets.
 \end_layout
 
 \begin_layout Standard
-The first dataset was used for voxel map reconstruction.
+The first dataset, named Closed VirtualScapes, was used for voxel map reconstruc
+tion.
  It contains images from 4 virtual cameras attached to driving car, placed
  in circle opposite to each other, mapping space in front of car to create
  its detailed 3D reconstruction.
@@ -4653,8 +4755,8 @@ The first dataset was used for voxel map reconstruction.
 \end_layout
 
 \begin_layout Standard
-The second dataset is demonstration of common automotive dataset from driving
- car.
+The second dataset, named Open VirtualScapes, is demonstration of common
+ automotive dataset from driving car.
  Compared to real-world datasets, this one has advantage of pixel-wise depth,
  precise on all surfaces and even in high distances, outperforming LIDAR
  technology in accuracy and depth point density.
@@ -4676,7 +4778,18 @@ reference "fig:Camera-positions-for"
 \end_layout
 
 \begin_layout Standard
-todo: dodělat datasets proposal
+Both datasets are publicly available and can be downloaded from 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+http://ptak.felk.cvut.cz/public_datasets/GTA_V/dataset-website/
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -4729,19 +4842,89 @@ Camera positions for second dataset
 \end_layout
 
 \begin_layout Standard
-Restoring 3D map from single image is a complex task.
- We can think of depth estimation as preceding problem to the 3D map estimation,
- because in depth estimation, we estimate distance of nearest object pixel-wise,
- and in 3D map estimation, we have multiple depth levels per pixel and estimate
- occupancy per each depth level.
- The neural network output is cuboid with size of XxYxZ neurons, hence it
- is useful to represent 3D map of a cuboid as a voxel map with X width levels,
- Y height levels and Z depth levels.
+When thinking of 3D map estimation, we can utilize the similarity between
+ 3D map estimation and the depth estimation, because in depth estimation,
+ we predict the distance of nearest object pixel-wise, and in 3D map estimation,
+ we have multiple depth levels per pixel and estimate occupancy per each
+ depth level.
+ The neural network output is cuboid with size of 
+\begin_inset Formula $X\times Y\times Z$
+\end_inset
+
+ neurons, hence it is useful to represent 3D map of a cuboid as a voxel
+ map with X width levels, Y height levels and Z depth levels.
  Then we can estimate occupancy per voxel, in other words, per each neuron
  output.
  Thus we can represent both depth and 3D map estimation as similar instances,
- depth estimation being single class occupancy classification per pixel,
- and 3D map estimation being multi-class occupancy classification per pixel.
+ depth estimation being multi-class occupancy classification per pixel where
+ classes are depth bins, and 3D map estimation being occupancy classification
+ per voxel, where we predict occupancy for each voxel.
+\end_layout
+
+\begin_layout Section
+TensorFlow
+\end_layout
+
+\begin_layout Standard
+In the neural networks research, one of the important factors is the ability
+ to easily and efficiently prototype new architecture and train neural network.
+ TensorFlow 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "tensorflow2015-whitepaper"
+
+\end_inset
+
+ is a framework for developing and training neural networks, developed by
+ Google Inc.
+ It is based on declarative programming and the API provides a way to describe
+ the computational graph.
+ This graph is can be then queried for value of any node in the graph given
+ specific input.
+ todo: dopsat běh na GPU, tensorboard a další věci
+\end_layout
+
+\begin_layout Section
+Depth estimation
+\end_layout
+
+\begin_layout Standard
+As a task preceding the 3D map estimation, I firstly trained neural network
+ for depth estimation.
+ The advantage of depth estimation is that dataset is much easier to obtain
+ from harvested data compared to 3D map dataset.
+ To create corresponding pairs of input RGB and output depth image, we just
+ need to transform the depth from NDC space into the camera view space,
+ which is in meters.
+ We might train network directly on data from GTA V, but the depth in NDC
+ space in not linearly mapped into the camera view space, in fact, it is
+ mapped hyperbolically, according to the visualization pipeline 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "real-time-rendering"
+
+\end_inset
+
+.
+ This pixel-wise transformation per image is everything we need to create
+ the dataset feasible for training the depth prediction.
+ 
+\end_layout
+
+\begin_layout Standard
+The basic architecture for depth estimation has been based on Li et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
+, but with different output depth size.
+ For 200 depth bins, the network failed to converge.
+ With 100 depth bins, the learning rate was faster and it converged more
+ easily.
+ todo: dodat obrázky
 \end_layout
 
 \begin_layout Section
@@ -5324,7 +5507,7 @@ Pointcloud before and after sub-sampling
 
 \begin_layout Standard
 After this projection and sub-sampling, I have everything prepared for building
- a occupancy voxelmap.
+ a occupancy voxelmap .
  Voxels in this setup are 25cm big, and each voxel is marked either as occupied,
  free, or unknown.
  The resulting occupancy voxelmap is depicted in figure 
@@ -6061,6 +6244,41 @@ todo: dopsat
 
 \begin_layout Section
 Depth estimation
+\end_layout
+
+\begin_layout Standard
+Multiple datasets are being used for depth estimation.
+\size small
+
+\begin_inset CommandInset toc
+LatexCommand tableofcontents
+
+\end_inset
+
+
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+% vkládá automaticky generovaný obsah dokumentu
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\size default
+ Most of them are indoor, since indoor we are able to measure depth more
+ precisely and we generally deal with smaller distances.
+ In my case, I trained for estimating outdoor depth.
+ The synthetic dataset retrieved from GTA V has big advantage in dense and
+ high precision depth labels seen nowhere in real datasets.
+ In the outdoor depth estimation, I don't care about very distant points,
+ so the depth estimation is thresholded 
 \end_layout
 
 \begin_layout Chapter
