@@ -11,6 +11,7 @@
 \usepackage{babel}
 \usepackage{textcomp}
 \usepackage{url}
+\usepackage{stackrel}
 \usepackage{graphicx}
 \usepackage[unicode=true,pdfusetitle,
  bookmarks=true,bookmarksnumbered=false,bookmarksopen=false,
@@ -291,7 +292,16 @@ This lets us to outperform same models trained only on real data and
 achieve state of the art results on public datasets (KITTI dataset
 in \cite{driving-in-matrix} and CamVid dataset in \cite{playing-for-data}).
 
-\section{Contribution}
+Other approaches utilizing computer games for machine learning have
+appeared recently, one of the most knows being OpenAI Gym, software
+platform providing reinforcement learning framework \cite{openai-gym}.
+Later, Universe \cite{universe} has been released, designed to turn
+various computer games into OpenAI Gym environment, easing to deploy
+same reinforcement learning algorithms into many different virtual
+worlds, but due to legal issues, they require permission from the
+game owner to integrate particular game into the Universe. 
+
+\section{Thesis Contribution}
 
 In this thesis, I demonstrate the power of rich virtual worlds in
 creating synthetic datasets, and propose software architecture of
@@ -317,29 +327,35 @@ and 2D bounding boxes extraction, pixel-wise object segmentation and
 trajectory tracking.
 
 \begin{figure}
-\includegraphics[scale=0.4]{obrazky/bbox-night}
-
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/bbox-night}
+\par\end{centering}
 \caption{3D bounding box - night}
 \end{figure}
 \begin{figure}
-\includegraphics[scale=0.4]{obrazky/bbox-day-people}
-
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/bbox-day-people}
+\par\end{centering}
 \caption{3D bounding box - day}
 \end{figure}
 \begin{figure}
-\includegraphics[scale=0.4]{obrazky/pixelwise-night}
-
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/pixelwise-night}
+\par\end{centering}
 \caption{pixel-wise annotation of cars}
 \end{figure}
 
 \begin{figure}
-\includegraphics[scale=0.4]{obrazky/trajectories-day}
-
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/trajectories-day}
+\par\end{centering}
 \caption{individual car trajectories}
 \end{figure}
 
 
 \chapter{Related work}
+
+\section{Using Computer Games for Machine Learning}
 
 Richter et al. \cite{playing-for-data} used GTA V to obtain screenshots
 and performed semi-automated pixel-wise semantic segmentation. Although
@@ -372,6 +388,235 @@ trained on Cityscapes, evaluating on KITTI dataset. They developed
 their own GTA V mod\ref{sec:GTA-V-modding} to hook into GPU calls
 and gather screenshots from here. 
 
+GTA V has also been used as a part of the OpenAI Universe, promising
+powerful environment for machine learning, but due to Rockstar Games
+Terms of Services, it has been removed and is not currently supported
+by the OpenAI Universe.
+
+\section{3D map estimation}
+
+3D map estimation is a complex an important task in computer vision,
+and many approaches have been used in attempts to solve this task.
+It is tightly coupled to the depth estimation, because the most important
+part of the 3D estimation is to estimate the depth of objects on the
+image, since spatial information about horizontal and vertical position
+is contained in the image directly. Most studies focus on binocular
+cameras \cite{taxonomy-stereo}, also called stereo vision where depth
+and 3D map is reconstructed using information from two cameras, and
+thus depth and position in 3D can be estimated from seeing same points
+from different views. The other approach is to use only single image,
+without the binocular information. That task is more challenging due
+to lack of information from the second image, and even the State of
+the Art approaches fall short compared to the binocular vision. But
+thanks to the recent success of deep convolutional neural networks,
+there have been advances in monocular depth estimation.
+
+\subsection{Deep convolutional neural networks}
+
+In machine learning, deep convolutional neural networks have been
+used more and more mostly due to significant breakthroughs in image
+classification tasks. Advantage of deep neural networks is the capability
+to naturally utilize low-level, mid-level, and high-level features,
+without need for manual feature-engineering and lets us train whole
+architectures end-to-end. Recent results \cite{going-deeper-with-convolutions,very-deep-image-recognition}
+in visual recognition tasks, mostly on ImageNet dataset \cite{imagenet},
+reveal depth of network plays crucial role in model accuracy and started
+the revolution in many computer vision tasks \cite{deep-learning-nature}. 
+
+Neural networks are machine learning models vaguely inspired by the
+biological neural networks that constitute human brains. Neural networks
+are being used as universal approximators, theoretically capable of
+arbitrarily accurate approximation to an arbitrary function \cite{universal-approximation}
+and thus are used for many different tasks, for instance classification,
+regression, clustering, and many other. The neural network, as name
+suggests, is network of interconnected artificial neurons. An artificial
+neuron is based on biological neuron, but with many simplifications.
+It consists of inputs to the neuron (inspired by dendrites), the neuron
+itself, and the output of the neuron (inspired by axon). Intuitively
+the artificial neuron sums all inputs weighted by neuron weights and
+send them to into its activation function, inspired by axon. Formally,
+the output of neuron $y$ with inputs $\boldsymbol{x}=\left(x_{0},...,x_{n}\right)$
+, weights $\boldsymbol{w}=\left(w_{0},...,w_{n}\right)$, bias $\beta$
+and activation function $\varphi\left(\cdot\right)$ is defined as
+\[
+y=\varphi\left(\beta+\stackrel[i=0]{n}{\sum}w_{i}x_{i}\right)=\varphi\left(\boldsymbol{w}\cdot\boldsymbol{x}+\beta\right)
+\]
+. In its typical architecture, the neural network comprises of many
+layers stacked on top of each other, with output of neurons in one
+layer connected to all inputs of all neurons in the next layer and
+information flows from each neuron of previous layer to each neuron
+of next layer. This is called fully-connected neural network. Other
+approach is to connect inputs of a neuron only to a subset of neurons
+in previous layers, specifically its corresponding neuron in previous
+layer and its neighbours. This dramatically reduces number of parameters
+needed to be learned. The neural network is then usually learned end-to-end
+by the back-propagation algorithm \cite{backprop} which minimizes
+the loss function using stochastic gradient descent or its alternatives.
+
+When neural network has many layers stacked on top of each other,
+it is called a deep neural network. The success of deep neural networks
+lies in their abilities to approximate non-trivial function because
+of high number of parameters of the network. The disadvantage of deep
+neural networks is the time they need to learn because it takes days
+or weeks to train state of the art deep neural networks.
+
+\subsection{Residual networks}
+
+As mentioned above, deep network became very popular and widely used
+in computer vision and machine learning. But there are some caveats
+when building a new deep architecture for neural network. When deeper
+networks were created simply by stacking more and more layers in the
+model, these models become hard to train. One of these problems is
+the notorious vanishing gradient, which is being addressed by many
+approaches, like normalized initialization \cite{efficient-backprop,difficulty-deep-forward}
+and normalization layers \cite{batch-normalization}. Other problem
+is the degradation problems, where training accuracy starts to worsen,
+after stacking more layers \cite{highway-networks}. Residual networks
+aim to address this problem of degradation.
+
+If shallower model is able to learn with higher accuracy than deeper
+model, we want the deeper model to be able to learn at least same
+as shallower one, or better. If we stack new layer into model, we
+want them to be able to learn identity mapping. Then the model with
+new layers will behave same as shallower model during prediction.
+Experiments show that current solvers using gradient descent are not
+able to find such solution which would let newer layer to learn identity
+mapping in feasible time. The residual learning aims to tackle this
+problem by explicitly learning the residual mapping instead of original
+mapping. If we want our newly stacked layers to represent mapping
+$\mathcal{H}\left(\boldsymbol{x}\right)$, instead we let them learn
+another mapping $\mathcal{F}\left(\boldsymbol{x}\right)=\mathcal{H}\left(\boldsymbol{x}\right)-\boldsymbol{x}$.
+The original mapping we aim to, $\mathcal{H}\left(\boldsymbol{x}\right)$
+is then reconstructed as $\mathcal{H}\left(\boldsymbol{x}\right)=\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$.
+He et al. \cite{resnet} shows it is easier to learn the residual
+mapping than to learn the original mapping. It also more easily preserves
+the identity mapping, if $\mathcal{F}\left(\boldsymbol{x}\right)=\boldsymbol{0}$,
+because it is easier to fit these layers to zero than to explicitly
+learn identity mapping. 
+
+The formulation of $\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
+can be realized by feed-forward neural network with shortcut connections
+\cite{bishop-neural-networks}, also known as skip connections. The
+advantage of this approach is it can be easily implemented in current
+neural network frameworks out of the box, and it whole network can
+still be learned by SGD end-to-end without any further modifications.
+Intuitively, the identity mapping, shortcut connection can be seen
+as an information highway, where information flows unchanged both
+forwards and backwards without any changes. He et al. \cite{resnet}
+show the residual learning lets us train very deep models and present
+several architectures based on residual learning: ResNet-18, ResNet-34,
+Resnet-50, ResNet-101, and ResNet-152. basically ResNet architecture
+consists of 4 residual blocks, repeated many times. The difference
+between individual architectures is only in number of repetitions
+these residual blocks.
+\begin{figure}
+\begin{centering}
+\includegraphics[width=6cm]{obrazky/resnet-layers}
+\par\end{centering}
+\caption{Residual and shortcut layers\cite{resnet}}
+\end{figure}
+
+
+\subsection{Depth estimation}
+
+Depth estimation is one of the most fundamental tasks in computer
+vision. Most existing methods \cite{depth-and-surface-estimation,predicting-depth}
+formulate depth estimation as a regression task due to the continuous
+nature of depth values. Those models for depth estimation are usually
+trained to minimize L2 norm between ground truth and predicted depths.
+However it shows that regressing to exact depth is difficult task.
+In many applications, depth can be known only approximately. With
+aforementioned approach, I approximate the regression formulation
+of depth estimation with classification problem. Thus instead of training
+to predict exact depth, we predict only depth range, still small enough
+to be useful for our application. Advantage of classification formulation
+of the problem is that after applying softmax on output of neural
+network, depths are naturally predicted as confidence in form of probability
+that particular depth level is occupied \cite{depth-estimation-as-classification}.
+Most notable methods \cite{depth-estimation-as-classification,depth-estimation-hierarchical-fusion-soft-weighting}
+use deep convolutional networks based on famous object classification
+architectures. 
+
+Li et al. \cite{depth-estimation-hierarchical-fusion-soft-weighting}
+use architecture based on deep residual network \cite{resnet}, specifically
+Resnet-152. The architecture is modified, it does not use the fully
+connected layer in the end of the network, which drastically decreases
+the number of trainable parameters, and instead it appends one convolutional
+and one deconvolutional layer. Also, Li et al. utilize the hierarchical
+fusion, where output of each block of ResNet is concatenated to other
+outputs, with dropout layer afterwards, then the network utilizes
+both low-level and high-level features of the input image during the
+final layers of depth estimation. The output of final layer is 120x160x200,
+meaning it outputs 120x160 pixels image with 200 depth levels. The
+depth space is equally discretized in log space. Specifically, 
+\[
+l=round\left(\frac{\log\left(d\right)-\log\left(d_{min}\right)}{q}\right)
+\]
+where $l$ is the quantized label, q is the width of quantization
+bin, $d$ is the continuous depth value and $d_{min}$ is the minimum
+depth value in the dataset. 
+
+Other notable approach of Li et al. is soft weighted sum inference.
+Usually, the depth is reconstructed intuitively as a centre of depth
+bin with maximum value pixel-wise \cite{depth-estimation-as-classification}.
+The last layer is softmax, so values can be interpreted as probabilities
+of each depth bin being being correct one. Thus the output contains
+probability distribution of depth pixel-wise. Li et al. reconstruct
+depth as a soft weighted sum inference by 
+\[
+\hat{d}=\exp\left\{ \boldsymbol{w}^{T}\boldsymbol{p}\right\} ,w_{i}=\log\left(d_{min}\right)+q\cdot i
+\]
+where $\boldsymbol{w}$ is the weight vector of depth bins, $i$ is
+bin index, $\boldsymbol{p}$ is the output score, and $\hat{d}$ is
+reconstructed depth.
+
+Then the model is trained end-to-end to minimize the pixel-wise multinomial
+logistic loss 
+\[
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]
+\]
+where $N$ is the number of pixels, $K$ is the number of depth bins,
+$D_{i}^{*}$ is ground truth depth on pixel $i$, and $p_{i}^{D_{k}}$
+is the probability of pixel $i$ to be labelled with $D_{k}$ depth
+bin.
+
+The classical multi-class classification assumes categorical labels
+without any ordering defined. However depth bins are ordinal labels,
+not categorical, because they have defined ordering and semantically
+it makes sense to take into account distance between correct and predicted
+label during training. This approach is not usable for categorical
+data, but for nominal data, this knowledge can be used to provide
+more information for the learning. Cao et al. \cite{depth-estimation-as-classification}
+propose modified loss function which takes distance between depth
+ins into account. They use similar architecture, with pixel-wise multinomial
+logistic loss, but with slight modification. In usual logistic loss,
+the loss is non-zero only for correct label, due to the $1\left\{ D_{k}=D_{i}^{*}\right\} $part
+of the function. Cao et al. propose ``information gain'' \cite{depth-estimation-as-classification}
+instead, where $1\left\{ D_{k}=D_{i}^{*}\right\} $ is replaced by
+$H\left(D_{i}^{*},D_{k}\right)$, where $H$ is $B\times B$ symmetric
+matrix with elements $H\left(p,q\right)=exp\left(-\alpha\left(p-q\right)^{2}\right)$
+where $\alpha$ is a constant. This information gain matrix lets the
+SGD propagate the error not only through correct label and preceding
+softmax layer, but also through its neighbouring labels, which helps
+updating the network parameters. So the modified loss is 
+\[
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]
+\]
+. 
+
+\subsection{3D map estimation}
+
+Choy et al. \cite{choy-3d-r2n2} use an LSTM framework extended for
+3D representation reconstruction, called 3D Recurrent Neural Network
+for reconstructing 3D images from single or multiple images and perform
+State of the Art results on single-view reconstruction. 
+
+todo: víc rozepsat, taky asi víc rozepsat konvoluci a maxpooling a
+dilated konvoluci?
+
+A tímhle multicore zazipuju složku tar cf - without\_db | bzip2 >
+closed\_virtualscapes.tar.gz
+
 \chapter{Transforming GTA V into the State of the Art simulator}
 
 In this thesis, Grand Theft Auto V (GTA V) game is used for creating
@@ -385,11 +630,11 @@ for PlayStation 3 and Xbox 360\cite{gta-release} , in 18.11.2014
 for PS4 and Xbox One and in 14.4.2015 it was released on PC, Windows\cite{gta-release-pc}.
 
 The game is based on proprietary game engine, called \label{rage}RAGE
-(Rockstar Advanced Game Engine)\cite{gta-5-rage}, which is used as
-a base for most of Rockstar Games products. 
+(Rockstar Advanced Game Engine) \cite{gta-5-rage}, which is used
+as a base for most of Rockstar Games products. 
 
 Till the release on Microsoft, Windows, it has been in development
-for 5 years with approximate 1000-person team\cite{gta-interview-studio}.
+for 5 years with approximate 1000-person team \cite{gta-interview-studio}.
 The world of GTA V was modelled on Los Angeles\cite{gta-v-interview}
 and other areas of Southern California, with road networks respecting
 design of Los Angeles map. 
@@ -555,15 +800,41 @@ screenshot gathering. The KeyUp callback is for interacting with user
 and reading the user's keyboard input. For data gathering mods, this
 is mostly used for debugging purposes, script disabling or restarting. 
 
-Little, but useful note for debugging and developing scripts based
-on ScriptHookDotNet2: when changing mod compiled binaries, we don't
+The ScriptHookDotNet2 brings useful feature for debugging and developing
+scripts based on in. When changing mod compiled binaries, we don't
 have to restart the game for newer version of mod to be active. Pressing
 Insert causes all C\# binaries to reload, causing new version of source
 code to load into game, which dramatically decreases time of feedback
 loop during development. This does not work for C++ mods and compiled
 .asi files.
 
-todo: popsat sem architekturu
+During the data retrieval from the game, two types of data are being
+gathered. Image data from GPU buffers and data about camera, cars,
+pedestrians and other in-game entities. All image data are being persistent
+into the filesystem directly. Other data are persisted into PostgreSQL
+database running locally on the machine. Since the main mod life-cycle
+loop is running in single thread, other threads are used for sending
+data into the database for faster simulation. Other setups are possible,
+depending on use-case of gathered data and need for scalability. Johnson-Roberson
+et al. \cite{driving-in-matrix} send all images into the Amazon Web
+Services and save them in a S3 bucket, also the database may run remotely
+and since the communication with database runs in separate thread,
+longer delay is not an issue. Other approached are saving all data
+into the filesystem directly, without database, denormalized per image.
+This is easier to setup, but leads to complications during data querying,
+because SQL is much more suited querying tool due to the relational
+nature of these data.
+
+Since the data retrieval takes many hours usually, there is sometimes
+need to change some parameters of the environment without stopping
+the run or to generally control the data retrieval remotely. For this
+purpose, the mod opens a socket server during startup and reads from
+it during the Tick method call. Along with the modded game running,
+there is a python REST based web server with simple controls for changing
+time of day, weather, stopping and restarting the data retrieval.
+During the web server startup, it created socket client which connects
+to the socket server in GTA mod. This setup allows to remotely control
+the data retrieval over the internet.
 
 \section{\label{sec:GTA-V-data-obtaining}GTA V native API and data obtaining}
 
@@ -1126,7 +1397,7 @@ w_{max}^{W} & w_{min}^{W}
 \]
 
 
-\subsection{World to Camera Coordinates}
+\subsection{\label{subsec:World-to-Camera}World to Camera Coordinates}
 
 The transformation from world coordinates is principally the same,
 but counter-intuitive in definition of used rotation matrices. It
@@ -1170,7 +1441,7 @@ to fit the matrix into page, let us propose following substitutions
 \[
 \cos\left(\gamma\right)=c_{\gamma},sin\left(\gamma\right)=s_{\gamma}
 \]
-\begin{align*}
+\begin{align}
 V & =\begin{bmatrix}c_{\beta}c_{\gamma} & c_{\beta}s_{\gamma} & -s_{\beta} & 0\\
 c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma} & c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma} & c_{\alpha}c_{\beta} & 0\\
 c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma} & -s_{\alpha}c_{\beta} & 0\\
@@ -1179,13 +1450,13 @@ c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gam
 0 & 1 & 0 & y^{W}\\
 0 & 0 & 1 & z^{W}\\
 0 & 0 & 0 & 1
-\end{bmatrix}\\
+\end{bmatrix}\nonumber \\
  & =\begin{bmatrix}c_{\beta}c_{\gamma} & c_{\beta}s_{\gamma} & -s_{\beta} & x^{W}c_{\beta}c_{\gamma}+y^{W}c_{\beta}s_{\gamma}-z^{W}s_{\beta}\\
 c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma} & c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma} & c_{\alpha}c_{\beta} & x^{W}\left(c_{\alpha}s_{\beta}c_{\gamma}+s_{\alpha}s_{\gamma}\right)+y^{W}\left(c_{\alpha}s_{\beta}s_{\gamma}-s_{\alpha}c_{\gamma}\right)+z^{W}c_{\alpha}c_{\beta}\\
 c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma} & -s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma} & -s_{\alpha}c_{\beta} & x^{W}\left(c_{\alpha}s_{\gamma}-s_{\alpha}s_{\beta}c_{\gamma}\right)+y^{W}\left(-s_{\alpha}s_{\beta}s_{\gamma}-c_{\alpha}c_{\gamma}\right)-z^{W}s_{\alpha}c_{\beta}\\
 0 & 0 & 0 & 1
-\end{bmatrix}
-\end{align*}
+\end{bmatrix}\label{eq:camera-m}
+\end{align}
 
 and whole transformation is, as expected 
 \[
@@ -1240,13 +1511,13 @@ I calculated the value of this new far clip to be $10003.815$, details
 of this calculation are covered in experiments\ref{subsec:Reverse-engineering}. 
 
 The transformation is represented by projection matrix
-\begin{align*}
+\begin{align}
 P & =\begin{bmatrix}\frac{H}{W\cdot\tan\left(\frac{\varphi_{VR}}{2}\right)} & 0 & 0 & 0\\
 0 & \frac{1}{\tan\left(\frac{\varphi_{VR}}{2}\right)} & 0 & 0\\
 0 & 0 & \frac{-10003.815}{n_{c}-10003.815} & \frac{-10003.815\cdot n_{c}}{n_{c}-10003.815}\\
 0 & 0 & -1 & 0
-\end{bmatrix}
-\end{align*}
+\end{bmatrix}\label{eq:projection-m}
+\end{align}
 
 So the projection to Clip Coordinates is 
 \[
@@ -1311,6 +1582,16 @@ so near clip is being mapped to 1 and far clip is being mapped to
 operates and depth is gathered from GPU in NDC. The value of $z^{NDC}=0$
 usually belongs to sky.
 
+The camera divides the camera space to two half-spaces, in front of
+camera $z^{C}<0$, and behind camera $z^{C}\geq0$ . The projection
+transformation from camera space to NDC space works correctly only
+for points that belong to half-space $z^{C}<0$. For every point in
+camera space, we can easily verify to which half-space it belongs
+and project only points belonging to the $z^{C}<0$ half-space. If
+we project points behind the camera,$z^{C}\geq0$ to the NDC space,
+they will be mapped into the NDC space as if they were in front of
+camera.
+
 \subsection{NDC to Window Coordinates}
 
 This is the last transformation of the rendering pipeline and only
@@ -1342,7 +1623,7 @@ Due to the division by width, the pipeline unfortunately can not be
 expressed as matrix multiplication by matrix constant for all points
 in one scene. 
 
-\section{Datasets proposal}
+\section{\label{sec:Datasets-proposal}Datasets proposal}
 
 As part of my thesis, I propose two novel synthetic datasets. Both
 of these datasets are outdoor, taken from virtual car. Both of these
@@ -1354,25 +1635,30 @@ and rotation of camera, positions, rotations, identifiers and types
 of cars and pedestrians around the camera, projection and view matrix
 for aligning data between different images. 
 
-The first dataset was used for voxel map reconstruction. It contains
-images from 4 virtual cameras attached to driving car, placed in circle
-opposite to each other, mapping space in front of car to create its
-detailed 3D reconstruction. There are 8371 scenes, each taken from
-4 cameras. During this dataset gathering, $13059$ meters were driven
-in virtual world.
+The first dataset, named Closed VirtualScapes, was used for voxel
+map reconstruction. It contains images from 4 virtual cameras attached
+to driving car, placed in circle opposite to each other, mapping space
+in front of car to create its detailed 3D reconstruction. There are
+8371 scenes, each taken from 4 cameras. During this dataset gathering,
+$13059$ meters were driven in virtual world.
 
-The second dataset is demonstration of common automotive dataset from
-driving car. Compared to real-world datasets, this one has advantage
-of pixel-wise depth, precise on all surfaces and even in high distances,
-outperforming LIDAR technology in accuracy and depth point density.
-It is directly aligned with pixels of RGB images. The datasets consists
-of 22285 scenes, every of them captured by 4 cameras attached to car,
-heading different direction, as seen in figure \ref{fig:Camera-positions-for}
-where camera positions are marked by white cubes. During this dataset
-gathering, $34340$ meters were driven in virtual world.
+The second dataset, named Open VirtualScapes, is demonstration of
+common automotive dataset from driving car. Compared to real-world
+datasets, this one has advantage of pixel-wise depth, precise on all
+surfaces and even in high distances, outperforming lidar technology
+in accuracy and depth point density. It is directly aligned with pixels
+of RGB images. The datasets consists of 22285 scenes, every of them
+captured by 4 cameras attached to car, heading different direction,
+as seen in figure \ref{fig:Camera-positions-for} where camera positions
+are marked by white cubes. During this dataset gathering, $34340$
+meters were driven in virtual world.
+
+Both datasets are publicly available and can be downloaded from \url{http://ptak.felk.cvut.cz/public_datasets/GTA_V/dataset-website/}.
+
 \begin{figure}
-\includegraphics[scale=0.4]{obrazky/dataset-2-cameras}
-
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/dataset-2-cameras}
+\par\end{centering}
 \caption{\label{fig:Camera-positions-for}Camera positions for second dataset}
 
 \end{figure}
@@ -1380,111 +1666,278 @@ gathering, $34340$ meters were driven in virtual world.
 
 \chapter{3D map estimation}
 
-Restoring 3D map from single image is a complex task. We can think
-of depth estimation as preceding problem to the 3D map estimation,
-because in depth estimation, we estimate distance of nearest object
-pixel-wise, and in 3D map estimation, we have multiple depth levels
-per pixel and estimate occupancy per each depth level. The neural
-network output is cuboid with size of XxYxZ neurons, hence it is useful
+When thinking of 3D map estimation, we can utilize the similarity
+between 3D map estimation and the depth estimation, because in depth
+estimation, we predict the distance of nearest object pixel-wise,
+and in 3D map estimation, we have multiple depth levels per pixel
+and estimate occupancy per each depth level. The neural network output
+is cuboid with size of $X\times Y\times Z$ neurons, hence it is useful
 to represent 3D map of a cuboid as a voxel map with X width levels,
 Y height levels and Z depth levels. Then we can estimate occupancy
 per voxel, in other words, per each neuron output. Thus we can represent
 both depth and 3D map estimation as similar instances, depth estimation
-being single class occupancy classification per pixel, and 3D map
-estimation being multi-class occupancy classification per pixel.
+being multi-class occupancy classification per pixel where classes
+are depth bins, and 3D map estimation being occupancy classification
+per voxel, where we predict occupancy for each voxel.
 
-\section{Residual networks}
+\section{TensorFlow}
 
-In machine learning, deep convolutional neural networks have been
-used more and more mostly due to significant breakthroughs in image
-classification tasks. Advantage of deep neural networks is they are
-capable to naturally utilize low-level, mid-level, and high-level
-features, without need for manual feature-engineering and lets us
-train whole architectures end-to-end. Recent results \cite{going-deeper-with-convolutions,very-deep-image-recognition}
-in visual recognition tasks, mostly on ImageNet dataset \cite{imagenet},
-reveal depth of network plays crucial role in model accuracy. When
-deeper networks were created simply by stacking more and more layers
-in the model, these models become hard to train. One of these problems
-is the notorious vanishing gradient, which is being addressed by many
-approaches, like normalized initialization \cite{efficient-backprop,difficulty-deep-forward}
-and normalization layers \cite{batch-normalization}. Other problem
-is the degradation problems, where training accuracy starts to worsen,
-after stacking more layers \cite{highway-networks}. Residual networks
-aim to address this problem of degradation.
-
-If shallower model is able to learn with higher accuracy than deeper
-model, we want the deeper model to be able to learn at least same
-as shallower one, or better. If we stack new layer into model, we
-want them to be able to learn identity mapping. Then the model with
-new layers will behave same as shallower model during prediction.
-Experiments show that current solvers using gradient descent are not
-able to find such solution which would let newer layer to learn identity
-mapping in feasible time. The residual learning aims to tackle this
-problem by explicitly learning the residual mapping instead of original
-mapping. If we want our newly stacked layers to represent mapping
-$\mathcal{H}\left(\boldsymbol{x}\right)$, instead we let them learn
-another mapping $\mathcal{F}\left(\boldsymbol{x}\right)=\mathcal{H}\left(\boldsymbol{x}\right)-\boldsymbol{x}$.
-The original mapping we aim to, $\mathcal{H}\left(\boldsymbol{x}\right)$
-is then reconstructed as $\mathcal{H}\left(\boldsymbol{x}\right)=\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$.
-He et al. \cite{resnet} shows it is easier to learn the residual
-mapping than to learn the original mapping. It also more easily preserves
-the identity mapping, if $\mathcal{F}\left(\boldsymbol{x}\right)=\boldsymbol{0}$,
-because it is easier to fit these layers to zero than to explicitly
-learn identity mapping. 
-
-The formulation of $\mathcal{F}\left(\boldsymbol{x}\right)+\boldsymbol{x}$
-can be realized by feed-forward neural network with shortcut connections
-\cite{bishop-neural-networks}, also known as skip connections. The
-advantage of this approach is it can be easily implemented in current
-neural network frameworks out of the box, and it whole network can
-still be learned by SGD end-to-end without any further modifications.
-Intuitively, the identity mapping, shortcut connection can be seen
-as an information highway, where information flows unchanged both
-forwards and backwards without any changes. He et al. \cite{resnet}
-show the residual learning lets us train very deep models and present
-several architectures based on residual learning: ResNet-18, ResNet-34,
-Resnet-50, ResNet-101, and ResNet-152. basically ResNet architecture
-consists of 4 residual blocks, repeated many times. The difference
-between individual architectures is only in number of repetitions
-these residual blocks.
+In the neural networks research, one of the important factors is the
+ability to easily and efficiently prototype new architecture and train
+neural network. TensorFlow \cite{tensorflow2015-whitepaper} is a
+framework for developing and training neural networks, developed by
+Google Inc. It is based on declarative programming and the API provides
+a way to describe the computational graph. This graph is can be then
+queried for value of any node in the graph given specific input. todo:
+dopsat běh na GPU, tensorboard a další věci
 
 \section{Depth estimation}
 
-Depth estimation is one of the most fundamental tasks in computer
-vision. Most existing methods \cite{depth-and-surface-estimation,predicting-depth}
-formulate depth estimation as a regression task due to the continuous
-nature of depth values. Those models for depth estimation are usually
-trained to minimize L2 norm between ground truth and predicted depths.
-However it shows that regressing to exact depth is difficult task.
-In many applications, depth can be known only approximately. With
-aforementioned approach, I approximate the regression formulation
-of depth estimation with classification problem. Thus instead of training
-to predict exact depth, we predict only depth range, still small enough
-to be useful for our application. Advantage of classification formulation
-of the problem is that after applying soft-max on output of neural
-network, depths are naturally predicted as confidence in form of probability
-that particular depth level is occupied \cite{depth-estimation-as-classification}.
-Most notable methods \cite{depth-estimation-as-classification,depth-estimation-hierarchical-fusion-soft-weighting}
-use deep convolutional networks based on famous object classification
-architectures. 
+As a task preceding the 3D map estimation, I firstly trained neural
+network for depth estimation. There are many datasets for depth estimation,
+but most of them are either indoor with relatively precise ground
+truth depth or outdoor with sparse depth labels, like in KITTI dataset
+\cite{kitti}, or they are in relatively low resolution and loss accuracy
+in higher distance \cite{make3d-dataset}, which is natural for real-world
+depth measurement. For training, I use Closed VirtualScapes dataset,
+synthetic dataset gathered from GTA V, described in section \ref{sec:Datasets-proposal}. 
 
-Li et al. \cite{depth-estimation-hierarchical-fusion-soft-weighting}
-use architecture based on deep residual network \cite{resnet}, specifically
-Resnet-152. The architecture is modified, it does not use the fully
-connected layer in the end of the network, which drastically decreases
-the number of trainable parameters, and instead it appends one convolutional
-and one deconvolutional layer. Also, Li et al. utilize the hierarchical
-fusion, where output of each block of ResNet is concatenated to other
-outputs, with dropout layer afterwards, then the network utilizes
-both low-level and high-level features of the input image during the
-final layers of depth estimation. The output of final layer is 120x160x200,
-meaning it outputs 120x160 pixels image with 200 depth levels. 
+This dataset is already in the form of corresponding RGB and depth
+images, but the depth is in the NDC space so it must first be pixel-wise
+transformed into the camera view space where the depth is in meters.
+We might train network directly in the NDC space, but the depth reconstruction
+learned would be deformed. The NDC space is not linearly mapped into
+the camera view space, in fact, it is mapped hyperbolically, according
+to the visualization pipeline \cite{real-time-rendering}. This pixel-wise
+transformation per image is everything we need to create the dataset
+feasible for training the depth prediction. 
 
-Other notable approach of Li et al. is soft weighted sum inference. 
+In convention in neural networks for image processing each layer has
+usually 4 dimensions. Those dimensions have semantics (batch size,
+image height, image width, number of channels). The batch size is
+usually omitted in most of notations because it is constant in all
+network. Other dimensions change its size in individual layers.
+
+The basic architecture for depth estimation is based on Li et al.
+\cite{depth-estimation-hierarchical-fusion-soft-weighting}, but there
+are modifications. The whole network can be seen in figure \ref{fig:Depth-estimation-neural}.
+The input is $320\times240$ RGB image. Bigger images are resized
+to this size. The overall architecture and individual parameters should
+be visible in the figure. In each box, the first row is the type of
+neural network layer, other rows specify either its parameters, or
+next layer. Conv means convolutional layer, next row after it specifies
+its parameters, namely kernel, size of last dimension (also sometimes
+called number of channels), stride, and activation function. For instance,
+in the second box, second row, ``7x7, 64, 2, relu'' means 7x7 kernel,
+last 64 output channels, stride 2 and Rectified Linear Unit activation
+function. When no activation function is specified, there is no activation
+function and convolutional layer output is directly input to the consecutive
+layer. Most of the network consists of two types of block. Resize
+blocks and non-resize blocks. The naming comes from the property of
+convolutional layers, specifically the stride parameter. When the
+stride is 1, width and height dimensions remain unchanged, but when
+the stride is higher, the width and height are resized. These blocks
+are the main building blocks of the ResNet network \cite{resnet}
+and we can see the layers for residual mapping in non-resize blocks.
+Non-resize blocks are stacked onto each other multiple times, which
+is denoted in the figure, specifically non-resize blocks are repeated
+2, 7, 35 and 2 times, respectively. As depicted in the figure, output
+of all blocks from the second resize block onwards are then concatenated
+together in the channel dimensions, which allows utilization of low-level,
+mid-level and high-level feature is the last layers of the network.
+The input layer is denoted by the green background, output layer by
+blue background, and orange and yellow backgrounds represent layers
+with dilated convolution. Orange background is used for blocks whose
+convolution layers uses dilution in rate 2, which means neighbouring
+neurons in the convolution mask have distance=2 from its neighbours,
+every second neuron is omitted in each direction. The similar property
+holds for blocks with yellow background, where the dilated convolution
+has rate 4, which means neighbouring neurons in the convolution mask
+are 4 neurons distant from each other in the previous layer.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=14cm]{obrazky/my-master-network-depth}
+\par\end{centering}
+\caption{\label{fig:Depth-estimation-neural}Depth estimation neural network}
+
+\end{figure}
+
+
+\section{3D map estimation}
+
+The 3D map estimation from single RGB image is an abstract task and
+has many possible representations. In many tasks, voxel-map has proven
+to be good representation of the 3D space. Voxel (volumetric pixel)
+is the smallest distinguishable unit in 3D space, it is 3D analogy
+of 2D pixel. In this scenario, each voxel has one of three states:
+free, occupied and unknown. The size of voxel is not generally set
+and is being chosen to fit particular task. Too big voxel size causes
+high loss of information, and too small voxel size leads to high amount
+of voxels, more complicated manipulation with the resulting voxelmap
+and higher size when persisting the voxelmap. 
+
+Image which is used as an input for 3D map estimation is representing
+only a frustum in 3D map and does not contain information about space
+outside of this frustum. Because of this fact, setup in this thesis
+focuses only on reconstruction of 3D space inside the frustum viewed
+by the camera taking the image. Output of the neural network is $X\times Y\times Z$
+cuboid, which will be mapped to the frustum so output of each neuron
+represents point in the frustum. Mapping between the the cuboid and
+frustum is contained in the projection matrix \ref{subsec:Camera-to-NDC}
+which is used for the training dataset creation and for reconstruction
+of pointcloud from neural network output during prediction. With this
+setup, the model is predicting occupancy of points sampled from the
+frustum. In my setup, the frustum will be up to 25m from camera.
+
+\subsection{Training dataset construction from depth images}
+
+The synthetic dataset created from GTA V contains depth images and
+camera parameters, so there is need to reconstruct the 3D map and
+sample it to create the training dataset. For 3D map reconstruction,
+I gathered data from four cameras with positions relative to the driving
+car, as seen in figure X where each white cube represents camera position
+\ref{fig:Camera-positions-for-3d}. Totally there are 4 cameras, equally
+placed on the circle with 8 meters circumference. This setup will
+demonstrate the whole process of building 3D frustum map from 4 cameras
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/dataset-1-cameras}
+\par\end{centering}
+\caption{\label{fig:Camera-positions-for-3d}Camera positions for 3d reconstruction}
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-35--576}\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-35--972}
+
+\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-36--349}\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-36--728}\caption{\label{fig:extracted-RGB-images}extracted RGB images from 4 cameras}
+
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-35--576-depth}\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-35--972-depth}
+
+\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-36--349-depth}\includegraphics[width=7cm]{obrazky/2018-05-08--14-15-36--728-depth}\caption{\label{fig:extracted-depth-images}extracted depth images from 4 cameras}
+\end{figure}
+From these 4 cameras, I gathered 4 RGB and depth images, shown in
+figures \ref{fig:extracted-RGB-images} and \ref{fig:extracted-depth-images}.
+I also gathered camera parameters, namely position, rotation, near
+clip, and field of view. With these parameters, depth images can be
+easily transformed into the pointcloud in world coordinate system.
+Let us have $\boldsymbol{I}^{1}$depth image from the 1st camera with
+with width $W$ and height $H$ pixels. Since depth image contains
+value in NDC space then, $\boldsymbol{I}^{1}=\left(d_{i,j}\right)\in\left[0,1\right]^{W\times H}$
+holds, where $d_{i,j}$ is value of pixel with coordinates $\left[i,j\right]$.
+For every pixel, we know its depth value and coordinates in the pixel
+space, thus we can describe it as a point in NDC space
+\[
+\boldsymbol{x}_{i,j}^{NDC}=\begin{bmatrix}x^{NDC}\\
+y^{NDC}\\
+z^{NDC}\\
+1
+\end{bmatrix}=\begin{bmatrix}\frac{2i}{W}-1\\
+-\left(\frac{2j}{H}-1\right)\\
+d_{i,j}\\
+1
+\end{bmatrix}
+\]
+, where the $\boldsymbol{x}_{i,j}^{NDC}$ is pixel$\left[i,j\right]$
+transformed into NDC space. The sign change in $y^{NDC}$ is cause
+by indexing conventions of images, where lowest pixel height is in
+the upper part of image but in NDC space, lowest $y^{NDC}$ value
+is in the lower part of image. This holds because $x^{NDC},x^{NDC}\in\left[-1,1\right]$.
+With this pixel-wise transformation, we can transform each depth image
+$\boldsymbol{I}^{k},k\in1..4$ into pointcloud in NDC $\boldsymbol{P}_{k}^{NDC}$.
+By using transformation matrices described in \ref{subsec:World-to-Camera}
+and \ref{subsec:Camera-to-NDC} we can transform these pointclouds
+from different cameras into the same world coordinate space. Let us
+have $P$ matrix from \ref{eq:projection-m} and $V_{k}$ matrix from
+\ref{eq:camera-m} denoting the view matrix of $k$-th camera, since
+these matrices are regular, we can do the transformation 
+\[
+\boldsymbol{P}_{k}^{W}=V_{k}^{-1}P^{-1}\boldsymbol{P}_{k}^{NDC}\forall k\in1..4
+\]
+. Then, all pointclouds are merged into one pointcloud $\boldsymbol{P}^{W}$
+of whole scene seen from 4 cameras
+
+\[
+\boldsymbol{P}^{W}=\underset{k\in1..4}{\bigcup}\boldsymbol{P}_{k}^{W}
+\]
+. The resulting pointcloud can be seen in figure \ref{fig:Merged-pointcloud-from}.
+In this setup, all images are nearly Full HD, specifically $1920\times1057$.
+This leads to pointcloud of size $1920\cdot1057=2029440\thickapprox2M$
+points. Most of these points are near camera, in unnecessarily high
+density for this application. To decrease the size of pointclouds
+and the time to process, them I clustered them into 12cm big voxels
+and sampled only 1 point per voxel. This sub-sampling decreases the
+pointcloud size from $\sim2M$ points into $\sim80k$ to $\sim120k$
+points, which is 4\% to 6\% of original size. This sub-sampling is
+performed per depth image so we can easily link each point in pointcloud
+with camera it is seen from which is crucial for building occupancy
+voxelmap. The far clip is over 10000 \ref{subsec:Reverse-engineering}
+and thus the maximum distance from camera is over 10km. For reconstruction
+of view frustum to 25m from camera, this is unnecessarily large and
+makes further calculation complicated which is why all depth levels
+further than 30m were projected into 30m distance before further transformed
+into pointcloud. This transformation does not affect the space near
+camera but lowers space needed for representation of the pointcloud
+during the voxelmap occupancy calculation. Merged pointcloud after
+projecting distant points into the 30m distance from their camera
+can be seen in figure \ref{fig:Pointcloud-before-and} where I compare
+pointclouds before and after aforementioned sub-sampling.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=15cm]{obrazky/pcl-orig-1}
+\par\end{centering}
+\begin{centering}
+\includegraphics[width=15cm]{obrazky/pcl-orig-2}\caption{\label{fig:Merged-pointcloud-from}Merged pointcloud from all cameras}
+\par\end{centering}
+\end{figure}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=15cm]{obrazky/pcl-full}
+\par\end{centering}
+\begin{centering}
+\includegraphics[width=15cm]{obrazky/pcl-sub}
+\par\end{centering}
+\caption{\label{fig:Pointcloud-before-and}Pointcloud before and after sub-sampling}
+\end{figure}
+
+After this projection and sub-sampling, I have everything prepared
+for building a occupancy voxelmap . Voxels in this setup are 25cm
+big, and each voxel is marked either as occupied, free, or unknown.
+The resulting occupancy voxelmap is depicted in figure \ref{fig:Occupied-voxels-in}.
+The last part of the processing is the sampling of the view frustum
+from this occupancy voxelmap. This is directly mapped to the output
+of the neural network.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=14cm]{obrazky/occupied-pcl-thicc}
+\par\end{centering}
+\caption{\label{fig:Occupied-voxels-in}Occupied voxels in occupancy voxelmap}
+
+\end{figure}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=14cm]{obrazky/occupied-frustum-with-camera}
+\par\end{centering}
+\caption{\label{fig:Occupied-samples-in}Occupied samples in frustum. Camera
+is shown by white tetrahedron.}
+
+\end{figure}
+
+todo: popsat můj setup, dodat obrázky a experimenty, video na prezentaci
+s rgb, depth, a mapou?, zvýšit u voxelmpay velikost bodů. popsat gta
+pro ai gym a popsat rozdíly oproti mému přístupu
 
 \chapter{Experiments}
 
-\subsection{\label{subsec:Reverse-engineering}Reverse engineering the true Far
+\section{\label{subsec:Reverse-engineering}Reverse engineering the true Far
 Clip}
 
 For reverse engineering the far clip, I gathered 33293 screenshots
@@ -1712,6 +2165,19 @@ all 33293 matrices.
 In GTA, matrices are not gathered correctly every time and in some
 cases, resulting matrices are unusable. Because I knew the near clip
 precisely, I discarded all matrices, with calculated near clip $\left|n-n_{c}\right|>10^{-4}$.
+
+todo: dopsat
+
+\section{Depth estimation}
+
+Multiple datasets are being used for depth estimation.{\small{}\tableofcontents{}% vkládá automaticky generovaný obsah dokumentu
+} Most of them are indoor, since indoor we are able to measure depth
+more precisely and we generally deal with smaller distances. In my
+case, I trained for estimating outdoor depth. The synthetic dataset
+retrieved from GTA V has big advantage in dense and high precision
+depth labels seen nowhere in real datasets. In the outdoor depth estimation,
+I don't care about very distant points, so the depth estimation is
+thresholded 
 
 \chapter{Future work}
 

@@ -1959,8 +1959,37 @@ L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\ri
 \end_inset
 
 .
- todo: 3d map estimation do related work, konkrétně 3D-R2N2: a zchecknout,
- že cituju a nějak zmíním všechny papery v zadání
+ 
+\end_layout
+
+\begin_layout Subsection
+3D map estimation
+\end_layout
+
+\begin_layout Standard
+Choy et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "choy-3d-r2n2"
+
+\end_inset
+
+ use an LSTM framework extended for 3D representation reconstruction, called
+ 3D Recurrent Neural Network for reconstructing 3D images from single or
+ multiple images and perform State of the Art results on single-view reconstruct
+ion.
+ 
+\end_layout
+
+\begin_layout Standard
+todo: víc rozepsat, taky asi víc rozepsat konvoluci a maxpooling a dilated
+ konvoluci?
+\end_layout
+
+\begin_layout Standard
+A tímhle multicore zazipuju složku tar cf - without_db | bzip2 > closed_virtuals
+capes.tar.gz
 \end_layout
 
 \begin_layout Chapter
@@ -4721,6 +4750,12 @@ Due to the division by width, the pipeline unfortunately can not be expressed
 \end_layout
 
 \begin_layout Section
+\begin_inset CommandInset label
+LatexCommand label
+name "sec:Datasets-proposal"
+
+\end_inset
+
 Datasets proposal
 \end_layout
 
@@ -4756,7 +4791,7 @@ tion.
 The second dataset, named Open VirtualScapes, is demonstration of common
  automotive dataset from driving car.
  Compared to real-world datasets, this one has advantage of pixel-wise depth,
- precise on all surfaces and even in high distances, outperforming LIDAR
+ precise on all surfaces and even in high distances, outperforming lidar
  technology in accuracy and depth point density.
  It is directly aligned with pixels of RGB images.
  The datasets consists of 22285 scenes, every of them captured by 4 cameras
@@ -4889,14 +4924,44 @@ Depth estimation
 \begin_layout Standard
 As a task preceding the 3D map estimation, I firstly trained neural network
  for depth estimation.
- The advantage of depth estimation is that dataset is much easier to obtain
- from harvested data compared to 3D map dataset.
- To create corresponding pairs of input RGB and output depth image, we just
- need to transform the depth from NDC space into the camera view space,
- which is in meters.
- We might train network directly on data from GTA V, but the depth in NDC
- space in not linearly mapped into the camera view space, in fact, it is
- mapped hyperbolically, according to the visualization pipeline 
+ There are many datasets for depth estimation, but most of them are either
+ indoor with relatively precise ground truth depth or outdoor with sparse
+ depth labels, like in KITTI dataset 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "kitti"
+
+\end_inset
+
+, or they are in relatively low resolution and loss accuracy in higher distance
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "make3d-dataset"
+
+\end_inset
+
+, which is natural for real-world depth measurement.
+ For training, I use Closed VirtualScapes dataset, synthetic dataset gathered
+ from GTA V, described in section 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:Datasets-proposal"
+
+\end_inset
+
+.
+ 
+\end_layout
+
+\begin_layout Standard
+This dataset is already in the form of corresponding RGB and depth images,
+ but the depth is in the NDC space so it must first be pixel-wise transformed
+ into the camera view space where the depth is in meters.
+ We might train network directly in the NDC space, but the depth reconstruction
+ learned would be deformed.
+ The NDC space is not linearly mapped into the camera view space, in fact,
+ it is mapped hyperbolically, according to the visualization pipeline 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "real-time-rendering"
@@ -4910,7 +4975,17 @@ key "real-time-rendering"
 \end_layout
 
 \begin_layout Standard
-The basic architecture for depth estimation has been based on Li et al.
+In convention in neural networks for image processing each layer has usually
+ 4 dimensions.
+ Those dimensions have semantics (batch size, image height, image width,
+ number of channels).
+ The batch size is usually omitted in most of notations because it is constant
+ in all network.
+ Other dimensions change its size in individual layers.
+\end_layout
+
+\begin_layout Standard
+The basic architecture for depth estimation is based on Li et al.
  
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -4918,11 +4993,109 @@ key "depth-estimation-hierarchical-fusion-soft-weighting"
 
 \end_inset
 
-, but with different output depth size.
- For 200 depth bins, the network failed to converge.
- With 100 depth bins, the learning rate was faster and it converged more
- easily.
- todo: dodat obrázky
+, but there are modifications.
+ The whole network can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Depth-estimation-neural"
+
+\end_inset
+
+.
+ The input is 
+\begin_inset Formula $320\times240$
+\end_inset
+
+ RGB image.
+ Bigger images are resized to this size.
+ The overall architecture and individual parameters should be visible in
+ the figure.
+ In each box, the first row is the type of neural network layer, other rows
+ specify either its parameters, or next layer.
+ Conv means convolutional layer, next row after it specifies its parameters,
+ namely kernel, size of last dimension (also sometimes called number of
+ channels), stride, and activation function.
+ For instance, in the second box, second row, 
+\begin_inset Quotes eld
+\end_inset
+
+7x7, 64, 2, relu
+\begin_inset Quotes erd
+\end_inset
+
+ means 7x7 kernel, last 64 output channels, stride 2 and Rectified Linear
+ Unit activation function.
+ When no activation function is specified, there is no activation function
+ and convolutional layer output is directly input to the consecutive layer.
+ Most of the network consists of two types of block.
+ Resize blocks and non-resize blocks.
+ The naming comes from the property of convolutional layers, specifically
+ the stride parameter.
+ When the stride is 1, width and height dimensions remain unchanged, but
+ when the stride is higher, the width and height are resized.
+ These blocks are the main building blocks of the ResNet network 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "resnet"
+
+\end_inset
+
+ and we can see the layers for residual mapping in non-resize blocks.
+ Non-resize blocks are stacked onto each other multiple times, which is
+ denoted in the figure, specifically non-resize blocks are repeated 2, 7,
+ 35 and 2 times, respectively.
+ As depicted in the figure, output of all blocks from the second resize
+ block onwards are then concatenated together in the channel dimensions,
+ which allows utilization of low-level, mid-level and high-level feature
+ is the last layers of the network.
+ The input layer is denoted by the green background, output layer by blue
+ background, and orange and yellow backgrounds represent layers with dilated
+ convolution.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/my-master-network-depth.png
+	lyxscale 50
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Depth-estimation-neural"
+
+\end_inset
+
+Depth estimation neural network
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -5530,7 +5703,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename obrazky/occupied-pcl.png
+	filename obrazky/occupied-pcl-thicc.png
 	lyxscale 40
 	width 14cm
 
@@ -5575,7 +5748,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename obrazky/occupied-frustum.png
+	filename obrazky/occupied-frustum-with-camera.png
 	lyxscale 40
 	width 14cm
 
@@ -5594,7 +5767,8 @@ name "fig:Occupied-samples-in"
 
 \end_inset
 
-Occupied samples in frustum
+Occupied samples in frustum.
+ Camera is shown by white tetrahedron.
 \end_layout
 
 \end_inset
