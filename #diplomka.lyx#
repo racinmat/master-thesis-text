@@ -5055,7 +5055,10 @@ key "resnet"
  in rate 2, which means neighbouring neurons in the convolution mask have
  distance=2 from its neighbours, every second neuron is omitted in each
  direction.
- The similar is for 
+ The similar property holds for blocks with yellow background, where the
+ dilated convolution has rate 4, which means neighbouring neurons in the
+ convolution mask are 4 neurons distant from each other in the previous
+ layer.
 \end_layout
 
 \begin_layout Standard
@@ -5094,13 +5097,88 @@ Depth estimation neural network
 
 \end_layout
 
-\begin_layout Plain Layout
-
-\end_layout
-
 \end_inset
 
 
+\end_layout
+
+\begin_layout Standard
+Layers of network which have same architecture as ResNet-152 have been initializ
+ed by trained ResNet network.
+ For remaining parameters the following holds.
+ Weights of neuron inputs have been initialized by Xavier initialization
+ from normal distribution, and biases have been initialized to the constant
+ value 0.1.
+ After each layer, the batch normalization has been used, with 
+\begin_inset Formula $\epsilon=10^{-3}$
+\end_inset
+
+ and decay
+\begin_inset Formula $=0.9997$
+\end_inset
+
+.
+ During the training, the cost is optimized, but it is hard to compare results
+ when different cost is tried only based on visual perception, which is
+ why other metrics are being used for evaluation the accuracy of trained
+ network.
+ For depth estimation, following metrics are reported.
+ Accuracy under threshold, mean relative error, root mean squared error,
+ mean squared log error, and average 
+\begin_inset Formula $\log_{10}$
+\end_inset
+
+ error.
+ All of them are calculated pixel-wise.They are formally defined as follows.
+ 
+\end_layout
+
+\begin_layout Enumerate
+Accuracy under threshold 
+\begin_inset Formula $aut=\frac{1}{K}\stackrel[i=1]{K}{\sum}1\left\{ \max\left(\frac{d_{i}^{*}}{d_{i}},\frac{d_{i}}{d_{i}^{*}}\right)<\tau\right\} $
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Mean relative error 
+\begin_inset Formula $rel=\frac{1}{K}\stackrel[i=1]{K}{\sum}\frac{|d_{i}^{*}-d_{i}|}{d_{i}^{*}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Root mean squared error 
+\begin_inset Formula $rms=\sqrt{\frac{1}{K}\stackrel[i=1]{K}{\sum}\left(d_{i}^{*}-d_{i}\right)^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Root mean squared log error 
+\begin_inset Formula $rmslog=\sqrt{\frac{1}{K}\stackrel[i=1]{K}{\sum}\left(\log\left(d_{i}^{*}\right)-\log\left(d_{i}\right)\right)^{2}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Average 
+\begin_inset Formula $\log_{10}$
+\end_inset
+
+ error 
+\begin_inset Formula $logerr=\frac{1}{K}\stackrel[i=1]{K}{\sum}\frac{|d_{i}^{*}-d_{i}|}{d_{i}^{*}}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
 \end_layout
 
 \begin_layout Section
@@ -6424,38 +6502,7 @@ Depth estimation
 \end_layout
 
 \begin_layout Standard
-Multiple datasets are being used for depth estimation.
-\size small
-
-\begin_inset CommandInset toc
-LatexCommand tableofcontents
-
-\end_inset
-
-
-\begin_inset ERT
-status open
-
-\begin_layout Plain Layout
-
-% vkládá automaticky generovaný obsah dokumentu
-\end_layout
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-
-
-\size default
- Most of them are indoor, since indoor we are able to measure depth more
- precisely and we generally deal with smaller distances.
- In my case, I trained for estimating outdoor depth.
- The synthetic dataset retrieved from GTA V has big advantage in dense and
- high precision depth labels seen nowhere in real datasets.
- In the outdoor depth estimation, I don't care about very distant points,
- so the depth estimation is thresholded 
+For all experiments, the datasets 
 \end_layout
 
 \begin_layout Chapter
