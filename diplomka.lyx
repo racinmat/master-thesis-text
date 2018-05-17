@@ -1135,6 +1135,8 @@ reference "sec:GTA-V-data-obtaining"
  pixel-wise class segmentation of each car.
  With this data, I was able to do the 3D and 2D bounding boxes extraction,
  pixel-wise object segmentation and trajectory tracking.
+ All of these images are part of the VirtualScapes dataset I propose as
+ a part of this thesis.
 \end_layout
 
 \begin_layout Standard
@@ -1382,6 +1384,10 @@ reference "sec:GTA-V-modding"
 GTA V has also been used as a part of the OpenAI Universe, promising powerful
  environment for machine learning, but due to Rockstar Games Terms of Services,
  it has been removed and is not currently supported by the OpenAI Universe.
+ Nowadays, OpenAI Universe supports many games, but focuses mainly on Reinforcem
+ent Learning, and thus allows only communication with games through a strict
+ API and does not allow the complex setup and modifications of the game
+ described in this thesis.
 \end_layout
 
 \begin_layout Section
@@ -1559,7 +1565,7 @@ key "batch-normalization"
 \end_inset
 
 .
- Other problem is the degradation problems, where training accuracy starts
+ Other problem is the degradation problem, where training accuracy starts
  to worsen, after stacking more layers 
 \begin_inset CommandInset citation
 LatexCommand cite
@@ -1575,8 +1581,8 @@ key "highway-networks"
 If shallower model is able to learn with higher accuracy than deeper model,
  we want the deeper model to be able to learn at least same as shallower
  one, or better.
- If we stack new layer into model, we want them to be able to learn identity
- mapping.
+ If we stack a new layer into the model, we want them to be able to learn
+ identity mapping.
  Then the model with new layers will behave same as shallower model during
  prediction.
  Experiments show that current solvers using gradient descent are not able
@@ -1812,6 +1818,13 @@ key "depth-estimation-as-classification"
  of each depth bin being being correct one.
  Thus the output contains probability distribution of depth pixel-wise.
  Li et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
  reconstruct depth as a soft weighted sum inference by 
 \begin_inset Formula 
 \[
@@ -1843,9 +1856,9 @@ where
 Then the model is trained end-to-end to minimize the pixel-wise multinomial
  logistic loss 
 \begin_inset Formula 
-\[
-L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]
-\]
+\begin{equation}
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]\label{eq:loss-multinomial}
+\end{equation}
 
 \end_inset
 
@@ -1952,9 +1965,9 @@ key "depth-estimation-as-classification"
  neighbouring labels, which helps updating the network parameters.
  So the modified loss is 
 \begin_inset Formula 
-\[
-L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]
-\]
+\begin{equation}
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]\label{eq:loss-infogain}
+\end{equation}
 
 \end_inset
 
@@ -1985,11 +1998,6 @@ ion.
 \begin_layout Standard
 todo: víc rozepsat, taky asi víc rozepsat konvoluci a maxpooling a dilated
  konvoluci?
-\end_layout
-
-\begin_layout Standard
-A tímhle multicore zazipuju složku tar cf - without_db | bzip2 > closed_virtuals
-capes.tar.gz
 \end_layout
 
 \begin_layout Chapter
@@ -4914,7 +4922,19 @@ key "tensorflow2015-whitepaper"
  the computational graph.
  This graph is can be then queried for value of any node in the graph given
  specific input.
- todo: dopsat běh na GPU, tensorboard a další věci
+ Other advantage of TensorFlow is almost seeming-less transition between
+ running the calculation graph on CPU and on GPU which allows to users to
+ describe abstract mathematical operations without the need of low-level
+ optimizations of calculations on CUDA, everything is taken care of by TensorFlo
+w.
+ As a powerful tool for introspections of neural network training, TensorBoard
+ was developed as a visualization utility for TensorFlow.
+ During the training, certain parameters can be logged periodically and
+ then visualized in TensorBoard, enabling visualization of cost function,
+ metrics, input and output images, or weight histograms in time, which leads
+ to more intuitive understanding of issues during solving problems with
+ neural networks training.
+ todo: popsat způsoby načítání a optimalizátory?
 \end_layout
 
 \begin_layout Section
@@ -4969,9 +4989,32 @@ key "real-time-rendering"
 \end_inset
 
 .
- This pixel-wise transformation per image is everything we need to create
- the dataset feasible for training the depth prediction.
- 
+ After obtaining the depth in meters, I performed depth binning to obtain
+ the depth representation for the classification task.
+ Since these data are outdoor, the depth varies from 1 meter to 10km, which
+ is the camera far clip and nothing after 10km is rendered.
+ Which is still much bigger depth range than in real world datasets.
+ Depth estimation of very distant objects is harder than for close ones,
+ mainly because their relative size on the image is lot smaller, but also
+ small difference in image can mean big depth difference in meters.
+ And in most of applications, we are interested only in relatively near
+ objects depth estimation.
+ This is why the depth range to 50 meters has been used for binning into
+ 100 depth levels, and one additional depth level was used as the 
+\begin_inset Quotes eld
+\end_inset
+
+another
+\begin_inset Quotes erd
+\end_inset
+
+ class, depth out of the range, so network would still classify far away
+ pixels as some bin and wouldn't try to assign them some nearer depth level.
+ This is why there are 101 channels in the network output.
+ Due to this setup, ground truth depth which is used as the correct label
+ during training, has all pixels more distant than 50 meters belong to the
+ same depth class.
+ This is important for visual evaluation of predicted depths.
 \end_layout
 
 \begin_layout Standard
@@ -5135,7 +5178,7 @@ ed by trained ResNet network.
 
 \begin_layout Enumerate
 Accuracy under threshold 
-\begin_inset Formula $aut=\frac{1}{K}\stackrel[i=1]{K}{\sum}1\left\{ \max\left(\frac{d_{i}^{*}}{d_{i}},\frac{d_{i}}{d_{i}^{*}}\right)<\tau\right\} $
+\begin_inset Formula $aut\left(\tau\right)=\frac{1}{K}\stackrel[i=1]{K}{\sum}1\left\{ \max\left(\frac{d_{i}^{*}}{d_{i}},\frac{d_{i}}{d_{i}^{*}}\right)<\tau\right\} $
 \end_inset
 
 
@@ -5907,12 +5950,6 @@ Occupied samples in frustum.
 
 \end_layout
 
-\begin_layout Standard
-todo: popsat můj setup, dodat obrázky a experimenty, video na prezentaci
- s rgb, depth, a mapou?, zvýšit u voxelmpay velikost bodů.
- popsat gta pro ai gym a popsat rozdíly oproti mému přístupu
-\end_layout
-
 \begin_layout Chapter
 Experiments
 \end_layout
@@ -6533,7 +6570,7 @@ In GTA, matrices are not gathered correctly every time and in some cases,
 \end_layout
 
 \begin_layout Standard
-todo: dopsat
+todo: dopsat, přidat linky na zdrojáky na githubu
 \end_layout
 
 \begin_layout Section
@@ -6541,7 +6578,2198 @@ Depth estimation
 \end_layout
 
 \begin_layout Standard
-For all experiments, the datasets 
+For all experiments, the same network architecture has been used, only hyper-par
+ameters were being tuned.
+ The initial experiments started with 201 depth bins, as used in 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "depth-estimation-hierarchical-fusion-soft-weighting"
+
+\end_inset
+
+ but with additional depth bin for more distant depth values.
+ But the network failed to learn in this setup.
+ The cost increased exponentially instead of decreasing, as can be seen
+ in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Failing-to-learn"
+
+\end_inset
+
+.
+ The cost function which was being minimized in this setup was the multinomial
+ loss, as described in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:loss-multinomial"
+
+\end_inset
+
+.
+ With time, cost function was increasing.
+ In the run denoted by light blue colour, only 40 training images were fed
+ into the network, to try if it is able to remember patterns, without any
+ requirement of generalization.
+ As can be seen, even in this setup network failed to learn.
+ All runs are runs with different learning rates, in expectation that lower
+ learning rate would prevent this cost explosion, but it did not seem to
+ have any effect at all.
+ The training and validation data from dataset were split in 80/20 ratio.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/initial-learn-fail.PNG
+	lyxscale 50
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Failing-to-learn"
+
+\end_inset
+
+Failing to learn
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+After reducing the output number of depth levels to 101, 100 depth levels
+ and one remaining level for all depth values outside the binned range,
+ network started to learn, as.
+ The training was then run in multiple setups, to find the best predictor.
+ 9 setups will be discussed.
+ Setups parameters can be seen in the table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Depth-estimation-setups"
+
+\end_inset
+
+.
+ As a loss function, the information gain based loss in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:loss-infogain"
+
+\end_inset
+
+ has been used.
+ The initial learning rate is same for all setups.
+ The Nadam optimizer is abbreviation for Adam optimizer with Nesterov momentum.
+ For all runs using Adam and Nadam optimizers, only epsilon parameter was
+ tuned, beta1 and beta2 parameters were constant, beta1=
+\begin_inset Formula $0.9$
+\end_inset
+
+, beta2=
+\begin_inset Formula $0.999$
+\end_inset
+
+.
+ The SGDN is abbreviation for the stochastic gradient descent with Nesterov
+ momentum.The initial learning rate was set to 
+\begin_inset Formula $10^{-4}$
+\end_inset
+
+for all runs.
+ For setups 1 to 6, learning rate decay has been used.
+ The learning rate decay is staircase, after a period given in 
+\begin_inset Quotes eld
+\end_inset
+
+decay after
+\begin_inset Quotes erd
+\end_inset
+
+ column the learning rate is divided by 10.
+ For runs 7 to 9, learning rate remained unchanged for all training.
+ Networks were trained on different GPUs, namely, Nvidia Titan Xp, Titan
+ X, and Nvidia GTX 1080Ti.
+ Due to different computation capability of these cards and different number
+ of CUDA cores, run times are not highly correlated with number of iterations.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="5">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="0pt">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+optimizer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+decay after
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+training time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+iterations
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Adam(epsilon=
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $2\cdot10^{4}$
+\end_inset
+
+ steps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+58h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+237k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Adam(epsilon=
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3\cdot10^{4}$
+\end_inset
+
+ steps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+164k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam(epsilon=
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3\cdot10^{4}$
+\end_inset
+
+ steps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+105k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Adam(epsilon=
+\begin_inset Formula $10^{-5}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3\cdot10^{4}$
+\end_inset
+
+ steps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+175k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam(epsilon=
+\begin_inset Formula $10^{-5}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3\cdot10^{4}$
+\end_inset
+
+ steps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+202k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam(epsilon=
+\begin_inset Formula $10^{-2}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $3\cdot10^{4}$
+\end_inset
+
+ steps
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+189k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam(epsilon=
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no decay
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+30h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+120k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SGDN(momentum=
+\begin_inset Formula $0.999$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no decay
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+184k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SGDN(momentum=
+\begin_inset Formula $0.9$
+\end_inset
+
+)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+no decay
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+26h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+108k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Depth-estimation-setups"
+
+\end_inset
+
+Depth estimation setups
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+Metrics for depth estimation and loss have been calculated for the validation
+ dataset on these 9 setups, they can be seen in table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:Depth-estimation-metrics"
+
+\end_inset
+
+.
+ The accuracy under threshold 
+\begin_inset Formula $1.25$
+\end_inset
+
+ (
+\begin_inset Formula $aut\left(1.25\right)$
+\end_inset
+
+) is in range 
+\begin_inset Formula $\left[0,1\right]$
+\end_inset
+
+ by definition.
+ 0 accuracy means depth in not pixel is in range from 
+\begin_inset Formula $\frac{1}{1.25}=0.5$
+\end_inset
+
+ to 
+\begin_inset Formula $1.25$
+\end_inset
+
+ of ground truth depth, 1 accuracy means all pixels are in 
+\begin_inset Formula $0.8$
+\end_inset
+
+ to 
+\begin_inset Formula $1.25$
+\end_inset
+
+ of ground truth depth.
+ All these calculations are done on reconstructed images, meaning higher
+ accuracy means better models.
+ Error metrics measure error rate and thus lower error means better model.
+ Some metrics highly correlate with each other, showing they describe similar
+ information.
+ From accuracy under threshold and root mean squared log error (
+\begin_inset Formula $rmls$
+\end_inset
+
+) we can see setups 6,8,9 perform far worse than other models.
+ So we can see generally SGDN performed worse than Adam and Nadam optimizers.
+ From Adam and Nadam optimizers, the setup 7 performed the best, which is
+ Nadam optimizer with epsilon=
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+ and without the learning decay.
+ That can be seen in all metrics except of mean relative error.
+ 
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="10" columns="7">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $aut\left(1.25\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean relative error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rms$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rmls$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+average 
+\begin_inset Formula $\log_{10}$
+\end_inset
+
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+loss
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4390
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3607
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.7808
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5415
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2880
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.6054
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4393
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3432
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+11.0467
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5533
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2926
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.5629
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4554
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3287
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.3699
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5219
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2730
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.5234
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4258
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3392
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+9.7831
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4849
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2620
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.5913
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4314
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3394
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10.2730
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.5066
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2708
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.6061
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0390
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6588
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.8523
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.8978
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6960
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.8873
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4852
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.3494
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+8.2342
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.4140
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.2180
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.5132
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 8
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.7106
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.9028
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.9403
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.7651
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.9104
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 9
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.0508
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6488
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+13.8551
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.8948
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+0.6873
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+14.8796
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Depth-estimation-metrics"
+
+\end_inset
+
+Depth estimation metrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="7" columns="4">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RGB image
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/orig-rgb-1.png
+	lyxscale 50
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/orig-rgb-4.png
+	lyxscale 50
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/orig-rgb-3.png
+	lyxscale 50
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+depth in meters
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-orig-depth-1.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-orig-depth-4.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-orig-depth-3.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+ground truth depth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-gt-depth-1.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-gt-depth-4.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-gt-depth-3.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-1-2018-04-01--00-26-49.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-4-2018-04-01--00-26-49.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-3-2018-04-01--00-26-49.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-1-2018-04-01--00-32-39.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-4-2018-04-01--00-32-39.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-3-2018-04-01--00-32-39.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="middle" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-1-2018-04-02--02-51-28.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-4-2018-04-02--02-51-28.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-3-2018-04-02--02-51-28.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-1-2018-04-02--02-59-31.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-4-2018-04-02--02-59-31.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depths/colored-predicted-3-2018-04-02--02-59-31.png.png
+	width 4cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Depth-estimation-samples"
+
+\end_inset
+
+Depth estimation samples
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Section
+3D estimation
+\end_layout
+
+\begin_layout Standard
+Compared to the depth extimation, 
 \end_layout
 
 \begin_layout Chapter
