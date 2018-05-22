@@ -5332,7 +5332,7 @@ reference "fig:Camera-positions-for-3d"
  Totally there are 4 cameras, equally placed on the circle with 8 meters
  circumference.
  This setup will demonstrate the whole process of building 3D frustum map
- from 4 cameras
+ from 4 cameras.
 \end_layout
 
 \begin_layout Standard
@@ -5948,6 +5948,354 @@ Occupied samples in frustum.
 \end_inset
 
 
+\end_layout
+
+\begin_layout Subsection
+Metrics and network setup
+\end_layout
+
+\begin_layout Standard
+Although the 3D map estimation is similar to the depth estimation by the
+ problem setup, it is more difficult since we try to infer occupancy of
+ occluded voxels, which was not an issue in depth prediction.
+ Similarly to the depth predictions, metrics for comparing different models
+ and optimizations of different loss functions are used.
+ Compared to the depth estimation where metrics were being calculated on
+ images and based on difference between predicted and ground truth depth,
+ for 3D map estimation the classification based metrics are used since this
+ problem is by definition classification problem.
+ 
+\end_layout
+
+\begin_layout Standard
+In this setup of voxel-wise classification, we have 3 classes.
+ Occupied, free, and unknown voxels.
+ Even for the setup of synthesizing 3D occupancy grids, occupancy of some
+ voxels is unknown.
+ For instance, this happens for car interior, occluded when viewed from
+ all cameras and for space below the road.
+ During both training and validation, only known voxels are used for loss
+ calculation and metrics calculation.
+ Let us recapitulate usual terms used for classification problems with respect
+ to this particular problem.
+ Voxel is false positive, if it is classified as obstacle, but is free in
+ ground truth.
+ True positive voxel contains obstacle in ground truth and is correctly
+ classified as an obstacle.
+ True negative voxel is voxel without obstacle, a.k.a free voxel in ground
+ truth classified as free voxel in the prediction.
+ And false negative voxel is free in ground truth and in prediction.
+ So number of voxels in individual categories, which is then used in metrics,
+ can be expressed as
+\end_layout
+
+\begin_layout Standard
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="3" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+obstacle in ground truth
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+free in ground truth
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+obstacle in prediction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $tp=\stackrel[i=1]{K}{\sum}1\left\{ obst\left(M_{i}\right)\land obst\left(M_{i}^{*}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $fp=\stackrel[i=1]{K}{\sum}1\left\{ obst\left(M_{i}\right)\land free\left(M_{i}^{*}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+free in prediction
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $fn=\stackrel[i=1]{K}{\sum}1\left\{ free\left(M_{i}\right)\land obst\left(M_{i}^{*}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $tn=\stackrel[i=1]{K}{\sum}1\left\{ free\left(M_{i}\right)\land free\left(M_{i}^{*}\right)\right\} $
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $obst\left(\cdot\right)$
+\end_inset
+
+ is true for occupied voxels and 
+\begin_inset Formula $free\left(\cdot\right)$
+\end_inset
+
+ is true for free voxels.
+\end_layout
+
+\begin_layout Standard
+Following metrics are used:
+\end_layout
+
+\begin_layout Enumerate
+False positive rate 
+\begin_inset Formula $fpr=\frac{fp}{fp+tn}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+True positive rate 
+\begin_inset Formula $fpr=\frac{tp}{fn+tp}$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+Intersection over union 
+\begin_inset Formula $iou=\frac{\stackrel[i=1]{K}{\sum}1\left\{ obstacle\left(M_{i}\right)\land obstacle\left(M_{i}^{*}\right)\right\} }{\stackrel[j=1]{K}{\sum}1\left\{ obstacle\left(M_{j}\right)\lor obstacle\left(M_{j}^{*}\right)\right\} }$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Enumerate
+L1 distance on known voxels 
+\begin_inset Formula $dist=\stackrel[i=1]{K}{\sum}1\left\{ known\left(M_{i}^{*}\right)\right\} \cdot|M_{i}-M_{i}^{*}|$
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+where 
+\begin_inset Formula $M_{i}$
+\end_inset
+
+ is 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel in predicted voxelmap 
+\begin_inset Formula $M$
+\end_inset
+
+, 
+\begin_inset Formula $M_{i}^{*}$
+\end_inset
+
+ is 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel in ground truth voxelmap 
+\begin_inset Formula $M^{*}$
+\end_inset
+
+, 
+\begin_inset Formula $K$
+\end_inset
+
+ is number of voxels in voxelmap, 
+\begin_inset Formula $known\left(\cdot\right)$
+\end_inset
+
+ is predicate true for free or obstacle voxels.
+ 
+\end_layout
+
+\begin_layout Standard
+Also the loss function is different from depth estimation.
+ The weighted logistic loss is used.
+ This is voxel-wise, because there can be multiple occupied voxels per pixel
+ and thus does not make sense to use the loss function from depth estimation.
+ The loss function is same as in Zimmermann et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "zimmerman-active"
+
+\end_inset
+
+ and is as follows
+\begin_inset Formula 
+\begin{equation}
+L=-\left[\stackrel[i=1]{K}{\sum}w_{i}\log\left(1+\exp\left\{ -M_{i}M_{i}^{*}\right\} \right)\right]\label{eq:logistic-loss}
+\end{equation}
+
+\end_inset
+
+where 
+\begin_inset Formula $M_{i}$
+\end_inset
+
+ is value of 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel in predicted voxelmap, 
+\begin_inset Formula $M_{i}^{*}$
+\end_inset
+
+ is value of 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel in ground truth voxelmap and 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ is weight of 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel.
+ The value of voxel in ground truth voxelmap is as follows: 
+\begin_inset Formula $M_{i}^{*}=1$
+\end_inset
+
+ for voxels with obstacles, 
+\begin_inset Formula $M_{i}^{*}=-1$
+\end_inset
+
+ for free voxels.
+ The weight 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ serves two purposes.
+ The first purpose is masking out unknown voxels.
+ The second purpose is to solve the imbalanced classes issue.
+ There are more free voxels than occupied voxels, thus minimizing the sum
+ per all voxels would lead to favouring more frequent voxels.
+ In this case, that would be free voxels and thus it could learn to ignore
+ some obstacles.
+ The weighting modifies the loss so all weights sum to 1 and weights per
+ each class sum to 
+\begin_inset Formula $\frac{1}{2}$
+\end_inset
+
+.
+ The weight 
+\begin_inset Formula $w_{i}$
+\end_inset
+
+ for 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel is defined as follows.
+ 
+\begin_inset Formula $w_{i}=0$
+\end_inset
+
+ if 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel in ground truth is unknown.
+ 
+\begin_inset Formula $w_{i}=\frac{1}{2\cdot\#\,free\,voxels}$
+\end_inset
+
+ if 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel is free and 
+\begin_inset Formula $w_{i}=\frac{1}{2\cdot\#\,occupied\,voxels}$
+\end_inset
+
+ if 
+\begin_inset Formula $i$
+\end_inset
+
+-th voxel is occupied.
+ 
 \end_layout
 
 \begin_layout Chapter
@@ -7321,11 +7669,11 @@ reference "tab:Depth-estimation-metrics"
  Error metrics measure error rate and thus lower error means better model.
  Some metrics highly correlate with each other, showing they describe similar
  information.
- From accuracy under threshold and root mean squared (
-\begin_inset Formula $rms$
+ From accuracy under threshold and root mean squared log error (
+\begin_inset Formula $rmls$
 \end_inset
 
-) log error we can see setups 6,8,9 perform far worse than other models.
+) we can see setups 6,8,9 perform far worse than other models.
  So we can see generally SGDN performed worse than Adam and Nadam optimizers.
  From Adam and Nadam optimizers, the setup 7 performed the best, which is
  Nadam optimizer with epsilon=
@@ -8048,6 +8396,29 @@ Depth estimation metrics
 \end_layout
 
 \begin_layout Standard
+Few images from the validation dataset and their depth predictions can be
+ seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Depth-estimation-samples"
+
+\end_inset
+
+.
+ In the first row, we can see the RGB image, in the second row is the ground
+ truth depth in meters.
+ The third row depicts ground truth images reconstructed by the soft-sum
+ inference from depth level bins.
+ Here we can see all information behind 50 meters in truncated, which also
+ visually helps us to focus on near objects.
+ The red colour is for nearer objects and blue colour is for more distant
+ objects.
+ In rows 4-7 we can see the predictions of setups 3, 4, 5 and 7 which are
+ performing better than rest of setups.
+ 
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -8640,7 +9011,7 @@ vspace{0pt}
 \begin_inset Text
 
 \begin_layout Plain Layout
-setup 5
+setup 7
 \end_layout
 
 \end_inset
@@ -8764,12 +9135,1435 @@ Depth estimation samples
 
 \end_layout
 
-\begin_layout Section
-3D estimation
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depth-cost.png
+	lyxscale 50
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Training-for-depth-loss"
+
+\end_inset
+
+Training for depth estimation - loss
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depth-root_mean_log_square_error.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depth-mean_relative_error.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depth-root_mean_square_error.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depth-under_treshold_1.25.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Training-for-depth-metrics"
+
+\end_inset
+
+Training for depth estimation - metrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
-Compared to the depth extimation, 
+In the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Training-for-depth-loss"
+
+\end_inset
+
+ we can see the loss during training and in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Training-for-depth-metrics"
+
+\end_inset
+
+ we can see all metrics gathered during training.
+ Interesting property of loss function based on information gain is the
+ fact that it does not seem to converge most of the time during training,
+ but all metrics are being optimized even when it is not seen in the loss
+ figure.
+ Here we can see clearly how setups 6, 8 and 9 performed poorly and setup
+ 7 performed the best in all metrics.
+ The setup 7, which is Adam optimizer with Nesterov momentum, a.k.a.
+ Nadam optimizer with constant learning rate seems to have best results
+ and thus is used as a default optimizer for 3D map estimation and learning
+ rate is constant in all setups.
+\end_layout
+
+\begin_layout Section
+3D map estimation
+\end_layout
+
+\begin_layout Standard
+For 3D map estimation, I also trained multiple setups and evaluated them,
+ 7 of them with most promising results are discussed here.
+ The architecture was being modified, the last softmax layer was removed
+ because now we don't aim to predict occupation of only 1 depth voxel per
+ pixel, but we can predict multiple occupied voxels.
+ Also, for setups 5, 6 and 7, new deconvolutional layer was stacked, between
+ the last convolutional layer and the deconvolutional layer before the output.
+ The parameters for optimizer were same, epsilon=
+\begin_inset Formula $10^{-8}$
+\end_inset
+
+, beta1=
+\begin_inset Formula $0.9$
+\end_inset
+
+, beta2=
+\begin_inset Formula $0.999$
+\end_inset
+
+ for Nadam optimizer, and momentum=
+\begin_inset Formula $0.9$
+\end_inset
+
+ was used for SGD optimizer with Nesterov momentum.
+ For most setups, the weighted logistic loss 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "eq:logistic-loss"
+
+\end_inset
+
+ is used.
+ For setups 3 and 4, cross entropy loss has been used, but as seen in results,
+ it performed much worse than logistic loss.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="7">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+loss
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+optimizer
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+new deconvolutional layer
+\end_layout
+
+\end_inset
+</cell>
+<cell multirow="3" alignment="center" valignment="middle" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+training time
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+iterations
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-04--22-57-49
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+logistic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+25h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+141k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-04--23-03-46
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+logistic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SGDN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+24h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+150k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-06--00-03-04
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+crossentropy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+SGDN
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+63k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-06--00-05-58
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+crossentropy
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+-
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+10h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+58k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-07--17-22-10
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+logistic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+kernel=5, stride=1,out_dim=50)
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+28h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+147k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-08--23-37-07
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+logistic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+kernel=2, stride=2,out_dim=50
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+44h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+187k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+2018-05-11--00-10-54
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+logistic
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+Nadam
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+kernel=2, stride=2,out_dim=200
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+52h
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+154k
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:3d-estimation-setups"
+
+\end_inset
+
+3D estimation setups
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float table
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Tabular
+<lyxtabular version="3" rows="8" columns="7">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+name
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $aut\left(1.25\right)$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+mean relative error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rms$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Formula $rmls$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+average 
+\begin_inset Formula $\log_{10}$
+\end_inset
+
+ error
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+loss
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 2
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 3
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 4
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 6
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 7
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" topline="true" bottomline="true" rightline="true" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "tab:Depth-estimation-metrics-1"
+
+\end_inset
+
+Depth estimation metrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+The process of training is shown in figures _ and _.
+ In figure _ we can see the cost being minimized.
+ In the figure _ we can see metrics.
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depth-cost.png
+	lyxscale 50
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Training-for-3d-loss"
+
+\end_inset
+
+Training for 3D map estimation - loss
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depth-root_mean_log_square_error.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depth-mean_relative_error.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depth-root_mean_square_error.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/depth-under_treshold_1.25.png
+	lyxscale 50
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Training-for-3d-metrics"
+
+\end_inset
+
+Training for 3D map estimation - metrics
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Chapter
@@ -8779,7 +10573,24 @@ Future work
 \begin_layout Standard
 In GTA V reverse-engineering, many stencil values semantics remain to be
  discovered.
- 
+ Also, in GTA V, the modding capabilities are far from using their full
+ potential.
+ Lots of existing mods could help with scenarios setup for gathering data
+ in specific situations, also necessary tooling needs to be developed to
+ provide simple interface for scenarios setup.
+ But probably one of the most promising mod categories are visual mods,
+ which enhance the graphics of the game.
+ Many visual mods are being used currently and some of them can be combined
+ together, utilizing advantages of them both.
+ The main difficulty in using visual mods is evaluation of their photo-realism.
+ In the gaming community, players long for stunning graphics and aesthetically
+ pleasing visuals.
+ These visuals are sometimes unfortunately different than photorealistic
+ visuals, having much greater contrast for example, which is the main visual
+ feature of Redux visual mod currently.
+ Photorealism of individual visual mods and their combination should be
+ exploited and evaluated in order to get even more photo-realistic visual
+ data.
 \end_layout
 
 \begin_layout Standard
