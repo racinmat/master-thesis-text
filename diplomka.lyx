@@ -811,16 +811,43 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-This thesis aims to solve two problems.
- The first problem is the slow process of manual dataset creation and annotation
-, and the second problem is voxel map estimation from a single RGB image.
- Due to increasing interest in synthetic datasets, this thesis aims to be
- the documentation for using GTA V as a simulator for a creation of synthetic
- datasets.
+nové: 
+\end_layout
+
+\begin_layout Standard
+The main aim of this thesis is 3D map estimation from single RGB image.
+ The task of building 3D map is essential procedure in many robotics tasks.
+ Basically the robot builds an internal representation in form of 3D map
+ and then performs planning in this map.
+ Usually the robot updates the 3D map continuously as it moves in the environmen
+t, the most prevalent approach to this is SLAM, simultaneous localization
+ and mapping, this is used for instance in self-driving cars.
+ The precise 3D map reconstruction is open problem, difficult due to complicated
+ mapping between current representation and new data and also complicated
+ way of obtaining ground truth.
+ One of used approaches is visual monocular SLAM 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "slam-monocular"
+
+\end_inset
+
+.
+ This approach uses RGB image as an input for building dense depth map which
+ is being used for SLAM.
+ The RGB image input can be easily obtained compared to depth measurements
+ by lidar or other depth measuring approaches.
+ In some situations, the RGB image is is the main source of information
+ about environment, for example for self-driving car in parking lot or in
+ crossroad, where we need to plan trajectories between multiple vehicles.
+ Due to the problem of obtaining dense and precise ground truth, this thesis
+ exploits usage of synthetic datasets as a fast and efficient way to obtain
+ ground truth for such task.
+ GTA V is used here as a simulator for the creation of a synthetic dataset.
 \end_layout
 
 \begin_layout Section
-Deep learning is data hungry
+Obtaining large annotated datasets for high-capacity models
 \end_layout
 
 \begin_layout Standard
@@ -841,12 +868,9 @@ key "history-began-from-alexnet"
  achieve state of the art results before being used in other fields, and
  in this field, deeper and deeper architectures are being proposed earlier
  than in other fields.
- 
-\end_layout
-
-\begin_layout Standard
-With larger amount of parameters, the need for large datasets is growing,
+ With larger amount of parameters, the need for large datasets is growing,
  with current datasets unable to cover the need for annotated data.
+ 
 \end_layout
 
 \begin_layout Standard
@@ -890,6 +914,10 @@ key "unreasonable-effectiveness-of-data,revisiting-unreasonable-efectiveness,rea
 \end_inset
 
 .
+\end_layout
+
+\begin_layout Subsection
+Manual annotation services
 \end_layout
 
 \begin_layout Standard
@@ -956,11 +984,7 @@ key "amt-cv-annotation"
 \end_inset
 
 .
- 
-\end_layout
-
-\begin_layout Standard
-Supervise.ly is another web-based platform, focused on computer vision datasets
+ Supervise.ly is another web-based platform, focused on computer vision datasets
  annotation.
  It provides helpful tooling for annotators in unified web interface, speeding
  up the annotation process.
@@ -974,10 +998,7 @@ Although these tools lead to faster annotation process at lower cost, it
  still can not be compared to the fully automated data gathering and annotation,
  which could potentially solve these problems of lack of datasets in many
  computer vision and related tasks.
-\end_layout
-
-\begin_layout Standard
-The power of automatic annotation can be also expressed in terms of money.
+ The power of automatic annotation can be also expressed in terms of money.
  Although not many manually annotated datasets describe time of annotation,
  some of them do.
  In Cityscapes, the fine annotation took 1.5 hour per image 
@@ -1001,24 +1022,16 @@ key "cityscapes"
  both time and money saving.
 \end_layout
 
-\begin_layout Section
-Gaming industry to the rescue
+\begin_layout Subsection
+Generating synthetic datasets from game engines
 \end_layout
 
 \begin_layout Standard
 In last decades, gaming industry has grown hugely and expanded from small
  and specific community into public society and became mainstream industry.
- 
-\end_layout
-
-\begin_layout Standard
-The gaming industry became big driving force in many fields, and indirectly
+ The gaming industry became big driving force in many fields, and indirectly
  influenced even machine learning.
- 
-\end_layout
-
-\begin_layout Standard
-The mainstream model of gaming is on personal computers, where each player
+ The mainstream model of gaming is on personal computers, where each player
  has his own gaming PC, along with console gaming.
  Thanks to ever-growing number of players, lots of money got into industry
  and the growing demand for better graphics in games led to big improvements
@@ -1039,11 +1052,7 @@ key "high-performance-gpu"
 Big companies in gaming industry have enough resources to develop the state
  of the art real-time computer graphics, which can we see in their products,
  AAA games with graphics very near to reality.
- 
-\end_layout
-
-\begin_layout Standard
-Recent papers 
+ Recent papers 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "playing-for-data,driving-in-matrix"
@@ -1100,10 +1109,12 @@ Thesis Contribution
 \end_layout
 
 \begin_layout Standard
-In this thesis, I demonstrate the power of rich virtual worlds in creating
+říct, že navrhuju architekturu DCNN pro odhad 3D mapy a k tomu si vypomáhám
+ syntetickými daty.
+ In this thesis, I demonstrate the power of rich virtual worlds in creating
  synthetic datasets, and propose software architecture of dataset creation.
- Then I create voxel map of space in front of camera to create RGB image,
- voxel map pairs for learning.
+ Then I create voxel map of space in front of camera to create pairs of
+ RGB image and voxelmap for learning.
  In the last part, I train deep convolutional neural network for voxel map
  estimation.
 \end_layout
@@ -1137,6 +1148,13 @@ reference "sec:GTA-V-data-obtaining"
  pixel-wise object segmentation and trajectory tracking.
  All of these images are part of the VirtualScapes dataset I propose as
  a part of this thesis.
+ - tenhle odstavec přesunout víc nahoru, rozdělit motivaci do víc podkapitol,
+ larg experimental evaluation, multiple hyperparameters
+\end_layout
+
+\begin_layout Standard
+todo: dodat colorbary, udělat vizualizaci i pro 3D mapy jako mám pro hloubky,
+ obarvit Z souřadnici
 \end_layout
 
 \begin_layout Standard
@@ -1992,12 +2010,19 @@ key "choy-3d-r2n2"
  3D Recurrent Neural Network for reconstructing 3D images from single or
  multiple images and perform State of the Art results on single-view reconstruct
 ion.
- 
-\end_layout
+ In their setup they used encoder-decoder arhitecture with 
+\begin_inset Formula $127\times127$
+\end_inset
 
-\begin_layout Standard
-todo: víc rozepsat, taky asi víc rozepsat konvoluci a maxpooling a dilated
- konvoluci?
+ input images and 
+\begin_inset Formula $32\times32\times32$
+\end_inset
+
+ voxelmap and trained it to minimize the softmax cross-entropy loss.
+ This setup too learns on synthetic data, using mostly CAD models.
+ This approach is heavily focused on one object dominating the input image
+ which is suited for precise 3D map estimation, but not much for estimation
+ of 3D map of whole scene, usually with multiple objects.
 \end_layout
 
 \begin_layout Chapter
@@ -9310,6 +9335,7 @@ reference "eq:logistic-loss"
  is used.
  For setups 3 and 4, cross entropy loss has been used, but as seen in results,
  it performed much worse than logistic loss.
+ Logaritmicky loss ve 3D
 \end_layout
 
 \begin_layout Standard
@@ -9320,7 +9346,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="7">
+<lyxtabular version="3" rows="6" columns="7">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -9538,136 +9564,6 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-2018-05-06--00-03-04
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-crossentropy
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-SGDN
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10h
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-63k
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-setup 4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2018-05-06--00-05-58
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-crossentropy
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-Nadam
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
--
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-10h
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-58k
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-setup 5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 2018-05-07--17-22-10
 \end_layout
 
@@ -9724,7 +9620,7 @@ kernel=5, stride=1,out_dim=50)
 \begin_inset Text
 
 \begin_layout Plain Layout
-setup 6
+setup 4
 \end_layout
 
 \end_inset
@@ -9789,7 +9685,7 @@ kernel=2, stride=2,out_dim=50
 \begin_inset Text
 
 \begin_layout Plain Layout
-setup 7
+setup 5
 \end_layout
 
 \end_inset
@@ -9887,9 +9783,8 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="8" columns="7">
+<lyxtabular version="3" rows="6" columns="6">
 <features tabularvalignment="middle">
-<column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -9910,10 +9805,7 @@ name
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $aut\left(1.25\right)$
-\end_inset
-
-
+false positive rate
 \end_layout
 
 \end_inset
@@ -9922,7 +9814,7 @@ name
 \begin_inset Text
 
 \begin_layout Plain Layout
-mean relative error
+true positive rate
 \end_layout
 
 \end_inset
@@ -9931,22 +9823,7 @@ mean relative error
 \begin_inset Text
 
 \begin_layout Plain Layout
-\begin_inset Formula $rms$
-\end_inset
-
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-\begin_inset Formula $rmls$
-\end_inset
-
-
+intersection over union
 \end_layout
 
 \end_inset
@@ -9955,11 +9832,10 @@ mean relative error
 \begin_inset Text
 
 \begin_layout Plain Layout
-average 
-\begin_inset Formula $\log_{10}$
+\begin_inset Formula $l_{1}$
 \end_inset
 
- error
+ distance
 \end_layout
 
 \end_inset
@@ -9988,7 +9864,7 @@ setup 1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.2732
 \end_layout
 
 \end_inset
@@ -9997,7 +9873,7 @@ setup 1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.8603
 \end_layout
 
 \end_inset
@@ -10006,16 +9882,7 @@ setup 1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+0.6523
 \end_layout
 
 \end_inset
@@ -10024,7 +9891,7 @@ setup 1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+12151.0
 \end_layout
 
 \end_inset
@@ -10033,7 +9900,7 @@ setup 1
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1244
 \end_layout
 
 \end_inset
@@ -10053,7 +9920,7 @@ setup 2
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.0505
 \end_layout
 
 \end_inset
@@ -10062,7 +9929,7 @@ setup 2
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.4712
 \end_layout
 
 \end_inset
@@ -10071,16 +9938,7 @@ setup 2
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+0.2214
 \end_layout
 
 \end_inset
@@ -10089,7 +9947,7 @@ setup 2
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+64437.4
 \end_layout
 
 \end_inset
@@ -10098,7 +9956,7 @@ setup 2
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.13013582
 \end_layout
 
 \end_inset
@@ -10118,7 +9976,7 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.2120
 \end_layout
 
 \end_inset
@@ -10127,7 +9985,7 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.8369
 \end_layout
 
 \end_inset
@@ -10136,16 +9994,7 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+0.6233
 \end_layout
 
 \end_inset
@@ -10154,7 +10003,7 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+13386.8
 \end_layout
 
 \end_inset
@@ -10163,7 +10012,7 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.1080089
 \end_layout
 
 \end_inset
@@ -10183,7 +10032,7 @@ setup 4
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.2250
 \end_layout
 
 \end_inset
@@ -10192,7 +10041,7 @@ setup 4
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.8355
 \end_layout
 
 \end_inset
@@ -10201,16 +10050,7 @@ setup 4
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+0.6192
 \end_layout
 
 \end_inset
@@ -10219,7 +10059,7 @@ setup 4
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+13587.4
 \end_layout
 
 \end_inset
@@ -10228,14 +10068,14 @@ setup 4
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.097417
 \end_layout
 
 \end_inset
 </cell>
 </row>
 <row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
+<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -10244,132 +10084,11 @@ setup 5
 
 \end_inset
 </cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-setup 6
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" rightline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-</row>
-<row>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-setup 7
+0.2356
 \end_layout
 
 \end_inset
@@ -10378,7 +10097,7 @@ setup 7
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.8514
 \end_layout
 
 \end_inset
@@ -10387,25 +10106,7 @@ setup 7
 \begin_inset Text
 
 \begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-
+0.6730
 \end_layout
 
 \end_inset
@@ -10414,7 +10115,7 @@ setup 7
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+12359.5
 \end_layout
 
 \end_inset
@@ -10423,7 +10124,7 @@ setup 7
 \begin_inset Text
 
 \begin_layout Plain Layout
-
+0.123826
 \end_layout
 
 \end_inset
@@ -10460,16 +10161,44 @@ Depth estimation metrics
 \end_layout
 
 \begin_layout Standard
-The process of training is shown in figure 
+The process of training is shown in figures 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "fig:Training-for-3d-loss"
 
 \end_inset
 
- and _.
- In figure _ we can see the cost being minimized.
- In the figure _ we can see metrics.
+ and 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Training-for-3d-metrics"
+
+\end_inset
+
+.
+ In figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Training-for-3d-loss"
+
+\end_inset
+
+ we can see the cost being minimized.
+ Here the logistic loss itself shows how individual setups perform.
+ In the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Training-for-3d-metrics"
+
+\end_inset
+
+ we can see metrics.
+ The false positive rate is very low for all runs, but for other metrics
+ we can see stochastic gradient descent with Nesterov momentum (setup 2)
+ performed much poorer than other run.
+\end_layout
+
+\begin_layout Standard
 \begin_inset Float figure
 wide false
 sideways false
@@ -10514,7 +10243,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename obrazky/depth-root_mean_log_square_error.png
+	filename obrazky/3d-iou.png
 	lyxscale 50
 	width 8cm
 
@@ -10522,7 +10251,7 @@ status open
 
 
 \begin_inset Graphics
-	filename obrazky/depth-mean_relative_error.png
+	filename obrazky/3d-l1_dist_on_known.png
 	lyxscale 50
 	width 8cm
 
@@ -10533,7 +10262,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Graphics
-	filename obrazky/depth-root_mean_square_error.png
+	filename obrazky/3d-false_positive_rate.png
 	lyxscale 50
 	width 8cm
 
@@ -10541,7 +10270,7 @@ status open
 
 
 \begin_inset Graphics
-	filename obrazky/depth-under_treshold_1.25.png
+	filename obrazky/3d-true_positive_rate.png
 	lyxscale 50
 	width 8cm
 
