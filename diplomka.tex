@@ -9,8 +9,11 @@
 \usepackage[T1]{fontenc}
 \usepackage[utf8]{inputenc}
 \usepackage{babel}
+\usepackage{array}
 \usepackage{textcomp}
 \usepackage{url}
+\usepackage{pdfpages}
+\usepackage{multirow}
 \usepackage{stackrel}
 \usepackage{graphicx}
 \usepackage[unicode=true,pdfusetitle,
@@ -27,6 +30,9 @@
 \newcommand{\noun}[1]{\textsc{#1}}
 %% Because html converters don't know tabularnewline
 \providecommand{\tabularnewline}{\\}
+%% A simple dot to overcome graphicx limitations
+\newcommand{\lyxdot}{.}
+
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%% Textclass specific LaTeX commands.
 \newenvironment{lyxcode}
@@ -102,9 +108,11 @@
 \begin{description}
 \item [{{\large{}Author:}}] \noindent \textsf{\large{}Bc. Matěj Račinský}{\large \par}
 \item [{{\large{}Thesis~supervisor:}}] \noindent {\large{}doc. Ing. Karel
-Zimmermann, PhD.\hfill{}}\textsf{\large{}In Prague, May 2018}{\large \par}
+Zimmermann, PhD.\hfill{}}{\large \par}
+\item [{{\large{}Thesis~co-supervisor:}}] \noindent {\large{}Ing. Tomáš
+Petříček\hfill{}}\textsf{\large{}In Prague, May 2018}{\large \par}
 \end{description}
-\cleardoublepage{}\thispagestyle{empty}~
+\cleardoublepage{}\includepdf[pages=-]{zav_prace_zadani}\thispagestyle{empty}~
 
 {\small{}\ }{\small \par}
 
@@ -142,11 +150,7 @@ principles in the presentation of university theses.
 \item [{{\small{}Název~práce:}}] \noindent {\small{}Odhad 3D mapy z jednoho
 RGB obrazu}{\small \par}
 \item [{{\small{}Autor:}}] \noindent {\small{}Bc. Matěj Račinský}{\small \par}
-\item [{{\small{}Katedra~(ústav):}}] \noindent Kate{\small{}dra kybernetiky}{\small \par}
-\item [{{\small{}Vedoucí~bakalářské~práce:}}] \noindent {\large{}doc.
-Ing. Karel Zimmermann, PhD.}{\large \par}
-\item [{{\small{}e-mail~vedoucího:}}] \noindent {\small{}zimmerk@fel.cvut.cz}\\
-{\small \par}
+\item [{{\small{}Katedra~(ústav):}}] \noindent Kate{\small{}dra počítačů}{\small \par}
 \item [{{\small{}Abstrakt}}] \noindent Tato práce se zabývá využitím virtuálních
 světů z počítačových her jakožto zdroje dat pro strojové učení, a
 odhadem voxelové mapy z jednoho RGB obrázku za pomoci hlubokého učení.
@@ -161,11 +165,8 @@ RAGE}\\
 \item [{{\small{}Title:}}] \noindent {\small{}3D map estimation from a
 single RGB image}{\small \par}
 \item [{{\small{}Author:}}] \noindent {\small{}Bc. Matěj Račinský}{\small \par}
-\item [{{\small{}Department:}}] \noindent {\small{}Department of Cybernetics}{\small \par}
-\item [{{\small{}Supervisor:}}] \noindent {\large{}doc. Ing. Karel Zimmermann,
-Ph.D.}{\large \par}
-\item [{{\small{}Supervisor's~e-mail~address:}}] \noindent {\small{}zimmerk@fel.cvut.cz}\\
-{\small \par}
+\item [{{\small{}Department:}}] \noindent {\small{}Department of Computer
+Science}{\small \par}
 \item [{{\small{}Abstract}}] \noindent In this thesis we explore virtual
 worlds used as data source for machine learning and voxel map estimation
 from single RGB image with deep learning. This thesis describes principles
@@ -181,13 +182,31 @@ RAGE}{\small \par}
 
 \chapter[Introduction]{Introduction}
 
-This thesis aims to solve two problems. The first problem is the slow
-process of manual dataset creation and annotation, and the second
-problem is voxel map estimation from a single RGB image. Due to increasing
-interest in synthetic datasets, this thesis aims to be the documentation
-for using GTA V as a simulator for a creation of synthetic datasets.
+The main aim of this thesis is reactive 3D map estimation from single
+RGB image. The task of building 3D map is essential procedure in many
+robotics tasks and is then utilized in high-level planning. For many
+static environments, like buildings and roads, we have detailed maps
+available which are being used for this task. But for other environments,
+with lots of cars like in parking lots or crossroads, or off-road
+trajectories, the pre-calculated 3D map is not available and it needs
+to be created online. There are multiple approaches for 3D map estimation,
+lots of them using depth measurements. Often used approach is utilization
+of depth measurements and then building 3D map which is continuously
+updated during movement. This is a complicated task due to matching
+newly obtained data on existing 3D map. This thesis describes an approach
+based on reactive mapping without the need to build long-term internal
+world representation, using only immediate sensor input. Only RGB
+camera input is used for 3D map reconstruction instead of depth measurements.
+The RGB image has many advantages, RGB cameras are cheap and in higher
+resolution than depth sensors. RGB camera is a passive sensor, so
+multiple RGB cameras won't interfere with each other unlike LiDARs,
+so the RGB image can be obtained easily. Due to the problem of obtaining
+dense and precise ground truth, this thesis exploits usage of synthetic
+datasets as a fast and efficient way to obtain ground truth for such
+task. GTA V is used here as a simulator for the creation of a synthetic
+dataset.
 
-\section{Deep learning is data hungry}
+\section{Obtaining large annotated datasets for high-capacity models}
 
 In recent years, both machine learning and deep learning has experienced
 great progress in many fields \cite{history-began-from-alexnet}.
@@ -198,10 +217,9 @@ the art results in most of the tasks. Many tasks in computer vision
 are the first where deep neural networks achieve state of the art
 results before being used in other fields, and in this field, deeper
 and deeper architectures are being proposed earlier than in other
-fields. 
-
-With larger amount of parameters, the need for large datasets is growing,
-with current datasets unable to cover the need for annotated data.
+fields. With larger amount of parameters, the need for large datasets
+is growing, with current datasets unable to cover the need for annotated
+data. 
 
 Data has proven to be limiting factor in many computer vision tasks.
 The main problem is that manual data annotation is exhausting, time-consuming
@@ -217,6 +235,8 @@ because of ongoing research and increasing computing power. With growing
 capacity and number of parameters in these new models, there is need
 for bigger and bigger datasets for training. Several papers shown
 positive correlation between the size of data and performance \cite{unreasonable-effectiveness-of-data,revisiting-unreasonable-efectiveness,real-time-human-pose-recognition-in-parts-from-a-single-depth-image}.
+
+\subsection{Manual annotation services}
 
 There are attempts to develop tooling necessary to speed up the manual
 annotation process during datasets creation, most known being the
@@ -236,57 +256,51 @@ the annotation process and helps researchers to annotate data more
 easily \cite{amt-cv-annotation}. Quality of work can not be guaranteed
 since task provider can't supervise workers and correct them manually,
 but this disadvantage can be compensated by various quality assurance
-approaches \cite{amt-cv-annotation}. 
-
-Supervise.ly is another web-based platform, focused on computer vision
-datasets annotation. It provides helpful tooling for annotators in
-unified web interface, speeding up the annotation process. It offers
-integration with the AMT, so together, they seem to be candidate for
-industrial standard of data annotation. 
+approaches \cite{amt-cv-annotation}. Supervise.ly is another web-based
+platform, focused on computer vision datasets annotation. It provides
+helpful tooling for annotators in unified web interface, speeding
+up the annotation process. It offers integration with the AMT, so
+together, they seem to be candidate for industrial standard of data
+annotation. 
 
 Although these tools lead to faster annotation process at lower cost,
 it still can not be compared to the fully automated data gathering
 and annotation, which could potentially solve these problems of lack
-of datasets in many computer vision and related tasks.
+of datasets in many computer vision and related tasks. The power of
+automatic annotation can be also expressed in terms of money. Although
+not many manually annotated datasets describe time of annotation,
+some of them do. In Cityscapes, the fine annotation took 1.5 hour
+per image \cite{cityscapes}. If we had annotators paid minimum hourly
+wage in USA, 7.25\$, what would mean each fine annotated image has
+price 10.875\$. The whole fine annotated Cityscapes dataset with 5000
+images thus have has price at least 54 375\$ and took 312.5 days to
+annotate. In the dataset I created as part of my thesis, I gathered
+33292 images in 3.5 hours. If we would annotate this dataset same
+as Cityscapes fine annotation, it would take over 2080 days, which
+is approximately 5.7 years, and it would cost 362 050\$. Now we can
+see how this automatic annotation approach is significantly both time
+and money saving.
 
-The power of automatic annotation can be also expressed in terms of
-money. Although not many manually annotated datasets describe time
-of annotation, some of them do. In Cityscapes, the fine annotation
-took 1.5 hour per image \cite{cityscapes}. If we had annotators paid
-minimum hourly wage in USA, 7.25\$, what would mean each fine annotated
-image has price 10.875\$. The whole fine annotated Cityscapes dataset
-with 5000 images thus have has price at least 54 375\$ and took 312.5
-days to annotate. In the dataset I created as part of my thesis, I
-gathered 33292 images in 3.5 hours. If we would annotate this dataset
-same as Cityscapes fine annotation, it would take over 2080 days,
-which is approximately 5.7 years, and it would cost 362 050\$. Now
-we can see how this automatic annotation approach is significantly
-both time and money saving.
-
-\section{Gaming industry to the rescue}
+\subsection{Generating synthetic datasets from game engines}
 
 In last decades, gaming industry has grown hugely and expanded from
 small and specific community into public society and became mainstream
-industry. 
-
-The gaming industry became big driving force in many fields, and indirectly
-influenced even machine learning. 
-
-The mainstream model of gaming is on personal computers, where each
-player has his own gaming PC, along with console gaming. Thanks to
-ever-growing number of players, lots of money got into industry and
-the growing demand for better graphics in games led to big improvements
-in both software-computer graphics and hardware-graphics cards. With
-lots of money being invested by players in their PCs, GPU manufacturers
-were able to deliver more powerful GPUs every year and we can see
-exponential growth of GPU computational power \cite{high-performance-gpu}.
+industry. The gaming industry became big driving force in many fields,
+and indirectly influenced even machine learning. The mainstream model
+of gaming is on personal computers, where each player has his own
+gaming PC, along with console gaming. Thanks to ever-growing number
+of players, lots of money got into industry and the growing demand
+for better graphics in games led to big improvements in both software-computer
+graphics and hardware-graphics cards. With lots of money being invested
+by players in their PCs, GPU manufacturers were able to deliver more
+powerful GPUs every year and we can see exponential growth of GPU
+computational power \cite{high-performance-gpu}.
 
 Big companies in gaming industry have enough resources to develop
 the state of the art real-time computer graphics, which can we see
-in their products, AAA games with graphics very near to reality. 
-
-Recent papers \cite{playing-for-data,driving-in-matrix} have shown
-that we can use screenshots from PC games to obtain large automatically
+in their products, AAA games with graphics very near to reality. Recent
+papers \cite{playing-for-data,driving-in-matrix} have shown that
+we can use screenshots from PC games to obtain large automatically
 or semi-automatically annotated datasets, which improve learning.
 This lets us to outperform same models trained only on real data and
 achieve state of the art results on public datasets (KITTI dataset
@@ -303,55 +317,27 @@ game owner to integrate particular game into the Universe.
 
 \section{Thesis Contribution}
 
-In this thesis, I demonstrate the power of rich virtual worlds in
-creating synthetic datasets, and propose software architecture of
-dataset creation. Then I create voxel map of space in front of camera
-to create RGB image, voxel map pairs for learning. In the last part,
-I train deep convolutional neural network for voxel map estimation.
+In this thesis, I propose deep convolutional neural network for 3D
+map estimation. For this task, I leverage synthetic data from rich
+virtual worlds in form of synthetic dataset and propose software architecture
+for dataset creation. Then I create data for training in form of pairs
+of RGB image capturing space in front of car, and voxelmap of that
+space. In the last part, Then I empirically evaluate multiple setups
+of predictions of both depth estimation and 3D map estimation
+
+\subsection{Thesis structure}
 
 This thesis is structured as follows. Chapter 2 covers related work
 and previous achievements of synthetic datasets. Chapter 3 describes
 game Grand Theft Auto V and its utilization in creating synthetic
-datasets. I describe here whole modding process, the game API, internal
-game coordinate systems and data which can be obtained from the game.
-Chapter 4 describes voxel map estimation from a single RGB image.
+datasets, this part serves as a documentation for using libraries
+for manipulating the GTA world. Here I describe whole modding process,
+the game API, internal game coordinate systems and data which can
+be obtained from the game. Chapter 4 describes voxel map estimation
+from a single RGB image with network architecture and data preparation.
 It is followed by chapter 5, where I describe all experiments done
-as part of this thesis.
-
-To demonstrate possibilities of synthetic, automatically annotated
-datasets, here are some sample images obtained using my data extraction
-described in \ref{sec:GTA-V-data-obtaining} . The dataset contains
-position, rotation, model sizes, identifier and the pixel-wise class
-segmentation of each car. With this data, I was able to do the 3D
-and 2D bounding boxes extraction, pixel-wise object segmentation and
-trajectory tracking.
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=12cm]{obrazky/bbox-night}
-\par\end{centering}
-\caption{3D bounding box - night}
-\end{figure}
-\begin{figure}
-\begin{centering}
-\includegraphics[width=12cm]{obrazky/bbox-day-people}
-\par\end{centering}
-\caption{3D bounding box - day}
-\end{figure}
-\begin{figure}
-\begin{centering}
-\includegraphics[width=12cm]{obrazky/pixelwise-night}
-\par\end{centering}
-\caption{pixel-wise annotation of cars}
-\end{figure}
-
-\begin{figure}
-\begin{centering}
-\includegraphics[width=12cm]{obrazky/trajectories-day}
-\par\end{centering}
-\caption{individual car trajectories}
-\end{figure}
-
+as part of this thesis. Last chapter contains conclusion of the whole
+thesis.
 
 \chapter{Related work}
 
@@ -391,7 +377,10 @@ and gather screenshots from here.
 GTA V has also been used as a part of the OpenAI Universe, promising
 powerful environment for machine learning, but due to Rockstar Games
 Terms of Services, it has been removed and is not currently supported
-by the OpenAI Universe.
+by the OpenAI Universe. Nowadays, OpenAI Universe supports many games,
+but focuses mainly on Reinforcement Learning, and thus allows only
+communication with games through a strict API and does not allow the
+complex setup and modifications of the game described in this thesis.
 
 \section{3D map estimation}
 
@@ -458,7 +447,7 @@ it is called a deep neural network. The success of deep neural networks
 lies in their abilities to approximate non-trivial function because
 of high number of parameters of the network. The disadvantage of deep
 neural networks is the time they need to learn because it takes days
-or weeks to train state of the art deep neural networks.
+or weeks to train state of the art deep neural networks. 
 
 \subsection{Residual networks}
 
@@ -470,15 +459,15 @@ model, these models become hard to train. One of these problems is
 the notorious vanishing gradient, which is being addressed by many
 approaches, like normalized initialization \cite{efficient-backprop,difficulty-deep-forward}
 and normalization layers \cite{batch-normalization}. Other problem
-is the degradation problems, where training accuracy starts to worsen,
+is the degradation problem, where training accuracy starts to worsen,
 after stacking more layers \cite{highway-networks}. Residual networks
 aim to address this problem of degradation.
 
 If shallower model is able to learn with higher accuracy than deeper
 model, we want the deeper model to be able to learn at least same
-as shallower one, or better. If we stack new layer into model, we
-want them to be able to learn identity mapping. Then the model with
-new layers will behave same as shallower model during prediction.
+as shallower one, or better. If we stack a new layer into the model,
+we want them to be able to learn identity mapping. Then the model
+with new layers will behave same as shallower model during prediction.
 Experiments show that current solvers using gradient descent are not
 able to find such solution which would let newer layer to learn identity
 mapping in feasible time. The residual learning aims to tackle this
@@ -514,6 +503,24 @@ these residual blocks.
 \includegraphics[width=6cm]{obrazky/resnet-layers}
 \par\end{centering}
 \caption{Residual and shortcut layers\cite{resnet}}
+\end{figure}
+
+Residual networks have been widely adopted as a part of many upcoming
+architectures for various tasks. Thy are utilized in many image mapping
+tasks, for instance depth prediction or semantic segmentation. He
+et al. \cite{mask-rcnn} used ResNet as a backbone for their Mask
+R-CNN architecture for pixel-wise semantic segmentation and trained
+on COCO dataset. Their setup works well on both real photos and synthetic
+images, as can be seen in figure \ref{fig:Synthetic-image-labelled}
+where image from synthetic dataset is being labelled.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=11cm]{obrazky/mask-rcnn}
+\par\end{centering}
+\caption{\label{fig:Synthetic-image-labelled}Synthetic image labelled by Mask
+R-CNN}
+
 \end{figure}
 
 
@@ -561,8 +568,8 @@ Usually, the depth is reconstructed intuitively as a centre of depth
 bin with maximum value pixel-wise \cite{depth-estimation-as-classification}.
 The last layer is softmax, so values can be interpreted as probabilities
 of each depth bin being being correct one. Thus the output contains
-probability distribution of depth pixel-wise. Li et al. reconstruct
-depth as a soft weighted sum inference by 
+probability distribution of depth pixel-wise. Li et al. \cite{depth-estimation-hierarchical-fusion-soft-weighting}
+reconstruct depth as a soft weighted sum inference by 
 \[
 \hat{d}=\exp\left\{ \boldsymbol{w}^{T}\boldsymbol{p}\right\} ,w_{i}=\log\left(d_{min}\right)+q\cdot i
 \]
@@ -572,9 +579,9 @@ reconstructed depth.
 
 Then the model is trained end-to-end to minimize the pixel-wise multinomial
 logistic loss 
-\[
-L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]
-\]
+\begin{equation}
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}1\left\{ D_{k}=D_{i}^{*}\right\} \log\left(p_{i}^{D_{k}}\right)\right]\label{eq:loss-multinomial}
+\end{equation}
 where $N$ is the number of pixels, $K$ is the number of depth bins,
 $D_{i}^{*}$ is ground truth depth on pixel $i$, and $p_{i}^{D_{k}}$
 is the probability of pixel $i$ to be labelled with $D_{k}$ depth
@@ -599,9 +606,9 @@ where $\alpha$ is a constant. This information gain matrix lets the
 SGD propagate the error not only through correct label and preceding
 softmax layer, but also through its neighbouring labels, which helps
 updating the network parameters. So the modified loss is 
-\[
-L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]
-\]
+\begin{equation}
+L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\right)\log\left(p_{i}^{D_{k}}\right)\right]\label{eq:loss-infogain}
+\end{equation}
 . 
 
 \subsection{3D map estimation}
@@ -609,13 +616,14 @@ L=-\left[\stackrel[i=1]{N}{\sum}\stackrel[k=1]{K}{\sum}H\left(D_{i}^{*},D_{k}\ri
 Choy et al. \cite{choy-3d-r2n2} use an LSTM framework extended for
 3D representation reconstruction, called 3D Recurrent Neural Network
 for reconstructing 3D images from single or multiple images and perform
-State of the Art results on single-view reconstruction. 
-
-todo: víc rozepsat, taky asi víc rozepsat konvoluci a maxpooling a
-dilated konvoluci?
-
-A tímhle multicore zazipuju složku tar cf - without\_db | bzip2 >
-closed\_virtualscapes.tar.gz
+State of the Art results on single-view reconstruction. In their setup
+they used encoder-decoder architecture with $127\times127$ input
+images and $32\times32\times32$ voxelmap and trained it to minimize
+the softmax cross-entropy loss. This setup too learns on synthetic
+data, using mostly CAD models. This approach is heavily focused on
+one object dominating the input image which is suited for precise
+3D map estimation, but not much for estimation of 3D map of whole
+scene, usually with multiple objects.
 
 \chapter{Transforming GTA V into the State of the Art simulator}
 
@@ -834,7 +842,40 @@ there is a python REST based web server with simple controls for changing
 time of day, weather, stopping and restarting the data retrieval.
 During the web server startup, it created socket client which connects
 to the socket server in GTA mod. This setup allows to remotely control
-the data retrieval over the internet.
+the data retrieval over the internet. 
+
+The web-server part with socket client is available on \url{https://github.com/racinmat/GTAVisionExport-Server}.
+The installation procedure and running is described in the readme.
+It can be run simply by \code{python main.py} which starts the server
+on port 5000. It also contains HTML website with server as a client
+for the REST API, this can be started either by simply running local
+Nginx web-server or by using prepared docker container with properly
+configured server. This is run, as usual docker container, by \code{docker compose up}.
+The repository also contains lightweight web-based gallery for browsing
+gathered images. The main problem with viewing gathered data is their
+size. Usually there is hundreds of thousands images (RGB image, depth
+image and stencil image per sample) in single directory, which is
+difficult to handle for both windows and unix operating systems. To
+solve this issue, I developed a lightweight REST API based python
+script with pagination support for viewing this dataset. It can be
+run by \code{python gallery.py} which starts the REST server on port
+5001. The client side of this paginated gallery is in file gallery.html
+and also uses the Nginx server to run, same as website for controlling
+the data gathering. It uses HTTPS protocol with self-signed certificate,
+and the Nginx server is configured to use the HTTP2 protocol which
+supports large number of requests at the same time. This bypasses
+the restriction of accessing 6 resources at the same time from one
+domain which is in HTTP1.1. Thanks to this, hundreds of images can
+be displayed in very fast manner, both locally and remotely. The gallery
+can be seen in figure \ref{fig:Dataset-viewing-web}.
+
+\begin{figure}
+\includegraphics[width=14cm]{obrazky/dataset-viewing.PNG}
+
+\caption{\label{fig:Dataset-viewing-web}Dataset viewing web interface}
+
+\end{figure}
+
 
 \section{\label{sec:GTA-V-data-obtaining}GTA V native API and data obtaining}
 
@@ -1623,7 +1664,7 @@ Due to the division by width, the pipeline unfortunately can not be
 expressed as matrix multiplication by matrix constant for all points
 in one scene. 
 
-\section{\label{sec:Datasets-proposal}Datasets proposal}
+\section{\label{sec:Datasets-proposal}VirtualScapes Dataset proposal}
 
 As part of my thesis, I propose two novel synthetic datasets. Both
 of these datasets are outdoor, taken from virtual car. Both of these
@@ -1645,15 +1686,50 @@ $13059$ meters were driven in virtual world.
 The second dataset, named Open VirtualScapes, is demonstration of
 common automotive dataset from driving car. Compared to real-world
 datasets, this one has advantage of pixel-wise depth, precise on all
-surfaces and even in high distances, outperforming lidar technology
+surfaces and even in high distances, outperforming LiDAR technology
 in accuracy and depth point density. It is directly aligned with pixels
 of RGB images. The datasets consists of 22285 scenes, every of them
 captured by 4 cameras attached to car, heading different direction,
 as seen in figure \ref{fig:Camera-positions-for} where camera positions
 are marked by white cubes. During this dataset gathering, $34340$
-meters were driven in virtual world.
+meters were driven in virtual world. Both datasets are publicly available
+and can be downloaded from \url{http://ptak.felk.cvut.cz/public_datasets/GTA_V/dataset-website/}. 
 
-Both datasets are publicly available and can be downloaded from \url{http://ptak.felk.cvut.cz/public_datasets/GTA_V/dataset-website/}.
+To demonstrate possibilities of synthetic, automatically annotated
+datasets, here are some sample images obtained using my data extraction
+described in \ref{sec:GTA-V-data-obtaining} . The dataset contains
+position, rotation, model sizes, identifier and the pixel-wise class
+segmentation of each car. With this data, I was able to do the 3D
+and 2D bounding boxes extraction, pixel-wise object segmentation and
+trajectory tracking. All of these images are part of the VirtualScapes
+dataset and can be automatically reconstructed using annotations included
+in dataset.
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/bbox-night}
+\par\end{centering}
+\caption{3D bounding box - night}
+\end{figure}
+\begin{figure}
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/bbox-day-people}
+\par\end{centering}
+\caption{3D bounding box - day}
+\end{figure}
+\begin{figure}
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/pixelwise-night}
+\par\end{centering}
+\caption{pixel-wise annotation of cars}
+\end{figure}
+
+\begin{figure}
+\begin{centering}
+\includegraphics[width=12cm]{obrazky/trajectories-day}
+\par\end{centering}
+\caption{individual car trajectories}
+\end{figure}
 
 \begin{figure}
 \begin{centering}
@@ -1688,8 +1764,18 @@ neural network. TensorFlow \cite{tensorflow2015-whitepaper} is a
 framework for developing and training neural networks, developed by
 Google Inc. It is based on declarative programming and the API provides
 a way to describe the computational graph. This graph is can be then
-queried for value of any node in the graph given specific input. todo:
-dopsat běh na GPU, tensorboard a další věci
+queried for value of any node in the graph given specific input. Other
+advantage of TensorFlow is almost seeming-less transition between
+running the calculation graph on CPU and on GPU which allows to users
+to describe abstract mathematical operations without the need of low-level
+optimizations of calculations on CUDA, everything is taken care of
+by TensorFlow. As a powerful tool for introspections of neural network
+training, TensorBoard was developed as a visualization utility for
+TensorFlow. During the training, certain parameters can be logged
+periodically and then visualized in TensorBoard, enabling visualization
+of cost function, metrics, input and output images, or weight histograms
+in time, which leads to more intuitive understanding of issues during
+solving problems with neural networks training. 
 
 \section{Depth estimation}
 
@@ -1708,9 +1794,25 @@ transformed into the camera view space where the depth is in meters.
 We might train network directly in the NDC space, but the depth reconstruction
 learned would be deformed. The NDC space is not linearly mapped into
 the camera view space, in fact, it is mapped hyperbolically, according
-to the visualization pipeline \cite{real-time-rendering}. This pixel-wise
-transformation per image is everything we need to create the dataset
-feasible for training the depth prediction. 
+to the visualization pipeline \cite{real-time-rendering}. After obtaining
+the depth in meters, I performed depth binning to obtain the depth
+representation for the classification task. Since these data are outdoor,
+the depth varies from 1 meter to 10km, which is the camera far clip
+and nothing after 10km is rendered. Which is still much bigger depth
+range than in real world datasets. Depth estimation of very distant
+objects is harder than for close ones, mainly because their relative
+size on the image is lot smaller, but also small difference in image
+can mean big depth difference in meters. And in most of applications,
+we are interested only in relatively near objects depth estimation.
+This is why the depth range to 50 meters has been used for binning
+into 100 depth levels, and one additional depth level was used as
+the ``another'' class, depth out of the range, so network would
+still classify far away pixels as some bin and wouldn't try to assign
+them some nearer depth level. This is why there are 101 channels in
+the network output. Due to this setup, ground truth depth which is
+used as the correct label during training, has all pixels more distant
+than 50 meters belong to the same depth class. This is important for
+visual evaluation of predicted depths.
 
 In convention in neural networks for image processing each layer has
 usually 4 dimensions. Those dimensions have semantics (batch size,
@@ -1760,9 +1862,34 @@ are 4 neurons distant from each other in the previous layer.
 \includegraphics[width=14cm]{obrazky/my-master-network-depth}
 \par\end{centering}
 \caption{\label{fig:Depth-estimation-neural}Depth estimation neural network}
-
 \end{figure}
 
+Layers of network which have same architecture as ResNet-152 have
+been initialized by trained ResNet network. For remaining parameters
+the following holds. Weights of neuron inputs have been initialized
+by Xavier initialization from normal distribution, and biases have
+been initialized to the constant value 0.1. After each layer, the
+batch normalization has been used, with $\epsilon=10^{-3}$ and decay$=0.9997$.
+During the training, the cost is optimized, but it is hard to compare
+results when different cost is tried only based on visual perception,
+which is why other metrics are being used for evaluation the accuracy
+of trained network. For depth estimation, following metrics are reported.
+Accuracy under threshold, mean relative error, root mean squared error,
+mean squared log error, and average $\log_{10}$ error. All of them
+are calculated pixel-wise.They are formally defined as follows. 
+\begin{enumerate}
+\item Accuracy under threshold $aut\left(\tau\right)=\frac{1}{K}\stackrel[i=1]{K}{\sum}1\left\{ \max\left(\frac{d_{i}^{*}}{d_{i}},\frac{d_{i}}{d_{i}^{*}}\right)<\tau\right\} $
+\item Mean relative error $rel=\frac{1}{K}\stackrel[i=1]{K}{\sum}\frac{|d_{i}^{*}-d_{i}|}{d_{i}^{*}}$
+\item Root mean squared error $rms=\sqrt{\frac{1}{K}\stackrel[i=1]{K}{\sum}\left(d_{i}^{*}-d_{i}\right)^{2}}$
+\item Root mean squared log error $rmslog=\sqrt{\frac{1}{K}\stackrel[i=1]{K}{\sum}\left(\log_{10}\left(d_{i}^{*}\right)-\log_{10}\left(d_{i}\right)\right)^{2}}$
+\item Average $\log_{10}$ error $logerr=\frac{1}{K}\stackrel[i=1]{K}{\sum}|\log_{10}\left(d_{i}^{*}\right)-\log_{10}\left(d_{i}\right)|$
+\end{enumerate}
+where $d_{i}$ is predicted depth on $i$-th pixel, $d_{i}^{*}$ is
+the ground truth depth on $i$-th pixel, $K$ is the total number
+of pixels per sample, and $\tau$ is the threshold for accuracy under
+threshold. The most frequent value is $\tau=1.25$, and this is also
+used during evaluations of this thesis. Other frequently used values
+are $\tau=1.25^{2}$ and $\tau=1.25^{3}$. 
 
 \section{3D map estimation}
 
@@ -1799,7 +1926,7 @@ I gathered data from four cameras with positions relative to the driving
 car, as seen in figure X where each white cube represents camera position
 \ref{fig:Camera-positions-for-3d}. Totally there are 4 cameras, equally
 placed on the circle with 8 meters circumference. This setup will
-demonstrate the whole process of building 3D frustum map from 4 cameras
+demonstrate the whole process of building 3D frustum map from 4 cameras.
 
 \begin{figure}
 \begin{centering}
@@ -1898,10 +2025,10 @@ pointclouds before and after aforementioned sub-sampling.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=15cm]{obrazky/pcl-full}
+\includegraphics[width=15cm]{obrazky/pcl-full-2}
 \par\end{centering}
 \begin{centering}
-\includegraphics[width=15cm]{obrazky/pcl-sub}
+\includegraphics[width=15cm]{obrazky/pcl-sub-2}
 \par\end{centering}
 \caption{\label{fig:Pointcloud-before-and}Pointcloud before and after sub-sampling}
 \end{figure}
@@ -1912,11 +2039,12 @@ big, and each voxel is marked either as occupied, free, or unknown.
 The resulting occupancy voxelmap is depicted in figure \ref{fig:Occupied-voxels-in}.
 The last part of the processing is the sampling of the view frustum
 from this occupancy voxelmap. This is directly mapped to the output
-of the neural network.
+of the neural network. Source code with implementation of the processing
+pipeline is available at \url{https://github.com/racinmat/GTAVisionExport-postprocessing}.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=14cm]{obrazky/occupied-pcl-thicc}
+\includegraphics[width=14cm]{obrazky/occupied-pcl-thicc-3}
 \par\end{centering}
 \caption{\label{fig:Occupied-voxels-in}Occupied voxels in occupancy voxelmap}
 
@@ -1924,16 +2052,95 @@ of the neural network.
 
 \begin{figure}
 \begin{centering}
-\includegraphics[width=14cm]{obrazky/occupied-frustum-with-camera}
+\includegraphics[width=14cm]{obrazky/occupied-frustum-with-camera-3}
 \par\end{centering}
 \caption{\label{fig:Occupied-samples-in}Occupied samples in frustum. Camera
 is shown by white tetrahedron.}
 
 \end{figure}
 
-todo: popsat můj setup, dodat obrázky a experimenty, video na prezentaci
-s rgb, depth, a mapou?, zvýšit u voxelmpay velikost bodů. popsat gta
-pro ai gym a popsat rozdíly oproti mému přístupu
+
+\subsection{Metrics and network setup}
+
+Although the 3D map estimation is similar to the depth estimation
+by the problem setup, it is more difficult since we try to infer occupancy
+of occluded voxels, which was not an issue in depth prediction. Similarly
+to the depth predictions, metrics for comparing different models and
+optimizations of different loss functions are used. Compared to the
+depth estimation where metrics were being calculated on images and
+based on difference between predicted and ground truth depth, for
+3D map estimation the classification based metrics are used since
+this problem is by definition classification problem. 
+
+In this setup of voxel-wise classification, we have 3 classes. Occupied,
+free, and unknown voxels. Even for the setup of synthesizing 3D occupancy
+grids, occupancy of some voxels is unknown. For instance, this happens
+for car interior, occluded when viewed from all cameras and for space
+below the road. During both training and validation, only known voxels
+are used for loss calculation and metrics calculation. Let us recapitulate
+usual terms used for classification problems with respect to this
+particular problem. Voxel is false positive, if it is classified as
+obstacle, but is free in ground truth. True positive voxel contains
+obstacle in ground truth and is correctly classified as an obstacle.
+True negative voxel is voxel without obstacle, a.k.a free voxel in
+ground truth classified as free voxel in the prediction. And false
+negative voxel is free in ground truth and in prediction. So number
+of voxels in individual categories, which is then used in metrics,
+can be expressed as
+\begin{center}
+\begin{tabular}{|c|c|c|}
+\hline 
+ & obstacle in ground truth & free in ground truth\tabularnewline
+\hline 
+\hline 
+obstacle in prediction & $tp=\stackrel[i=1]{K}{\sum}1\left\{ obst\left(M_{i}\right)\land obst\left(M_{i}^{*}\right)\right\} $ & $fp=\stackrel[i=1]{K}{\sum}1\left\{ obst\left(M_{i}\right)\land free\left(M_{i}^{*}\right)\right\} $\tabularnewline
+\hline 
+free in prediction & $fn=\stackrel[i=1]{K}{\sum}1\left\{ free\left(M_{i}\right)\land obst\left(M_{i}^{*}\right)\right\} $ & $tn=\stackrel[i=1]{K}{\sum}1\left\{ free\left(M_{i}\right)\land free\left(M_{i}^{*}\right)\right\} $\tabularnewline
+\hline 
+\end{tabular}
+\par\end{center}
+
+where $obst\left(\cdot\right)$ is true for occupied voxels and $free\left(\cdot\right)$
+is true for free voxels.
+
+Following metrics are used:
+\begin{enumerate}
+\item False positive rate $fpr=\frac{fp}{fp+tn}$
+\item True positive rate $fpr=\frac{tp}{fn+tp}$
+\item Intersection over union $iou=\frac{\stackrel[i=1]{K}{\sum}1\left\{ obstacle\left(M_{i}\right)\land obstacle\left(M_{i}^{*}\right)\right\} }{\stackrel[j=1]{K}{\sum}1\left\{ obstacle\left(M_{j}\right)\lor obstacle\left(M_{j}^{*}\right)\right\} }$
+\item L1 distance on known voxels $dist=\stackrel[i=1]{K}{\sum}1\left\{ known\left(M_{i}^{*}\right)\right\} \cdot|M_{i}-M_{i}^{*}|$
+\end{enumerate}
+where $M_{i}$ is $i$-th voxel in predicted voxelmap $M$, $M_{i}^{*}$
+is $i$-th voxel in ground truth voxelmap $M^{*}$, $K$ is number
+of voxels in voxelmap, $known\left(\cdot\right)$ is predicate true
+for free or obstacle voxels. 
+
+Also the loss function is different from depth estimation. The weighted
+logistic loss is used. This is voxel-wise, because there can be multiple
+occupied voxels per pixel and thus does not make sense to use the
+loss function from depth estimation. The loss function is same as
+in Zimmermann et al. \cite{zimmerman-active} and is as follows
+\begin{equation}
+L=-\left[\stackrel[i=1]{K}{\sum}w_{i}\log\left(1+\exp\left\{ -M_{i}M_{i}^{*}\right\} \right)\right]\label{eq:logistic-loss}
+\end{equation}
+where $M_{i}$ is value of $i$-th voxel in predicted voxelmap, $M_{i}^{*}$
+is value of $i$-th voxel in ground truth voxelmap and $w_{i}$ is
+weight of $i$-th voxel. The value of voxel in ground truth voxelmap
+is as follows: $M_{i}^{*}=1$ for voxels with obstacles, $M_{i}^{*}=-1$
+for free voxels. The weight $w_{i}$ serves two purposes. The first
+purpose is masking out unknown voxels. The second purpose is to solve
+the imbalanced classes issue. There are more free voxels than occupied
+voxels, thus minimizing the sum per all voxels would lead to favouring
+more frequent voxels. In this case, that would be free voxels and
+thus it could learn to ignore some obstacles. The weighting modifies
+the loss so all weights sum to 1 and weights per each class sum to
+$\frac{1}{2}$. The weight $w_{i}$ for $i$-th voxel is defined as
+follows. $w_{i}=0$ if $i$-th voxel in ground truth is unknown. $w_{i}=\frac{1}{2\cdot\#\,free\,voxels}$
+if $i$-th voxel is free and $w_{i}=\frac{1}{2\cdot\#\,occupied\,voxels}$
+if $i$-th voxel is occupied. 
+
+The implementation of the neural network is publicly available at
+\url{https://github.com/racinmat/depth-voxelmap-estimation}.
 
 \chapter{Experiments}
 
@@ -2034,7 +2241,7 @@ The near clip and far clip calculation can be demonstrated on image
 \ref{fig:Example-of-RGB}. 
 
 By calling CAM::GET\_CAM\_NEAR\_CLIP$=n_{c}$ and CAM::GET\_CAM\_FAR\_CLIP$=f_{c}$
-I obtained values $n_{c}=1.5$ and $f_{c}=800$. I also obtain projection
+I obtained values $n_{c}=1.5$ and $f_{c}=800$. I also obtained projection
 matrix calculated by method described in \ref{subsec:Rendering-pipeline-data},
 which is 
 \[
@@ -2156,33 +2363,407 @@ by normalization we obtain
 \]
 from which we can see the near clip $n_{c}$ is being projected correctly,
 but far clip $f_{c}$ is not being projected into 0 and that true
-far clip $f$ is behind this far flip $f_{c}$.
-
-These calculations give us some insight into projection matrix and
-its role in far clip estimation, but for more robust estimate, I analysed
-all 33293 matrices. 
-
+far clip $f$ is behind this far flip $f_{c}$. These calculations
+give us some insight into projection matrix and its role in far clip
+estimation, but for more robust estimate, I analysed all 33293 matrices.
 In GTA, matrices are not gathered correctly every time and in some
 cases, resulting matrices are unusable. Because I knew the near clip
-precisely, I discarded all matrices, with calculated near clip $\left|n-n_{c}\right|>10^{-4}$.
+precisely, I discarded all matrices, with calculated near clip with
+difference from real near clip $>10^{-4}$. For the rest of matrices,
+I calculated near clip and far clip for each of them. In the figure
+\ref{fig:Frequencies-of-} can be seen histograms of these calculated
+far clip and near clip for each matrix, respectively. Even near clip
+values, which we know precisely, differ, but with very little variance,
+in range $\left[1.5003,1.50048\right]$ which means difference from
+true near clip in range $\left[3\cdot10^{-4},4.8\cdot10^{-4}\right]$
+which is simply explained by numerical instability. Both histograms
+have logarithmic y scale, so we easily see which value occurs more
+frequently. The value $-10003.814$ occurred most frequently in matrices,
+one and half order of magnitude more frequently than second frequent
+value, and this value also corresponds to the median of all calculated
+far clips. Thus this far clip $F=-10003.814$ has been used in all
+later experiments as a true far clip.
 
-todo: dopsat
+\begin{figure}
+\begin{centering}
+\includegraphics[width=6cm]{obrazky/far-clip-f}\includegraphics[width=6cm]{obrazky/far-clip-n}
+\par\end{centering}
+\caption{\label{fig:Frequencies-of-}Frequencies of $P_{2,2}$ and $P_{2,3}$}
+
+\end{figure}
+
 
 \section{Depth estimation}
 
-Multiple datasets are being used for depth estimation.{\small{}\tableofcontents{}% vkládá automaticky generovaný obsah dokumentu
-} Most of them are indoor, since indoor we are able to measure depth
-more precisely and we generally deal with smaller distances. In my
-case, I trained for estimating outdoor depth. The synthetic dataset
-retrieved from GTA V has big advantage in dense and high precision
-depth labels seen nowhere in real datasets. In the outdoor depth estimation,
-I don't care about very distant points, so the depth estimation is
-thresholded 
+For all experiments, the same network architecture has been used,
+only hyper-parameters were being tuned. The initial experiments started
+with 201 depth bins, as used in \cite{depth-estimation-hierarchical-fusion-soft-weighting}
+but with additional depth bin for more distant depth values. But the
+network failed to learn in this setup. The cost increased exponentially
+instead of decreasing, as can be seen in figure \ref{fig:Failing-to-learn}.
+The cost function which was being minimized in this setup was the
+multinomial loss, as described in \ref{eq:loss-multinomial}. With
+time, cost function was increasing. In the run denoted by light blue
+colour, only 40 training images were fed into the network, to try
+if it is able to remember patterns, without any requirement of generalization.
+As can be seen, even in this setup network failed to learn. All runs
+are runs with different learning rates, in expectation that lower
+learning rate would prevent this cost explosion, but it did not seem
+to have any effect at all. The training and validation data from dataset
+were split in 80/20 ratio.
 
-\chapter{Future work}
+\begin{figure}
+\includegraphics[width=14cm]{obrazky/initial-learn-fail.PNG}
 
-In GTA V reverse-engineering, many stencil values semantics remain
-to be discovered. 
+\caption{\label{fig:Failing-to-learn}Failing to learn}
+\end{figure}
+After reducing the output number of depth levels to 101, 100 depth
+levels and one remaining level for all depth values outside the binned
+range, network started to learn, as. The training was then run in
+multiple setups, to find the best predictor. 9 setups will be discussed.
+Setups parameters can be seen in the table \ref{tab:Depth-estimation-setups}.
+As a loss function, the information gain based loss in \ref{eq:loss-infogain}
+has been used. The initial learning rate is same for all setups. The
+Nadam optimizer is abbreviation for Adam optimizer with Nesterov momentum.
+For all runs using Adam and Nadam optimizers, only epsilon parameter
+was tuned, beta1 and beta2 parameters were constant, beta1=$0.9$,
+beta2=$0.999$. The SGDN is abbreviation for the stochastic gradient
+descent with Nesterov momentum.The initial learning rate was set to
+$10^{-4}$for all runs. For setups 1 to 6, learning rate decay has
+been used. The learning rate decay is staircase, after a period given
+in ``decay after'' column the learning rate is divided by 10. For
+runs 7 to 9, learning rate remained unchanged for all training. Networks
+were trained on different GPUs, namely, Nvidia Titan Xp, Titan X,
+and Nvidia GTX 1080Ti. Due to different computation capability of
+these cards and different number of CUDA cores, run times are not
+highly correlated with number of iterations.
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|}
+\hline 
+name & optimizer & decay after & \multirow{1}{*}{training time} & iterations\tabularnewline
+\hline 
+\hline 
+setup 1 & Adam(epsilon=$10^{-8}$) & $2\cdot10^{4}$ steps & 58h & 237k\tabularnewline
+\hline 
+setup 2 & Adam(epsilon=$10^{-8}$) & $3\cdot10^{4}$ steps & 26h & 164k\tabularnewline
+\hline 
+setup 3 & Nadam(epsilon=$10^{-8}$) & $3\cdot10^{4}$ steps & 26h & 105k\tabularnewline
+\hline 
+setup 4 & Adam(epsilon=$10^{-5}$) & $3\cdot10^{4}$ steps & 26h & 175k\tabularnewline
+\hline 
+setup 5 & Nadam(epsilon=$10^{-5}$) & $3\cdot10^{4}$ steps & 30h & 202k\tabularnewline
+\hline 
+setup 6 & Nadam(epsilon=$10^{-2}$) & $3\cdot10^{4}$ steps & 30h & 189k\tabularnewline
+\hline 
+setup 7 & Nadam(epsilon=$10^{-8}$) & no decay & 30h & 120k\tabularnewline
+\hline 
+setup 8 & SGDN(momentum=$0.999$) & no decay & 26h & 184k\tabularnewline
+\hline 
+setup 9 & SGDN(momentum=$0.9$) & no decay & 26h & 108k\tabularnewline
+\hline 
+\end{tabular}
+
+\caption{\label{tab:Depth-estimation-setups}Depth estimation setups}
+\end{table}
+Metrics for depth estimation and loss have been calculated for the
+validation dataset on these 9 setups, they can be seen in table \ref{tab:Depth-estimation-metrics}.
+The accuracy under threshold $1.25$ ($aut\left(1.25\right)$) is
+in range $\left[0,1\right]$ by definition. 0 accuracy means depth
+in not pixel is in range from $\frac{1}{1.25}=0.5$ to $1.25$ of
+ground truth depth, 1 accuracy means all pixels are in $0.8$ to $1.25$
+of ground truth depth. All these calculations are done on reconstructed
+images, meaning higher accuracy means better models. Error metrics
+measure error rate and thus lower error means better model. Some metrics
+highly correlate with each other, showing they describe similar information.
+From accuracy under threshold and root mean squared log error ($rmls$)
+we can see setups 6,8,9 perform far worse than other models. So we
+can see generally SGDN performed worse than Adam and Nadam optimizers.
+From Adam and Nadam optimizers, the setup 7 performed the best, which
+is Nadam optimizer with epsilon=$10^{-8}$ and without the learning
+decay. That can be seen in all metrics except of mean relative error. 
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|c|c|}
+\hline 
+name & $aut\left(1.25\right)$ & mean relative error & $rms$ & $rmls$ & average $\log_{10}$ error & loss\tabularnewline
+\hline 
+\hline 
+setup 1 & 0.4390 & 0.3607 & 10.7808 & 0.5415 & 0.2880 & 14.6054\tabularnewline
+\hline 
+setup 2 & 0.4393 & 0.3432 & 11.0467 & 0.5533 & 0.2926 & 14.5629\tabularnewline
+\hline 
+setup 3 & 0.4554 & 0.3287 & 10.3699 & 0.5219 & 0.2730 & 14.5234\tabularnewline
+\hline 
+setup 4 & 0.4258 & 0.3392 & 9.7831 & 0.4849 & 0.2620 & 14.5913\tabularnewline
+\hline 
+setup 5 & 0.4314 & 0.3394 & 10.2730 & 0.5066 & 0.2708 & 14.6061\tabularnewline
+\hline 
+setup 6 & 0.0390 & 0.6588 & 13.8523 & 0.8978 & 0.6960 & 14.8873\tabularnewline
+\hline 
+setup 7 & 0.4852 & 0.3494 & 8.2342 & 0.4140 & 0.2180 & 14.5132\tabularnewline
+\hline 
+setup 8 & 0.0 & 0.7106 & 13.9028 & 0.9403 & 0.7651 & 14.9104\tabularnewline
+\hline 
+setup 9 & 0.0508 & 0.6488 & 13.8551 & 0.8948 & 0.6873 & 14.8796\tabularnewline
+\hline 
+\end{tabular}
+
+\caption{\label{tab:Depth-estimation-metrics}Depth estimation metrics}
+\end{table}
+
+Few images from the validation dataset and their depth predictions
+can be seen in figure \ref{fig:Depth-estimation-samples}. In the
+first row, we can see the RGB image, in the second row is the ground
+truth depth in meters. The third row depicts ground truth images reconstructed
+by the soft-sum inference from depth level bins. Here we can see all
+information behind 50 meters in truncated, which also visually helps
+us to focus on near objects. The red colour is for nearer objects
+and blue colour is for more distant objects. In rows 4-7 we can see
+the predictions of setups 3, 4, 5 and 7 which are performing better
+than rest of setups. 
+
+\begin{figure}
+\begin{centering}
+\begin{tabular}{>{\centering}p{2cm}ccc>{\centering}p{2cm}}
+\multicolumn{1}{c}{RGB image} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/orig-rgb-1} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/orig-rgb-4} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/orig-rgb-3} & \tabularnewline
+\multicolumn{1}{>{\centering}p{2cm}}{original depth} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-orig-depth-1\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-orig-depth-4\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-orig-depth-3\lyxdot png} & \includegraphics[height=3cm]{obrazky/depths/colorbar-orig}\tabularnewline
+\multicolumn{1}{>{\centering}p{2cm}}{truncated depth} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-gt-depth-1\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-gt-depth-4\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-gt-depth-3\lyxdot png} & \includegraphics[height=3cm]{obrazky/depths/colorbar-cropped}\tabularnewline
+\multicolumn{1}{>{\centering}p{2cm}}{setup 3} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-1-2018-04-01--00-26-49\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-4-2018-04-01--00-26-49\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-3-2018-04-01--00-26-49\lyxdot png} & \includegraphics[height=3cm]{obrazky/depths/colorbar-cropped}\tabularnewline
+\multicolumn{1}{>{\centering}p{2cm}}{setup 4} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-1-2018-04-01--00-32-39\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-4-2018-04-01--00-32-39\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-3-2018-04-01--00-32-39\lyxdot png} & \includegraphics[height=3cm]{obrazky/depths/colorbar-cropped}\tabularnewline
+\multicolumn{1}{>{\centering}p{2cm}}{setup 5} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-1-2018-04-02--02-51-28\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-4-2018-04-02--02-51-28\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-3-2018-04-02--02-51-28\lyxdot png} & \includegraphics[height=3cm]{obrazky/depths/colorbar-cropped}\tabularnewline
+\multicolumn{1}{>{\centering}p{2cm}}{setup 7} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-1-2018-04-02--02-59-31\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-4-2018-04-02--02-59-31\lyxdot png} & \vspace{0pt}\includegraphics[width=3.5cm]{obrazky/depths/colored-predicted-3-2018-04-02--02-59-31\lyxdot png} & \includegraphics[height=3cm]{obrazky/depths/colorbar-cropped}\tabularnewline
+\end{tabular}
+\par\end{centering}
+\caption{\label{fig:Depth-estimation-samples}Depth estimation samples}
+
+\end{figure}
+
+\begin{figure}
+\includegraphics[width=14cm]{obrazky/depth-cost}
+
+\caption{\label{fig:Training-for-depth-loss}Training for depth estimation
+- loss}
+\end{figure}
+\begin{figure}
+\includegraphics[width=8cm]{obrazky/depth-root_mean_log_square_error}\includegraphics[width=8cm]{obrazky/depth-mean_relative_error}
+
+\includegraphics[width=8cm]{obrazky/depth-root_mean_square_error}\includegraphics[width=8cm]{obrazky/depth-under_treshold_1\lyxdot 25}
+
+\caption{\label{fig:Training-for-depth-metrics}Training for depth estimation
+- metrics}
+
+\end{figure}
+
+In the figure \ref{fig:Training-for-depth-loss} we can see the loss
+during training and in figure \ref{fig:Training-for-depth-metrics}
+we can see all metrics gathered during training. Interesting property
+of loss function based on information gain is the fact that it does
+not seem to converge most of the time during training, but all metrics
+are being optimized even when it is not seen in the loss figure. Here
+we can see clearly how setups 6, 8 and 9 performed poorly and setup
+7 performed the best in all metrics. The setup 7, which is Adam optimizer
+with Nesterov momentum, a.k.a. Nadam optimizer with constant learning
+rate seems to have best results and thus is used as a default optimizer
+for 3D map estimation and learning rate is constant in all setups.
+
+\section{3D map estimation}
+
+For 3D map estimation, I also trained multiple setups and evaluated
+them, 7 of them with most promising results are discussed here. The
+architecture was being modified, the last softmax layer was removed
+because now we don't aim to predict occupation of only 1 depth voxel
+per pixel, but we can predict multiple occupied voxels. Also, for
+setups 5, 6 and 7, new deconvolutional layer was stacked, between
+the last convolutional layer and the deconvolutional layer before
+the output. The parameters for optimizer were same, epsilon=$10^{-8}$,
+beta1=$0.9$, beta2=$0.999$ for Nadam optimizer, and momentum=$0.9$
+was used for SGD optimizer with Nesterov momentum. For all setups,
+the weighted logistic loss \ref{eq:logistic-loss} is used. We can
+see the overview in the figure \ref{tab:3d-estimation-setups}. Then
+I evaluated these setups on validation sets and reported results in
+the table \ref{tab:3d-estimation-metrics}.
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+name & loss & optimizer & new deconvolutional layer & \multirow{1}{*}{training time} & iterations\tabularnewline
+\hline 
+\hline 
+setup 1 & logistic & Nadam & - & 25h & 141k\tabularnewline
+\hline 
+setup 2 & logistic & SGDN & - & 24h & 150k\tabularnewline
+\hline 
+setup 3 & logistic & Nadam & kernel=5, stride=1,out\_dim=50 & 28h & 147k\tabularnewline
+\hline 
+setup 4 & logistic & Nadam & kernel=2, stride=2,out\_dim=50 & 44h & 187k\tabularnewline
+\hline 
+setup 5 & logistic & Nadam & kernel=2, stride=2,out\_dim=200 & 52h & 154k\tabularnewline
+\hline 
+\end{tabular}
+
+\caption{\label{tab:3d-estimation-setups}3D estimation setups}
+\end{table}
+
+\begin{table}
+\begin{tabular}{|c|c|c|c|c|c|}
+\hline 
+name & false positive rate & true positive rate & intersection over union & $l_{1}$ distance & loss\tabularnewline
+\hline 
+\hline 
+setup 1 & 0.2732 & 0.8603 & 0.6523 & 12151.0 & 0.1244\tabularnewline
+\hline 
+setup 2 & 0.0505 & 0.4712 & 0.2214 & 64437.4 & 0.13013582\tabularnewline
+\hline 
+setup 3 & 0.2120 & 0.8369 & 0.6233 & 13386.8 & 0.1080089\tabularnewline
+\hline 
+setup 4 & 0.2250 & 0.8355 & 0.6192 & 13587.4 & 0.097417\tabularnewline
+\hline 
+setup 5 & 0.2356 & 0.8514 & 0.6730 & 12359.5 & 0.123826\tabularnewline
+\hline 
+\end{tabular}
+
+\caption{\label{tab:3d-estimation-metrics}Depth estimation metrics}
+\end{table}
+
+The process of training is shown in figures \ref{fig:Training-for-3d-loss}
+and \ref{fig:Training-for-3d-metrics}. In figure \ref{fig:Training-for-3d-loss}
+we can see the cost being minimized. Here the logistic loss itself
+shows how individual setups perform. The figure has logarithmic Y
+scale for better visualization of individual setups. In the figure
+\ref{fig:Training-for-3d-metrics} we can see metrics. The false positive
+rate is very low for all runs, but for other metrics we can see stochastic
+gradient descent with Nesterov momentum (setup 2) performed much poorer
+than other run. On the other hand, the setup 1 and setup 5 perform
+better than other setups in all metrics. From this we can than reduction
+of 4th dimension to the size od 50 in the end of the network worsens
+the performance, on the other hand, adding layer with 4th dimension
+of size 400 performs better in intersection over union metric.
+
+\begin{figure}
+\includegraphics[width=14cm]{obrazky/3d-cost}
+
+\caption{\label{fig:Training-for-3d-loss}Training for 3D map estimation -
+loss}
+\end{figure}
+\begin{figure}
+\includegraphics[width=8cm]{obrazky/3d-iou}\includegraphics[width=8cm]{obrazky/3d-l1_dist_on_known}
+
+\includegraphics[width=8cm]{obrazky/3d-false_positive_rate}\includegraphics[width=8cm]{obrazky/3d-true_positive_rate}
+
+\caption{\label{fig:Training-for-3d-metrics}Training for 3D map estimation
+- metrics}
+\end{figure}
+
+In figure \ref{fig:3d-estimation-samples} we can see two sample images
+from validation dataset, their ground truth voxelmaps and predicted
+voxelmaps from 2 best setups, setup 1 and setup 5. In the first row,
+we can see the input image to the network, in the second row is the
+ground truth voxelmap in camera view frustum (and camera position
+denoted by white tetrahedron), and the last two rows show predictions
+of setup 1 and setup 5, respectively.
+
+\begin{figure}
+\begin{centering}
+\begin{tabular}{>{\centering}p{2cm}cc}
+\multicolumn{1}{c}{RGB image} & \vspace{0pt}\includegraphics[width=5.5cm]{obrazky/3ds/orig-rgb-2} & \vspace{0pt}\includegraphics[width=5.5cm]{obrazky/3ds/orig-rgb-1}\tabularnewline
+\multicolumn{1}{c}{original voxelmap} & \vspace{0pt}\includegraphics[width=6cm]{obrazky/3ds/gt-2.PNG} & \vspace{0pt}\includegraphics[width=6cm]{obrazky/3ds/gt-1.PNG}\tabularnewline
+\multicolumn{1}{c}{setup 1} & \vspace{0pt}\includegraphics[width=6cm]{obrazky/3ds/img-2-setup-0.PNG} & \vspace{0pt}\includegraphics[width=6cm]{obrazky/3ds/img-1-setup-0.PNG}\tabularnewline
+\multicolumn{1}{c}{setup 5} & \vspace{0pt}\includegraphics[width=6cm]{obrazky/3ds/img-2-setup-5.PNG} & \vspace{0pt}\includegraphics[width=6cm]{obrazky/3ds/img-1-setup-5.PNG}\tabularnewline
+\end{tabular}
+\par\end{centering}
+\caption{\label{fig:3d-estimation-samples}3D estimation samples}
+
+\end{figure}
+
+
+\chapter{Conclusion and Future Work}
+
+This thesis contributed to the reactive depth and 3D estimation by
+proposing a deep neural network architecture for depth and 3D estimation
+from single RGB image. The trained neural network works well for roads-like
+images with fixed camera field of view. The number of depth bins showed
+to be essential for the ability of network to learn the depth estimation
+correctly. In conclusion, I proposed neural network architecture for
+both depth and 3D estimation and evaluated it with multiple hyper-parameters.
+I demonstrated an automatic synthetic dataset creation and labels
+gathering from rich virtual world of GTA V for dense labelling of
+data. Then I reverse-engineered camera parameters and parameters of
+RAGE visualization pipeline and described an API used to control the
+virtual world and manipulate it during data gathering. I proposed
+synthetic dataset gathered by aforementioned method and then used
+this dataset for training neural network for depth and 3D map estimation
+tasks. I compared multiple optimizers for depth estimation and evaluated
+their performance. Adam optimizer with Nesterov momentum shown to
+perform better than Adam optimizer, which is seen by many as a default
+optimizer for most of tasks, and it also shown to perform better than
+SGD optimizer with Nesterov momentum. Lastly, I trained neural network
+for 3D map estimation and evaluated several network architecture changes.
+Compressing the network capacity of the network in the end of the
+structure from 101 dimension size to the dimension size of 50 and
+back to 101 shown to worsen the accuracy, on the other hand increasing
+the dimension size to 200 between last convolution layer and last
+layer improved only union over intersection, but did not outperform
+model without additional layer in other metrics.
+
+During working with GTA V, many aspects have been discovered, but
+even more of them remained to be discovered in the future. In GTA
+V reverse-engineering, many stencil values semantics remain to be
+interpreted. Also, in GTA V, the modding capabilities are far from
+using their full potential. Lots of existing mods could help with
+scenarios setup for gathering data in specific situations, also necessary
+tooling needs to be developed to provide simple interface for scenarios
+setup. But probably one of the most promising mod categories are visual
+mods, which enhance the graphics of the game. Many visual mods are
+being used currently and some of them can be combined together, utilizing
+advantages of them both. The main difficulty in using visual mods
+is evaluation of their photo-realism. In the gaming community, players
+long for stunning graphics and aesthetically pleasing visuals. These
+visuals are sometimes unfortunately different than photorealistic
+visuals. Even when surveying individual players for most realistic
+visual mod, most of them considered as realistic the most aesthetically
+pleasing mod, without considering the photorealism to be relevant.
+Photorealism of individual visual mods and their combination should
+be exploited and evaluated in order to get even more photo-realistic
+visual data. There are multiple visual mods, namely \href{https://gta5redux.com/}{Redux},
+\href{https://www.darkmyre.net/files/file/30-make-visuals-great-again/}{Make Visual Great Again},
+\href{https://cs.gta5-mods.com/misc/naturalvision-photorealistic-gtav}{Natural Vision Remastered},
+\href{https://cs.gta5-mods.com/misc/r-hancer-graphics-mod}{Rhancer Photorealism Mod},
+\href{https://cs.gta5-mods.com/misc/visualv}{VisualV}, \href{https://cs.gta5-mods.com/misc/reshade-sweetfx-graphics-mod}{K-putt's SweetFX Config (ReShade)}.
+The problem with evaluation of these mods in missing support of tooling
+for automated manipulation with GTA, mods need to be installed and
+uninstalled manually, same goes for starting the game which leads
+to slow and time-consuming evaluation of photorealism of these mods,
+but it definitely is worth it in the long term. Also developing custom
+visual mod which would make the game look more photorealistic would
+solve this problem. Also streets layout and static assets can be changed
+by mods and if changed correctly, they would better simulate real-life
+environment. Current setting of GTA V is heavily based on Los Angeles,
+so street layout, house architectures, cars and other objects are
+set to correspond with Los Angeles. This layout differs in other parts
+of world and many use-cases would profit from possibility of using
+more European or other streets layout, cars and houses architecture.
+Other notable aspect of the game is possibility to render multiple
+cameras at time, allowing to capture stereo data in real-time without
+switching between them or speeding up data gathering from multiple
+cameras. So far GTA V is VR ready which means it already supports
+stereo-camera rendering, and so it awaits for being used in data gathering.
+Other potentially perspective, but yet not unexplored usage of GTA
+V is multiplayer setup, which can be used for multi-agent simulations.
+The official multiplayer of course does not allow using any modifications,
+but there is \href{https://fivem.net/}{FiveM}, program for running
+private GTA V server on dedicated machines, with support for server-side
+and client-side scripting, which could be used for many multi-agent
+tasks.
+
+The network has been trained only on synthetic data in single weather,
+in further work creating mixed dataset would help to generalize by
+greater diversity between individual samples. The network setup currently
+depends of camera field of view and so this is a limiting factor for
+usage of with various cameras. Generalization of the current approach
+to be less dependent on camera field of view would improve the robustness
+of the model. Further work might also focus on estimation in different
+weather conditions and lightning settings.
 
 \bibliographystyle{plainnat}
 \phantomsection\addcontentsline{toc}{chapter}{\bibname}\bibliography{bibliography}
@@ -2193,7 +2774,14 @@ to be discovered.
 \chapter{Contents of the enclosed CD}
 
 \inputencoding{latin9}\begin{lstlisting}
-appendix content
+GTAVisionExport		Source code of GTA V mod
+GTAVisionExport_Server	Gathering and data managing tools
+data_postprocessing	Utility scripts for processing
+voxelmap-estimation	Neural networks sorce code and dumps
+diploma_thesis.pdf	diploma thesis PDF
+diploma_thesis.tex	diploma thesis source
+diploma_thesis.lyx	diploma thesis source
+diploma_thesis_img	images for diploma thesis
 \end{lstlisting}
 \inputencoding{utf8}
 \cleardoublepage{}

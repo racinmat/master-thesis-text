@@ -626,7 +626,7 @@ Vedoucí
 \begin_inset space ~
 \end_inset
 
-bakalářské
+diplomové
 \begin_inset space ~
 \end_inset
 
@@ -744,6 +744,31 @@ e-mail
 \end_inset
 
 address: zimmerk@fel.cvut.cz
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Co-supervisor: 
+\size large
+Ing.
+ Tomáš Petříček
+\end_layout
+
+\begin_layout Description
+\noindent
+
+\size small
+Supervisor's
+\begin_inset space ~
+\end_inset
+
+e-mail
+\begin_inset space ~
+\end_inset
+
+address: petrito1@fel.cvut.cz
 \begin_inset Newline newline
 \end_inset
 
@@ -834,7 +859,7 @@ s, or off-road trajectories, the pre-calculated 3D map is not available
  The RGB image has many advantages, RGB cameras are cheap and in higher
  resolution than depth sensors.
  RGB camera is a passive sensor, so multiple RGB cameras won't interfere
- with each other unlike lidars, so the RGB image can be obtained easily.
+ with each other unlike LiDARs, so the RGB image can be obtained easily.
  Due to the problem of obtaining dense and precise ground truth, this thesis
  exploits usage of synthetic datasets as a fast and efficient way to obtain
  ground truth for such task.
@@ -1126,9 +1151,11 @@ This thesis is structured as follows.
  for manipulating the GTA world.
  Here I describe whole modding process, the game API, internal game coordinate
  systems and data which can be obtained from the game.
- Chapter 4 describes voxel map estimation from a single RGB image.
+ Chapter 4 describes voxel map estimation from a single RGB image with network
+ architecture and data preparation.
  It is followed by chapter 5, where I describe all experiments done as part
  of this thesis.
+ Last chapter contains conclusion of the whole thesis.
 \end_layout
 
 \begin_layout Chapter
@@ -1585,7 +1612,7 @@ reference "fig:Synthetic-image-labelled"
 
 \end_inset
 
- where image from synthetic dataset is being labeled.
+ where image from synthetic dataset is being labelled.
 \end_layout
 
 \begin_layout Standard
@@ -1599,7 +1626,7 @@ status open
 \begin_inset Graphics
 	filename obrazky/mask-rcnn.jpg
 	lyxscale 35
-	width 8cm
+	width 11cm
 
 \end_inset
 
@@ -1935,10 +1962,6 @@ ion.
  This approach is heavily focused on one object dominating the input image
  which is suited for precise 3D map estimation, but not much for estimation
  of 3D map of whole scene, usually with multiple objects.
-\end_layout
-
-\begin_layout Standard
-todo: dodat Mask-RCNN a ukázku běhu na gta screenshotu
 \end_layout
 
 \begin_layout Chapter
@@ -4863,7 +4886,7 @@ tion.
 The second dataset, named Open VirtualScapes, is demonstration of common
  automotive dataset from driving car.
  Compared to real-world datasets, this one has advantage of pixel-wise depth,
- precise on all surfaces and even in high distances, outperforming lidar
+ precise on all surfaces and even in high distances, outperforming LiDAR
  technology in accuracy and depth point density.
  It is directly aligned with pixels of RGB images.
  The datasets consists of 22285 scenes, every of them captured by 4 cameras
@@ -6072,6 +6095,19 @@ reference "fig:Occupied-voxels-in"
  The last part of the processing is the sampling of the view frustum from
  this occupancy voxelmap.
  This is directly mapped to the output of the neural network.
+ Source code with implementation of the processing pipeline is available
+ at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/GTAVisionExport-postprocessing
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -6511,6 +6547,21 @@ where
 
 -th voxel is occupied.
  
+\end_layout
+
+\begin_layout Standard
+The implementation of the neural network is publicly available at 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/depth-voxelmap-estimation
+\end_layout
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Chapter
@@ -10990,14 +11041,47 @@ name "fig:3d-estimation-samples"
 \end_layout
 
 \begin_layout Chapter
-Future work
+Conclusion and Future Work
 \end_layout
 
 \begin_layout Standard
-During working with GTA V, many aspects have been discovered, but more of
- them remained to be discovered in the future.
+This thesis contributed to the reactive depth and 3D estimation by proposing
+ a deep neural network architecture for depth and 3D estimation from single
+ RGB image.
+ The trained neural network works well for roads-like images with fixed
+ camera field of view.
+ The number of depth bins showed to be essential for the ability of network
+ to learn the depth estimation correctly.
+ In conclusion, I proposed neural network architecture for both depth and
+ 3D estimation and evaluated it with multiple hyper-parameters.
+ I demonstrated an automatic synthetic dataset creation and labels gathering
+ from rich virtual world of GTA V for dense labelling of data.
+ Then I reverse-engineered camera parameters and parameters of RAGE visualizatio
+n pipeline and described an API used to control the virtual world and manipulate
+ it during data gathering.
+ I proposed synthetic dataset gathered by aforementioned method and then
+ used this dataset for training neural network for depth and 3D map estimation
+ tasks.
+ I compared multiple optimizers for depth estimation and evaluated their
+ performance.
+ Adam optimizer with Nesterov momentum shown to perform better than Adam
+ optimizer, which is seen by many as a default optimizer for most of tasks,
+ and it also shown to perform better than SGD optimizer with Nesterov momentum.
+ Lastly, I trained neural network for 3D map estimation and evaluated several
+ network architecture changes.
+ Compressing the network capacity of the network in the end of the structure
+ from 101 dimension size to the dimension size of 50 and back to 101 shown
+ to worsen the accuracy, on the other hand increasing the dimension size
+ to 200 between last convolution layer and last layer improved only union
+ over intersection, but did not outperform model without additional layer
+ in other metrics.
+\end_layout
+
+\begin_layout Standard
+During working with GTA V, many aspects have been discovered, but even more
+ of them remained to be discovered in the future.
  In GTA V reverse-engineering, many stencil values semantics remain to be
- discovered.
+ interpreted.
  Also, in GTA V, the modding capabilities are far from using their full
  potential.
  Lots of existing mods could help with scenarios setup for gathering data
@@ -11018,7 +11102,7 @@ During working with GTA V, many aspects have been discovered, but more of
  Photorealism of individual visual mods and their combination should be
  exploited and evaluated in order to get even more photo-realistic visual
  data.
- There is multiple visual mods, namely 
+ There are multiple visual mods, namely 
 \begin_inset CommandInset href
 LatexCommand href
 name "Redux"
@@ -11087,11 +11171,7 @@ istic would solve this problem.
  between them or speeding up data gathering from multiple cameras.
  So far GTA V is VR ready which means it already supports stereo-camera
  rendering, and so it awaits for being used in data gathering.
- 
-\end_layout
-
-\begin_layout Standard
-Other potentially perspective, but yet not unexplored usage of GTA V is
+ Other potentially perspective, but yet not unexplored usage of GTA V is
  multiplayer setup, which can be used for multi-agent simulations.
  The official multiplayer of course does not allow using any modifications,
  but there is 
@@ -11108,7 +11188,15 @@ target "https://fivem.net/"
 \end_layout
 
 \begin_layout Standard
-todo: sepsat pořádné conclusion a future work mít jenom jako jeho část
+The network has been trained only on synthetic data in single weather, in
+ further work creating mixed dataset would help to generalize by greater
+ diversity between individual samples.
+ The network setup currently depends of camera field of view and so this
+ is a limiting factor for usage of with various cameras.
+ Generalization of the current approach to be less dependent on camera field
+ of view would improve the robustness of the model.
+ Further work might also focus on estimation in different weather conditions
+ and lightning settings.
 \end_layout
 
 \begin_layout Standard
@@ -11134,7 +11222,42 @@ status open
 
 \begin_layout Plain Layout
 
-appendix content
+GTAVisionExport		Source code of GTA V mod
+\end_layout
+
+\begin_layout Plain Layout
+
+GTAVisionExport_Server	Gathering and data managing tools
+\end_layout
+
+\begin_layout Plain Layout
+
+data_postprocessing	Utility scripts for processing
+\end_layout
+
+\begin_layout Plain Layout
+
+voxelmap-estimation	Neural networks sorce code and dumps
+\end_layout
+
+\begin_layout Plain Layout
+
+diploma_thesis.pdf	diploma thesis PDF
+\end_layout
+
+\begin_layout Plain Layout
+
+diploma_thesis.tex	diploma thesis source
+\end_layout
+
+\begin_layout Plain Layout
+
+diploma_thesis.lyx	diploma thesis source
+\end_layout
+
+\begin_layout Plain Layout
+
+diploma_thesis_img	images for diploma thesis
 \end_layout
 
 \end_inset
