@@ -811,35 +811,30 @@ Introduction
 \end_layout
 
 \begin_layout Standard
-nové: 
-\end_layout
-
-\begin_layout Standard
-The main aim of this thesis is 3D map estimation from single RGB image.
- The task of building 3D map is essential procedure in many robotics tasks.
- Basically the robot builds an internal representation in form of 3D map
- and then performs planning in this map.
- Usually the robot updates the 3D map continuously as it moves in the environmen
-t, the most prevalent approach to this is SLAM, simultaneous localization
- and mapping, this is used for instance in self-driving cars.
- The precise 3D map reconstruction is open problem, difficult due to complicated
- mapping between current representation and new data and also complicated
- way of obtaining ground truth.
- One of used approaches is visual monocular SLAM 
-\begin_inset CommandInset citation
-LatexCommand cite
-key "slam-monocular"
-
-\end_inset
-
-.
- This approach uses RGB image as an input for building dense depth map which
- is being used for SLAM.
- The RGB image input can be easily obtained compared to depth measurements
- by lidar or other depth measuring approaches.
- In some situations, the RGB image is is the main source of information
- about environment, for example for self-driving car in parking lot or in
- crossroad, where we need to plan trajectories between multiple vehicles.
+The main aim of this thesis is reactive 3D map estimation from single RGB
+ image.
+ The task of building 3D map is essential procedure in many robotics tasks
+ and is then utilized in high-level planning.
+ For many static environments, like buildings and roads, we have detailed
+ maps available which are being used for this task.
+ But for other environments, with lots of cars like in parking lots or crossroad
+s, or off-road trajectories, the pre-calculated 3D map is not available
+ and it needs to be created online.
+ There are multiple approaches for 3D map estimation, lots of them using
+ depth measurements.
+ Often used approach is utilization of depth measurements and then building
+ 3D map which is continuously updated during movement.
+ This is a complicated task due to matching newly obtained data on existing
+ 3D map.
+ This thesis describes an approach based on reactive mapping without the
+ need to build long-term internal world representation, using only immediate
+ sensor input.
+ Only RGB camera input is used for 3D map reconstruction instead of depth
+ measurements.
+ The RGB image has many advantages, RGB cameras are cheap and in higher
+ resolution than depth sensors.
+ RGB camera is a passive sensor, so multiple RGB cameras won't interfere
+ with each other unlike lidars, so the RGB image can be obtained easily.
  Due to the problem of obtaining dense and precise ground truth, this thesis
  exploits usage of synthetic datasets as a fast and efficient way to obtain
  ground truth for such task.
@@ -1029,17 +1024,9 @@ Generating synthetic datasets from game engines
 \begin_layout Standard
 In last decades, gaming industry has grown hugely and expanded from small
  and specific community into public society and became mainstream industry.
- 
-\end_layout
-
-\begin_layout Standard
-The gaming industry became big driving force in many fields, and indirectly
+ The gaming industry became big driving force in many fields, and indirectly
  influenced even machine learning.
- 
-\end_layout
-
-\begin_layout Standard
-The mainstream model of gaming is on personal computers, where each player
+ The mainstream model of gaming is on personal computers, where each player
  has his own gaming PC, along with console gaming.
  Thanks to ever-growing number of players, lots of money got into industry
  and the growing demand for better graphics in games led to big improvements
@@ -1060,11 +1047,7 @@ key "high-performance-gpu"
 Big companies in gaming industry have enough resources to develop the state
  of the art real-time computer graphics, which can we see in their products,
  AAA games with graphics very near to reality.
- 
-\end_layout
-
-\begin_layout Standard
-Recent papers 
+ Recent papers 
 \begin_inset CommandInset citation
 LatexCommand cite
 key "playing-for-data,driving-in-matrix"
@@ -1121,186 +1104,31 @@ Thesis Contribution
 \end_layout
 
 \begin_layout Standard
-říct, že navrhuju architekturu DCNN pro odhad 3D mapy a k tomu si vypomáhám
- syntetickými daty.
- In this thesis, I demonstrate the power of rich virtual worlds in creating
- synthetic datasets, and propose software architecture of dataset creation.
- Then I create voxel map of space in front of camera to create pairs of
- RGB image and voxelmap for learning.
- In the last part, I train deep convolutional neural network for voxel map
- estimation.
+In this thesis, I propose deep convolutional neural network for 3D map estimatio
+n.
+ For this task, I leverage synthetic data from rich virtual worlds in form
+ of synthetic dataset and propose software architecture for dataset creation.
+ Then I create data for training in form of pairs of RGB image capturing
+ space in front of car, and voxelmap of that space.
+ In the last part, Then I empirically evaluate multiple setups of predictions
+ of both depth estimation and 3D map estimation
+\end_layout
+
+\begin_layout Subsection
+Thesis structure
 \end_layout
 
 \begin_layout Standard
 This thesis is structured as follows.
  Chapter 2 covers related work and previous achievements of synthetic datasets.
  Chapter 3 describes game Grand Theft Auto V and its utilization in creating
- synthetic datasets.
- I describe here whole modding process, the game API, internal game coordinate
+ synthetic datasets, this part serves as a documentation for using libraries
+ for manipulating the GTA world.
+ Here I describe whole modding process, the game API, internal game coordinate
  systems and data which can be obtained from the game.
  Chapter 4 describes voxel map estimation from a single RGB image.
  It is followed by chapter 5, where I describe all experiments done as part
  of this thesis.
-\end_layout
-
-\begin_layout Standard
-To demonstrate possibilities of synthetic, automatically annotated datasets,
- here are some sample images obtained using my data extraction described
- in 
-\begin_inset CommandInset ref
-LatexCommand ref
-reference "sec:GTA-V-data-obtaining"
-
-\end_inset
-
- .
- The dataset contains position, rotation, model sizes, identifier and the
- pixel-wise class segmentation of each car.
- With this data, I was able to do the 3D and 2D bounding boxes extraction,
- pixel-wise object segmentation and trajectory tracking.
- All of these images are part of the VirtualScapes dataset I propose as
- a part of this thesis.
- - tenhle odstavec přesunout víc nahoru, rozdělit motivaci do víc podkapitol,
- larg experimental evaluation, multiple hyperparameters
-\end_layout
-
-\begin_layout Standard
-todo: dodat colorbary, udělat vizualizaci i pro 3D mapy jako mám pro hloubky,
- obarvit Z souřadnici
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename obrazky/bbox-night.png
-	lyxscale 70
-	width 12cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-3D bounding box - night
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename obrazky/bbox-day-people.png
-	lyxscale 70
-	width 12cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-3D bounding box - day
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename obrazky/pixelwise-night.png
-	lyxscale 70
-	width 12cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-pixel-wise annotation of cars
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Standard
-\begin_inset Float figure
-wide false
-sideways false
-status open
-
-\begin_layout Plain Layout
-\align center
-\begin_inset Graphics
-	filename obrazky/trajectories-day.png
-	lyxscale 70
-	width 12cm
-
-\end_inset
-
-
-\end_layout
-
-\begin_layout Plain Layout
-\begin_inset Caption Standard
-
-\begin_layout Plain Layout
-individual car trajectories
-\end_layout
-
-\end_inset
-
-
-\end_layout
-
-\end_inset
-
-
 \end_layout
 
 \begin_layout Chapter
@@ -1566,6 +1394,7 @@ When neural network has many layers stacked on top of each other, it is
  non-trivial function because of high number of parameters of the network.
  The disadvantage of deep neural networks is the time they need to learn
  because it takes days or weeks to train state of the art deep neural networks.
+ 
 \end_layout
 
 \begin_layout Subsection
@@ -1725,6 +1554,77 @@ key "resnet"
 
 \end_inset
 
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+Residual networks have been widely adopted as a part of many upcoming architectu
+res for various tasks.
+ Thy are utilized in many image mapping tasks, for instance depth prediction
+ or semantic segmentation.
+ He et al.
+ 
+\begin_inset CommandInset citation
+LatexCommand cite
+key "mask-rcnn"
+
+\end_inset
+
+ used ResNet as a backbone for their Mask R-CNN architecture for pixel-wise
+ semantic segmentation and trained on COCO dataset.
+ Their setup works well on both real photos and synthetic images, as can
+ be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Synthetic-image-labelled"
+
+\end_inset
+
+ where image from synthetic dataset is being labeled.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/mask-rcnn.jpg
+	lyxscale 35
+	width 8cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Synthetic-image-labelled"
+
+\end_inset
+
+Synthetic image labelled by Mask R-CNN
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
 
 \end_layout
 
@@ -2022,7 +1922,7 @@ key "choy-3d-r2n2"
  3D Recurrent Neural Network for reconstructing 3D images from single or
  multiple images and perform State of the Art results on single-view reconstruct
 ion.
- In their setup they used encoder-decoder arhitecture with 
+ In their setup they used encoder-decoder architecture with 
 \begin_inset Formula $127\times127$
 \end_inset
 
@@ -2035,6 +1935,10 @@ ion.
  This approach is heavily focused on one object dominating the input image
  which is suited for precise 3D map estimation, but not much for estimation
  of 3D map of whole scene, usually with multiple objects.
+\end_layout
+
+\begin_layout Standard
+todo: dodat Mask-RCNN a ukázku běhu na gta screenshotu
 \end_layout
 
 \begin_layout Chapter
@@ -2516,6 +2420,129 @@ Since the data retrieval takes many hours usually, there is sometimes need
  During the web server startup, it created socket client which connects
  to the socket server in GTA mod.
  This setup allows to remotely control the data retrieval over the internet.
+ 
+\end_layout
+
+\begin_layout Standard
+The web-server part with socket client is available on 
+\begin_inset Flex URL
+status open
+
+\begin_layout Plain Layout
+
+https://github.com/racinmat/GTAVisionExport-Server
+\end_layout
+
+\end_inset
+
+.
+ The installation procedure and running is described in the readme.
+ It can be run simply by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+python main.py
+\end_layout
+
+\end_inset
+
+ which starts the server on port 5000.
+ It also contains HTML website with server as a client for the REST API,
+ this can be started either by simply running local Nginx web-server or
+ by using prepared docker container with properly configured server.
+ This is run, as usual docker container, by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+docker compose up
+\end_layout
+
+\end_inset
+
+.
+ The repository also contains lightweight web-based gallery for browsing
+ gathered images.
+ The main problem with viewing gathered data is their size.
+ Usually there is hundreds of thousands images (RGB image, depth image and
+ stencil image per sample) in single directory, which is difficult to handle
+ for both windows and unix operating systems.
+ To solve this issue, I developed a lightweight REST API based python script
+ with pagination support for viewing this dataset.
+ It can be run by 
+\begin_inset Flex Code
+status open
+
+\begin_layout Plain Layout
+python gallery.py
+\end_layout
+
+\end_inset
+
+ which starts the REST server on port 5001.
+ The client side of this paginated gallery is in file gallery.html and also
+ uses the Nginx server to run, same as website for controlling the data
+ gathering.
+ It uses HTTPS protocol with self-signed certificate, and the Nginx server
+ is configured to use the HTTP2 protocol which supports large number of
+ requests at the same time.
+ This bypasses the restriction of accessing 6 resources at the same time
+ from one domain which is in HTTP1.1.
+ Thanks to this, hundreds of images can be displayed in very fast manner,
+ both locally and remotely.
+ The gallery can be seen in figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Dataset-viewing-web"
+
+\end_inset
+
+.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/dataset-viewing.PNG
+	lyxscale 30
+	width 14cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Dataset-viewing-web"
+
+\end_inset
+
+Dataset viewing web interface
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -4801,7 +4828,7 @@ name "sec:Datasets-proposal"
 
 \end_inset
 
-Datasets proposal
+VirtualScapes Dataset proposal
 \end_layout
 
 \begin_layout Standard
@@ -4853,10 +4880,7 @@ reference "fig:Camera-positions-for"
 \end_inset
 
  meters were driven in virtual world.
-\end_layout
-
-\begin_layout Standard
-Both datasets are publicly available and can be downloaded from 
+ Both datasets are publicly available and can be downloaded from 
 \begin_inset Flex URL
 status open
 
@@ -4868,6 +4892,160 @@ http://ptak.felk.cvut.cz/public_datasets/GTA_V/dataset-website/
 \end_inset
 
 .
+ 
+\end_layout
+
+\begin_layout Standard
+To demonstrate possibilities of synthetic, automatically annotated datasets,
+ here are some sample images obtained using my data extraction described
+ in 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "sec:GTA-V-data-obtaining"
+
+\end_inset
+
+ .
+ The dataset contains position, rotation, model sizes, identifier and the
+ pixel-wise class segmentation of each car.
+ With this data, I was able to do the 3D and 2D bounding boxes extraction,
+ pixel-wise object segmentation and trajectory tracking.
+ All of these images are part of the VirtualScapes dataset and can be automatica
+lly reconstructed using annotations included in dataset.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bbox-night.png
+	lyxscale 70
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+3D bounding box - night
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/bbox-day-people.png
+	lyxscale 70
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+3D bounding box - day
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/pixelwise-night.png
+	lyxscale 70
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+pixel-wise annotation of cars
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/trajectories-day.png
+	lyxscale 70
+	width 12cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+individual car trajectories
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Standard
@@ -4971,7 +5149,7 @@ w.
  metrics, input and output images, or weight histograms in time, which leads
  to more intuitive understanding of issues during solving problems with
  neural networks training.
- todo: popsat způsoby načítání a optimalizátory?
+ 
 \end_layout
 
 \begin_layout Section
@@ -5834,7 +6012,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename obrazky/pcl-full.png
+	filename obrazky/pcl-full-2.png
 	lyxscale 30
 	width 15cm
 
@@ -5846,7 +6024,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename obrazky/pcl-sub.png
+	filename obrazky/pcl-sub-2.png
 	lyxscale 30
 	width 15cm
 
@@ -5905,7 +6083,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename obrazky/occupied-pcl-thicc.png
+	filename obrazky/occupied-pcl-thicc-3.png
 	lyxscale 40
 	width 14cm
 
@@ -5950,7 +6128,7 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Graphics
-	filename obrazky/occupied-frustum-with-camera.png
+	filename obrazky/occupied-frustum-with-camera-3.png
 	lyxscale 40
 	width 14cm
 
@@ -6661,7 +6839,7 @@ By calling CAM::GET_CAM_NEAR_CLIP
 \end_inset
 
 .
- I also obtain projection matrix calculated by method described in 
+ I also obtained projection matrix calculated by method described in 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "subsec:Rendering-pipeline-data"
@@ -6934,28 +7112,111 @@ from which we can see the near clip
 \end_inset
 
 .
-\end_layout
-
-\begin_layout Standard
-These calculations give us some insight into projection matrix and its role
- in far clip estimation, but for more robust estimate, I analysed all 33293
- matrices.
- 
-\end_layout
-
-\begin_layout Standard
-In GTA, matrices are not gathered correctly every time and in some cases,
+ These calculations give us some insight into projection matrix and its
+ role in far clip estimation, but for more robust estimate, I analysed all
+ 33293 matrices.
+ In GTA, matrices are not gathered correctly every time and in some cases,
  resulting matrices are unusable.
  Because I knew the near clip precisely, I discarded all matrices, with
- calculated near clip 
-\begin_inset Formula $\left|n-n_{c}\right|>10^{-4}$
+ calculated near clip with difference from real near clip 
+\begin_inset Formula $>10^{-4}$
 \end_inset
 
 .
+ For the rest of matrices, I calculated near clip and far clip for each
+ of them.
+ In the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:Frequencies-of-"
+
+\end_inset
+
+ can be seen histograms of these calculated far clip and near clip for each
+ matrix, respectively.
+ Even near clip values, which we know precisely, differ, but with very little
+ variance, in range 
+\begin_inset Formula $\left[1.5003,1.50048\right]$
+\end_inset
+
+ which means difference from true near clip in range 
+\begin_inset Formula $\left[3\cdot10^{-4},4.8\cdot10^{-4}\right]$
+\end_inset
+
+ which is simply explained by numerical instability.
+ Both histograms have logarithmic y scale, so we easily see which value
+ occurs more frequently.
+ The value 
+\begin_inset Formula $-10003.814$
+\end_inset
+
+ occurred most frequently in matrices, one and half order of magnitude more
+ frequently than second frequent value, and this value also corresponds
+ to the median of all calculated far clips.
+ Thus this far clip 
+\begin_inset Formula $F=-10003.814$
+\end_inset
+
+ has been used in all later experiments as a true far clip.
 \end_layout
 
 \begin_layout Standard
-todo: dopsat, přidat linky na zdrojáky na githubu
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Graphics
+	filename obrazky/far-clip-f.png
+	width 6cm
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/far-clip-n.png
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:Frequencies-of-"
+
+\end_inset
+
+Frequencies of 
+\begin_inset Formula $P_{2,2}$
+\end_inset
+
+ and 
+\begin_inset Formula $P_{2,3}$
+\end_inset
+
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
 \end_layout
 
 \begin_layout Section
@@ -8464,12 +8725,13 @@ status open
 \begin_layout Plain Layout
 \align center
 \begin_inset Tabular
-<lyxtabular version="3" rows="7" columns="4">
+<lyxtabular version="3" rows="7" columns="5">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top" width="2cm">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
+<column alignment="center" valignment="top" width="2cm">
 <row>
 <cell multicolumn="1" alignment="center" valignment="top" usebox="none">
 \begin_inset Text
@@ -8500,7 +8762,7 @@ vspace{0pt}
 \begin_inset Graphics
 	filename obrazky/depths/orig-rgb-1.png
 	lyxscale 50
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8529,7 +8791,7 @@ vspace{0pt}
 \begin_inset Graphics
 	filename obrazky/depths/orig-rgb-4.png
 	lyxscale 50
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8558,7 +8820,7 @@ vspace{0pt}
 \begin_inset Graphics
 	filename obrazky/depths/orig-rgb-3.png
 	lyxscale 50
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8567,13 +8829,22 @@ vspace{0pt}
 
 \end_inset
 </cell>
-</row>
-<row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+<cell alignment="center" valignment="top" usebox="none">
 \begin_inset Text
 
 \begin_layout Plain Layout
-depth in meters
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="2cm">
+\begin_inset Text
+
+\begin_layout Plain Layout
+original depth
 \end_layout
 
 \end_inset
@@ -8597,7 +8868,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-orig-depth-1.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8625,7 +8896,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-orig-depth-4.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8653,7 +8924,23 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-orig-depth-3.png.png
-	width 4cm
+	width 3.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depths/colorbar-orig.png
+	lyxscale 30
+	height 3cm
 
 \end_inset
 
@@ -8664,11 +8951,11 @@ vspace{0pt}
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="2cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
-ground truth depth
+truncated depth
 \end_layout
 
 \end_inset
@@ -8692,7 +8979,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-gt-depth-1.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8720,7 +9007,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-gt-depth-4.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8748,7 +9035,23 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-gt-depth-3.png.png
-	width 4cm
+	width 3.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depths/colorbar-cropped.png
+	lyxscale 30
+	height 3cm
 
 \end_inset
 
@@ -8759,7 +9062,7 @@ vspace{0pt}
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="2cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8787,7 +9090,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-1-2018-04-01--00-26-49.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8815,7 +9118,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-4-2018-04-01--00-26-49.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8843,7 +9146,23 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-3-2018-04-01--00-26-49.png.png
-	width 4cm
+	width 3.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depths/colorbar-cropped.png
+	lyxscale 30
+	height 3cm
 
 \end_inset
 
@@ -8854,7 +9173,7 @@ vspace{0pt}
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="2cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8882,7 +9201,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-1-2018-04-01--00-32-39.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8910,7 +9229,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-4-2018-04-01--00-32-39.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -8938,7 +9257,23 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-3-2018-04-01--00-32-39.png.png
-	width 4cm
+	width 3.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depths/colorbar-cropped.png
+	lyxscale 30
+	height 3cm
 
 \end_inset
 
@@ -8949,7 +9284,7 @@ vspace{0pt}
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="middle" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="2cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -8977,7 +9312,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-1-2018-04-02--02-51-28.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -9005,7 +9340,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-4-2018-04-02--02-51-28.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -9033,7 +9368,23 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-3-2018-04-02--02-51-28.png.png
-	width 4cm
+	width 3.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depths/colorbar-cropped.png
+	lyxscale 30
+	height 3cm
 
 \end_inset
 
@@ -9044,7 +9395,7 @@ vspace{0pt}
 </cell>
 </row>
 <row>
-<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none" width="2cm">
 \begin_inset Text
 
 \begin_layout Plain Layout
@@ -9072,7 +9423,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-1-2018-04-02--02-59-31.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -9100,7 +9451,7 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-4-2018-04-02--02-59-31.png.png
-	width 4cm
+	width 3.5cm
 
 \end_inset
 
@@ -9128,7 +9479,23 @@ vspace{0pt}
 
 \begin_inset Graphics
 	filename obrazky/depths/colored-predicted-3-2018-04-02--02-59-31.png.png
-	width 4cm
+	width 3.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset Graphics
+	filename obrazky/depths/colorbar-cropped.png
+	lyxscale 30
+	height 3cm
 
 \end_inset
 
@@ -9337,7 +9704,7 @@ For 3D map estimation, I also trained multiple setups and evaluated them,
 \end_inset
 
  was used for SGD optimizer with Nesterov momentum.
- For most setups, the weighted logistic loss 
+ For all setups, the weighted logistic loss 
 \begin_inset CommandInset ref
 LatexCommand ref
 reference "eq:logistic-loss"
@@ -9345,9 +9712,23 @@ reference "eq:logistic-loss"
 \end_inset
 
  is used.
- For setups 3 and 4, cross entropy loss has been used, but as seen in results,
- it performed much worse than logistic loss.
- Logaritmicky loss ve 3D
+ We can see the overview in the figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:3d-estimation-setups"
+
+\end_inset
+
+.
+ Then I evaluated these setups on validation sets and reported results in
+ the table 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "tab:3d-estimation-metrics"
+
+\end_inset
+
+.
 \end_layout
 
 \begin_layout Standard
@@ -9358,7 +9739,7 @@ status open
 
 \begin_layout Plain Layout
 \begin_inset Tabular
-<lyxtabular version="3" rows="6" columns="7">
+<lyxtabular version="3" rows="6" columns="6">
 <features tabularvalignment="middle">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
@@ -9366,17 +9747,7 @@ status open
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
 <column alignment="center" valignment="top">
-<column alignment="center" valignment="top">
 <row>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-name
-\end_layout
-
-\end_inset
-</cell>
 <cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
 \begin_inset Text
 
@@ -9446,15 +9817,6 @@ setup 1
 \begin_inset Text
 
 \begin_layout Plain Layout
-2018-05-04--22-57-49
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 logistic
 \end_layout
 
@@ -9503,15 +9865,6 @@ Nadam
 
 \begin_layout Plain Layout
 setup 2
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2018-05-04--23-03-46
 \end_layout
 
 \end_inset
@@ -9576,15 +9929,6 @@ setup 3
 \begin_inset Text
 
 \begin_layout Plain Layout
-2018-05-07--17-22-10
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
 logistic
 \end_layout
 
@@ -9603,7 +9947,7 @@ Nadam
 \begin_inset Text
 
 \begin_layout Plain Layout
-kernel=5, stride=1,out_dim=50)
+kernel=5, stride=1,out_dim=50
 \end_layout
 
 \end_inset
@@ -9633,15 +9977,6 @@ kernel=5, stride=1,out_dim=50)
 
 \begin_layout Plain Layout
 setup 4
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2018-05-08--23-37-07
 \end_layout
 
 \end_inset
@@ -9698,15 +10033,6 @@ kernel=2, stride=2,out_dim=50
 
 \begin_layout Plain Layout
 setup 5
-\end_layout
-
-\end_inset
-</cell>
-<cell alignment="center" valignment="top" topline="true" bottomline="true" leftline="true" usebox="none">
-\begin_inset Text
-
-\begin_layout Plain Layout
-2018-05-11--00-10-54
 \end_layout
 
 \end_inset
@@ -10155,7 +10481,7 @@ setup 5
 \begin_layout Plain Layout
 \begin_inset CommandInset label
 LatexCommand label
-name "tab:Depth-estimation-metrics-1"
+name "tab:3d-estimation-metrics"
 
 \end_inset
 
@@ -10197,6 +10523,8 @@ reference "fig:Training-for-3d-loss"
 
  we can see the cost being minimized.
  Here the logistic loss itself shows how individual setups perform.
+ The figure has logarithmic Y scale for better visualization of individual
+ setups.
  In the figure 
 \begin_inset CommandInset ref
 LatexCommand ref
@@ -10208,6 +10536,12 @@ reference "fig:Training-for-3d-metrics"
  The false positive rate is very low for all runs, but for other metrics
  we can see stochastic gradient descent with Nesterov momentum (setup 2)
  performed much poorer than other run.
+ On the other hand, the setup 1 and setup 5 perform better than other setups
+ in all metrics.
+ From this we can than reduction of 4th dimension to the size od 50 in the
+ end of the network worsens the performance, on the other hand, adding layer
+ with 4th dimension of size 400 performs better in intersection over union
+ metric.
 \end_layout
 
 \begin_layout Standard
@@ -10314,12 +10648,355 @@ Training for 3D map estimation - metrics
 
 \end_layout
 
+\begin_layout Standard
+In figure 
+\begin_inset CommandInset ref
+LatexCommand ref
+reference "fig:3d-estimation-samples"
+
+\end_inset
+
+ we can see two sample images from validation dataset, their ground truth
+ voxelmaps and predicted voxelmaps from 2 best setups, setup 1 and setup
+ 5.
+ In the first row, we can see the input image to the network, in the second
+ row is the ground truth voxelmap in camera view frustum (and camera position
+ denoted by white tetrahedron), and the last two rows show predictions of
+ setup 1 and setup 5, respectively.
+\end_layout
+
+\begin_layout Standard
+\begin_inset Float figure
+wide false
+sideways false
+status open
+
+\begin_layout Plain Layout
+\align center
+\begin_inset Tabular
+<lyxtabular version="3" rows="4" columns="3">
+<features tabularvalignment="middle">
+<column alignment="center" valignment="top" width="2cm">
+<column alignment="center" valignment="top">
+<column alignment="center" valignment="top">
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+RGB image
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/orig-rgb-2.png
+	lyxscale 50
+	width 5.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/orig-rgb-1.png
+	lyxscale 50
+	width 5.5cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+original voxelmap
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/gt-2.PNG
+	lyxscale 30
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/gt-1.PNG
+	lyxscale 30
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 1
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/img-2-setup-0.PNG
+	lyxscale 30
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/img-1-setup-0.PNG
+	lyxscale 30
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+<row>
+<cell multicolumn="1" alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+setup 5
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/img-2-setup-5.PNG
+	lyxscale 30
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+<cell alignment="center" valignment="top" usebox="none">
+\begin_inset Text
+
+\begin_layout Plain Layout
+\begin_inset ERT
+status open
+
+\begin_layout Plain Layout
+
+
+\backslash
+vspace{0pt}
+\end_layout
+
+\end_inset
+
+
+\begin_inset Graphics
+	filename obrazky/3ds/img-1-setup-5.PNG
+	lyxscale 30
+	width 6cm
+
+\end_inset
+
+
+\end_layout
+
+\end_inset
+</cell>
+</row>
+</lyxtabular>
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+\begin_inset Caption Standard
+
+\begin_layout Plain Layout
+\begin_inset CommandInset label
+LatexCommand label
+name "fig:3d-estimation-samples"
+
+\end_inset
+
+3D estimation samples
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
+\begin_layout Plain Layout
+
+\end_layout
+
+\end_inset
+
+
+\end_layout
+
 \begin_layout Chapter
 Future work
 \end_layout
 
 \begin_layout Standard
-In GTA V reverse-engineering, many stencil values semantics remain to be
+During working with GTA V, many aspects have been discovered, but more of
+ them remained to be discovered in the future.
+ In GTA V reverse-engineering, many stencil values semantics remain to be
  discovered.
  Also, in GTA V, the modding capabilities are far from using their full
  potential.
@@ -10334,11 +11011,104 @@ In GTA V reverse-engineering, many stencil values semantics remain to be
  In the gaming community, players long for stunning graphics and aesthetically
  pleasing visuals.
  These visuals are sometimes unfortunately different than photorealistic
- visuals, having much greater contrast for example, which is the main visual
- feature of Redux visual mod currently.
+ visuals.
+ Even when surveying individual players for most realistic visual mod, most
+ of them considered as realistic the most aesthetically pleasing mod, without
+ considering the photorealism to be relevant.
  Photorealism of individual visual mods and their combination should be
  exploited and evaluated in order to get even more photo-realistic visual
  data.
+ There is multiple visual mods, namely 
+\begin_inset CommandInset href
+LatexCommand href
+name "Redux"
+target "https://gta5redux.com/"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "Make Visual Great Again"
+target "https://www.darkmyre.net/files/file/30-make-visuals-great-again/"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "Natural Vision Remastered"
+target "https://cs.gta5-mods.com/misc/naturalvision-photorealistic-gtav"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "Rhancer Photorealism Mod"
+target "https://cs.gta5-mods.com/misc/r-hancer-graphics-mod"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "VisualV"
+target "https://cs.gta5-mods.com/misc/visualv"
+
+\end_inset
+
+, 
+\begin_inset CommandInset href
+LatexCommand href
+name "K-putt's SweetFX Config (ReShade)"
+target "https://cs.gta5-mods.com/misc/reshade-sweetfx-graphics-mod"
+
+\end_inset
+
+.
+ The problem with evaluation of these mods in missing support of tooling
+ for automated manipulation with GTA, mods need to be installed and uninstalled
+ manually, same goes for starting the game which leads to slow and time-consumin
+g evaluation of photorealism of these mods, but it definitely is worth it
+ in the long term.
+ Also developing custom visual mod which would make the game look more photoreal
+istic would solve this problem.
+ Also streets layout and static assets can be changed by mods and if changed
+ correctly, they would better simulate real-life environment.
+ Current setting of GTA V is heavily based on Los Angeles, so street layout,
+ house architectures, cars and other objects are set to correspond with
+ Los Angeles.
+ This layout differs in other parts of world and many use-cases would profit
+ from possibility of using more European or other streets layout, cars and
+ houses architecture.
+ Other notable aspect of the game is possibility to render multiple cameras
+ at time, allowing to capture stereo data in real-time without switching
+ between them or speeding up data gathering from multiple cameras.
+ So far GTA V is VR ready which means it already supports stereo-camera
+ rendering, and so it awaits for being used in data gathering.
+ 
+\end_layout
+
+\begin_layout Standard
+Other potentially perspective, but yet not unexplored usage of GTA V is
+ multiplayer setup, which can be used for multi-agent simulations.
+ The official multiplayer of course does not allow using any modifications,
+ but there is 
+\begin_inset CommandInset href
+LatexCommand href
+name "FiveM"
+target "https://fivem.net/"
+
+\end_inset
+
+, program for running private GTA V server on dedicated machines, with support
+ for server-side and client-side scripting, which could be used for many
+ multi-agent tasks.
+\end_layout
+
+\begin_layout Standard
+todo: sepsat pořádné conclusion a future work mít jenom jako jeho část
 \end_layout
 
 \begin_layout Standard
